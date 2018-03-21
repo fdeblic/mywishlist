@@ -1,0 +1,16 @@
+{
+  "name":"mywishlist",
+  "type":"project",
+
+  "require":{
+    "illuminate/database": "5.5.*",
+    "php" : ">=7.0.0"
+  },
+
+  "autoload":{
+    "psr-4" : {
+      "mywishlist\\":"src/",
+      "conf\\":"src/conf"
+    }
+  }
+}
