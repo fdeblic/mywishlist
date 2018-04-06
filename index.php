@@ -1,6 +1,15 @@
 <?php
   require_once 'vendor/autoload.php';
-  use mywishlist\view\GlobalView;
+  use mywishlist\view\GlobalView as GlobalView;
+  use mywishlist\controller\ListController as ListController;
+
+  use Illuminate\Database\Capsule\Manager as DB;
+
+  $db = new DB();
+  $db->addConnection(parse_ini_file('src/conf/db.config.ini'));
+  $db->setAsGlobal();
+  $db->bootEloquent();
+
   $app = new \Slim\Slim();
 
 
@@ -18,7 +27,8 @@
   });
 
   $app->get('/liste', function() {
-    \mywishlist\view\GlobalView::render();
+    // Displays all the existing wishlists
+    ListController::dispAllList();
   });
 
   $app->run();
