@@ -2,7 +2,7 @@
 
 namespace mywishlist\models;
 
-class Item extends \Illuminate\Database\Eloquent\Model{
+class Item extends \Illuminate\Database\Eloquent\Model {
 
     protected $table = 'item';
     protected $primary = 'id';
