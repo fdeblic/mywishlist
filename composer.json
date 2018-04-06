@@ -7,6 +7,10 @@
     "php" : ">=7.0.0"
   },
 
+  "require":{
+    "slim/slim": "2.*"
+  },
+
   "autoload":{
     "psr-4" : {
       "mywishlist\\":"src/",
