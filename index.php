@@ -11,6 +11,7 @@
   $db->bootEloquent();
 
   $app = new \Slim\Slim();
+  $app->config(['routes.case_sensitive' => false]);
 
 
   $app->get('/', function() {
