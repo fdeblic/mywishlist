@@ -1,6 +1,8 @@
 <?php
+  namespace mywishlist\view;
+
   class GlobalView {
-    static function render() {
+    public static function render() {
       echo "GlobalView:render()";
     }
   }
