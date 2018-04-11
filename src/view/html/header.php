@@ -7,4 +7,5 @@
     <li> Catalogue </li>
     <li> À propos </li>
   </ul>
+  <hr>
 </header>
