@@ -2,6 +2,10 @@
   General rules
 ------ */
 
+* {
+  font-family: verdana, sans-serif;
+}
+
 html {
     background-color: lightgrey;
 }
@@ -12,6 +16,19 @@ body {
   margin: auto;
   background-color: white;
   padding: 10px;
+}
+
+/* Navigation menu */
+#menu-navig {
+  list-style-type: none;
+}
+
+#menu-navig li {
+  display: inline-block;
+  text-align: center;
+  width: 100px;
+  padding: 5px 10px;
+  border-bottom: 1px solid grey;
 }
 
 /* ------
