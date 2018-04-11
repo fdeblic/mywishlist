@@ -1,23 +1,25 @@
 <!DOCTYPE HTML>
 <html lang="fr">
   <head>
-    <meta charset='utf-8'>
     <title> MyWishList </title>
+    <meta charset='utf-8'>
   </head>
 
   <body>
-    <?php ob_start();
-      echo "<!-- Header -->\n";
+    <?php
+      // Temporise la sortie HTML (pour ajouter les tabulation par la suite)
+      ob_start();
+
       require("header.php");
 
-      echo "\n<!-- Content -->\n";
       require("content.php");
 
-      echo "\n<!-- Footer -->\n";
       require("footer.php");
 
       $content = ob_get_contents();
       ob_end_clean();
+
+      // Mise en place des tabulations pour un code HTML lisible
       print str_replace("\n", "\n\t", $content) . "\r";
     ?>
   </body>

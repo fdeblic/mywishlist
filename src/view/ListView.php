@@ -6,8 +6,10 @@ namespace mywishlist\view;
     function __construct() {
     }
 
+    /* Génère le contenu HTML pour afficher une
+    liste des listes passées en paramètre */
     function renderLists($lists) {
-      $content = "<p> Listes : </p>\n";
+      $content  = "\t<p> Listes : </p>\n";
       $content .= "<ol>\n";
       foreach ($lists as $list) {
         $content .= "\t<li> ". $list->titre . " </li>\n";

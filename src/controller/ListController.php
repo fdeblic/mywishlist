@@ -7,6 +7,7 @@
   use \mywishlist\view\GlobalView as GlobalView;
 
   class ListController {
+    // Affiche les listes existantes
     public static function dispAllList() {
       // Récupère toutes les listes existantes dans la base de données
       $lists = WishList::select('*')->get();

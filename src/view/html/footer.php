@@ -1,3 +1,5 @@
+
+<!-- Footer -->
 <footer>
-  Pied de page
+  <p> Pied de page </p>
 </footer>

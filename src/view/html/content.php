@@ -1,3 +1,5 @@
+
+<!-- Content -->
 <content>
 <?php
     if (isset($_SESSION['content']) && $_SESSION['content'] != "")

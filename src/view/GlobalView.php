@@ -1,13 +1,11 @@
 <?php
   namespace mywishlist\view;
 
-  class GlobalView {
-    private $isAdmin = false;
-
-    function __construct() {
-    }
+  abstract class GlobalView {
+    protected $isAdmin = false;
+    protected $HTML_PATH = "src/view/html/";
 
     public function render() {
-      include('src/view/html/index.php');
+      include($this->HTML_PATH . 'index.php');
     }
   }
