@@ -2,6 +2,7 @@
   require_once 'vendor/autoload.php';
   use mywishlist\view\GlobalView as GlobalView;
   use mywishlist\controller\ListController as ListController;
+  use mywishlist\controller\MainController as MainController;
 
   use Illuminate\Database\Capsule\Manager as DB;
 
@@ -15,7 +16,7 @@
 
 
   $app->get('/', function() {
-    echo "Accueil";
+    MainController::displayHome();
   });
 
   $app->get('/test', function() {
@@ -36,6 +37,10 @@
       //Displays the list obtained with id
       ListController::displayList($id);
   });
+
+  //TODO OKAYDAC
+  //Ajout
+  // $app->post('/liste/items/:id', function($id))
 
   $app->run();
 ?>
