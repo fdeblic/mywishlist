@@ -4,6 +4,7 @@
 
   use \mywishlist\models\WishList as WishList;
   use \mywishlist\view\ListView as ListView;
+  use \mywishlist\view\GlobalView as GlobalView;
 
   class ListController {
     public static function dispAllList() {
@@ -11,7 +12,7 @@
       $lists = WishList::select('*')->get();
 
       // Affiche les listes via la vue
-      ListView::displayLists($lists);
+      $vue = new ListView();
+      $vue->renderLists($lists);
     }
   }
- ?>

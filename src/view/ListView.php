@@ -1,19 +1,21 @@
 <?php
 namespace mywishlist\view;
 
-  class ListView {
-    static function render() {
-      echo 'function render()';
+  class ListView extends GlobalView {
+
+    function __construct() {
     }
 
-    static function displayLists($lists) {
-      echo "Listes :<br>\r\n";
+    function renderLists($lists) {
+      $content = "<p> Listes : </p>\n";
+      $content .= "<ol>\n";
       foreach ($lists as $list) {
-        echo $list->no . ' : ' . $list->titre . "<br>\r\n";
-        //var_dump($list);
+        $content .= "\t<li> ". $list->titre . " </li>\n";
       }
+      $content .= "</ol>";
+
+      $_SESSION['content'] = str_replace ("\n", "\n\t", $content)."\n";
+      parent::render();
     }
 
   }
-
-?>

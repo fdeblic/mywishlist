@@ -2,8 +2,12 @@
   namespace mywishlist\view;
 
   class GlobalView {
-    public static function render() {
-      echo "GlobalView:render()";
+    private $isAdmin = false;
+
+    function __construct() {
+    }
+
+    public function render() {
+      include('src/view/html/index.php');
     }
   }
-?>
