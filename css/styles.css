@@ -42,6 +42,20 @@ footer p {
   padding: 5px 20px;
 }
 
+/* CONTENT */
+content {
+  display: block;
+  width: 95%;
+  margin: auto;
+  border: 1px dashed lightgrey;
+  padding: 10px;
+}
+
+content h1 {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
 /* ------
   ITEM RULES
 ------ */
