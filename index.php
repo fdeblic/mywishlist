@@ -32,5 +32,10 @@
     ListController::dispAllList();
   });
 
+  $app->get('/liste/:id', function($id){
+      //Displays the list obtained with id
+      ListController::displayList($id);
+  });
+
   $app->run();
 ?>

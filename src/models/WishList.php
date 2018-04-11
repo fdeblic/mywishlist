@@ -9,8 +9,7 @@ class WishList extends \Illuminate\Database\Eloquent\Model {
     public $timestamps = false;
 
     public function items() {
-      return $this->hasMany('mywishlist\models\Item','id','no');
+      return $this->hasMany('mywishlist\models\Item','liste_id','no');
     }
-
   }
 ?>

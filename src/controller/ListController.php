@@ -16,4 +16,13 @@
       $vue = new ListView();
       $vue->renderLists($lists);
     }
+
+    public static function displayList($id){
+        $list = WishList::where('no','=',$id)->first();
+        
+        //Affiche la liste via la vue
+        $vue = new ListView();
+        $vue->renderList($list);
+
+    }
   }

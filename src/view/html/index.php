@@ -3,7 +3,8 @@
   <head>
     <title> MyWishList </title>
     <meta charset='utf-8'>
-    <link rel='stylesheet' href='../css/styles.css'>
+    <base href="/wishlist/index.php" />
+    <link rel='stylesheet' href='./css/styles.css'>
   </head>
 
   <body>
