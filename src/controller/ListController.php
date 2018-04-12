@@ -4,7 +4,6 @@
 
   use \mywishlist\models\WishList as WishList;
   use \mywishlist\view\ListView as ListView;
-  use \mywishlist\view\GlobalView as GlobalView;
 
   class ListController {
     // Affiche les listes existantes
@@ -40,7 +39,7 @@
       if (!isset($_POST['list_descr']))
         $view->error("veuillez entrer une description");
       if (!isset($_POST['list_expiration']))
-        $view->error("veuillez entrer une date d'expiration'");
+        $view->error("veuillez entrer une date d'expiration");
 
       // Transcrit la date reçue
       $expiration = date('Y-m-d', strtotime($_POST['list_expiration']));
