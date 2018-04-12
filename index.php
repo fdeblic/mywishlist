@@ -33,6 +33,16 @@
     ListController::dispAllList();
   });
 
+  $app->get('/liste/creer', function() {
+    // Creates a new list
+    ListController::editList(null);
+  });
+
+  $app->post('/liste/creer', function() {
+    // Creates a wishlist with the data sent with POST
+    ListController::createList();
+  });
+
   $app->get('/liste/:id', function($id){
       //Displays the list obtained with id
       ListController::displayList($id);
