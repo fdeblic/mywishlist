@@ -3,6 +3,7 @@
   use mywishlist\view\GlobalView as GlobalView;
   use mywishlist\controller\ListController as ListController;
   use mywishlist\controller\MainController as MainController;
+  use mywishlist\controller\ItemController as ItemController;
 
   use Illuminate\Database\Capsule\Manager as DB;
 
@@ -14,20 +15,16 @@
   $app = new \Slim\Slim();
   $app->config(['routes.case_sensitive' => false]);
 
-
+    /**
+    * Partie pour l'accueil
+    */
   $app->get('/', function() {
     MainController::displayHome();
   });
 
-  $app->get('/test', function() {
-    echo "Test fonctionnel !<br>";
-  });
-
-  $app->get('/test/:id', function($id) {
-    echo "Test avec paramètre fonctionnel !<br>";
-    echo "Vous avez entré : $id";
-  });
-
+  /**
+   * Partie pour les listes
+   */
   $app->get('/liste', function() {
     // Displays all the existing wishlists
     ListController::dispAllList();
@@ -52,5 +49,17 @@
   //Ajout
   // $app->post('/liste/items/:id', function($id))
 
+  /**
+   * Partie pour les items
+   */
+
+  $app->get('/items/:id', function($id){
+      //Display item obtained with id
+      ItemController::displayItem($id);
+  });
+
+  /**
+   * Partie pour les comptes utilisateurs
+   */
   $app->run();
 ?>
