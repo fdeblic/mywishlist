@@ -59,7 +59,21 @@ content h1 {
 /* ------
   ITEM RULES
 ------ */
+img {
+    max-width : 200px;
+    max-height: 200px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    float: right;
+}
 
+.description-item{
+    text-align:justify;
+}
+
+.clear {
+    clear: both;
+}
 
 /* ------
   WISHLIST RULES
