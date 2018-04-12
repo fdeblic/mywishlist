@@ -1,34 +1,30 @@
 <?php
 namespace mywishlist\view;
 
-  class ItemView {
-    static function render(){
-      echo 'function render()';
-    }
-
-    static function displayItems($items){
-      echo 'function displayItems()';
-    }
-
+  class ItemView extends GlobalView{
     /* Génère le contenu HTML pour
     afficher un item passé en paramètre */
-    static function displayItem($item){
-      if ($item == null){
-          $content = "<h3> Oups ! </h3>\n";
-          $content = "<p> L'objet sélectionné n'existe pas !</p>\n";
+    function renderItem($item){
+        $content = "";
+      if (!isset($item)){
+          $content .= "<h3> Oups ! </h3>";
+          $content .= "<p> L'objet sélectionné n'existe pas !</p>";
           $_SESSION['content'] = str_replace ("\n", "\n\t", $content)."\n";
           parent::render();
           return;
       }
-      $content = "\t<h1> $item->titre </h1>\n"
-      $content .= "<ol>\n";
-      $content .= "\t<li> $item->nom </li>\n";
-      $content .= "\t<li> $item->nom </li>\n";
-      $content .= "</ol>";
+      if (isset($item->img)){
+          $content .= "<img src=\"./img/$item->img\" alt=\"$item->nom\" >";
+      }
+      $content .= "<h1> $item->nom </h1>";
+      $content .= "<p class=\"description-item\">$item->descr</p>";
+      $content .= "<p>Tarif : $item->tarif</p>";
+      $content .= "<p><a href=\"./liste/$item->liste_id\">Retour à la liste</a></p>";
+      $content .= "<div class=\"clear\"></div>";
+
 
       $_SESSION['content'] = str_replace ("\n", "\n\t", $content)."\n";
       parent::render();
-
     }
 
   }
