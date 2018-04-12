@@ -9,15 +9,15 @@ namespace mywishlist\view;
     /* Génère le contenu HTML pour afficher une
     liste des listes passées en paramètre */
     function renderLists($lists) {
-      $content  = "\t<h1> Listes : </h1>\n";
-      $content .= "<ol>\n";
+      $content  = "<h1> Listes : </h1>";
+      $content .= "<ol>";
       foreach ($lists as $list) {
-        $content .= "\t
+        $content .= "
         <li>
             <a href=\"./liste/$list->no\">
             $list->titre
             </a>
-        </li>\n";
+        </li>";
       }
       $content .= "</ol>";
 
@@ -29,16 +29,21 @@ namespace mywishlist\view;
     liste passée en paramètre */
     function renderList($list) {
         if ($list == null){
-            $content = "<h3>Oups !</h3>\n";
-            $content .= "<p>La liste n'existe pas !</p>\n";
+            $content = "<h3>Oups !</h3>";
+            $content .= "<p>La liste n'existe pas !</p>";
             $_SESSION['content'] = str_replace ("\n", "\n\t", $content)."\n";
             parent::render();
             return;
         }
-        $content  = "\t<h1> $list->titre</h1>\n";
-        $content .= "<ol>\n";
+        $content  = "<h1> $list->titre</h1>";
+        $content .= "<ol>";
         foreach($list->items as $item){
-            $content .= "\t<li> $item->nom </li>\n";
+            $content .= "
+            <li>
+                <a href=\"./items/$item->id\">
+                    $item->nom
+                </a>
+            </li>";
         }
         $content .= "</ol>";
 
