@@ -3,8 +3,8 @@
   <head>
     <title> MyWishList </title>
     <meta charset='utf-8'>
-    <base href="/wishlist/index.php" />
-    <link rel='stylesheet' href='./css/styles.css'>
+    <base href="<?php echo dirname($_SERVER['SCRIPT_NAME']); ?>/" />
+    <link rel='stylesheet' href='css/styles.css'>
   </head>
 
   <body>
