@@ -27,25 +27,25 @@
   /**
    * Partie pour les listes
    */
-  $app->get('/liste', function() {
+  $app->get('/lists', function() {
     // Displays all the existing wishlists
     ListController::dispAllList();
-  });
+})->name('list_getPubLists');
 
-  $app->get('/liste/creer', function() {
+  $app->get('/lists/create', function() {
     // Creates a new list
     ListController::editList(null);
-  });
+})->name('list_createGet');
 
-  $app->post('/liste/creer', function() {
+  $app->post('/lists/creer', function() {
     // Creates a wishlist with the data sent with POST
     ListController::createList();
-  });
+})->name('list_createPost');
 
-  $app->get('/liste/:id', function($id){
+  $app->get('/lists/:id', function($id){
       //Displays the list obtained with id
       ListController::displayList($id);
-  });
+  })->name('list_aff');
 
   /**
    * Partie pour les items
@@ -54,26 +54,30 @@
   $app->get('/items/:id', function($id){
       //Display item obtained with id
       ItemController::displayItem($id);
-  });
+  })->name('item_aff');
 
   $app->get('/item/creer/:id', function($id){
       // Create a new item
       ItemController::editItem(null,$id);
-  });
+  })->name('list_addItemGet');
 
   $app->post('/item/creer/:id', function($id){
       // Create an item with the data sent with POST
       ItemController::createItem($id);
-  });
+  })->name('list_addItemPost');
+
 
   /**
+<<<<<<< HEAD
+=======
   *Upload image
   */
   $app->get('/image', function(){
       MainController::getFormUploadImg( );
-  });
+  })->name('pot_addImg');
 
   /**
+>>>>>>> ajout des routes nommées
    * Partie pour les comptes utilisateurs
    */
   $app->run();
