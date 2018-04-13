@@ -27,8 +27,42 @@ namespace mywishlist\view;
       parent::render();
     }
 
-    function renderFormItem($item){
-      //TODO
+    /* Génère le contenu HTML pour afficher un
+    item passé en paramètre */
+    function renderItemCreated($item) {
+        if ($item == null)
+          error("Votre item n'a pas pu être créé");
+
+        $_SESSION['content']  = "<h1> L'item <i>$item->nom</i> a bien été créé ! </h1>";
+        $_SESSION['content'] .= "
+        <p>
+            <a href=\"./liste/$item->liste_id\">
+                Retour à la liste.
+            </a>
+        </p>";
+        parent::render();
+    }
+
+    function renderFormItem($item, $id){
+        $form = "";
+        $nom = '';
+        $descr = '';
+        $tarif = '';
+        if ($item != null) {
+            $nom = $item->nom;
+            $descr = $item->description;
+            $tarif = $item->tarif;
+        }
+        $form =
+        "<form action='./item/creer/$id' method='POST'>
+          <input id='item_nom' name='item_nom' type='text' value='$nom' placeholder=\"Nom de l'item\">
+          <textarea id='item_descr' name='item_descr' rows=\"10\" cols=\"50\" value='$descr' placeholder='Description'></textarea>
+          <input id='item_tarif' name='item_tarif' type='text' value='$tarif' placeholder='Tarif'>
+          <input type='submit' value=\"Créer l'item\">
+        </form>";
+
+        $_SESSION['content']  = $form;
+        parent::render();
     }
 
   }
