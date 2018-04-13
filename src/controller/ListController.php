@@ -64,7 +64,7 @@
     public static function editList($list){
         //Affiche la liste via la vue
         $vue = new ListView();
-        $vue->renderFormulaireList($list);
+        $vue->renderFormList($list);
 
     }
   }
