@@ -13,6 +13,8 @@
   $db->bootEloquent();
 
   $app = new \Slim\Slim();
+  $_SESSION['app'] = $app; // Pour le reste des scripts
+
   $app->config(['routes.case_sensitive' => false]);
 
     /**
@@ -20,7 +22,7 @@
     */
   $app->get('/', function() {
     MainController::displayHome();
-  });
+  })->name('home');
 
   /**
    * Partie pour les listes
