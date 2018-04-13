@@ -12,9 +12,10 @@ namespace mywishlist\view;
       $content  = "<h1> Listes : </h1>";
       $content .= "<ol>";
       foreach ($lists as $list) {
+        $url = $_SESSION['app']->urlFor('list_aff',['id'=>$list->no]);
         $content .= "
         <li>
-            <a href=\"./liste/$list->no\">
+            <a href='$url'>
             $list->titre
             </a>
         </li>";
@@ -35,12 +36,14 @@ namespace mywishlist\view;
             parent::render();
             return;
         }
+        $url2 = $_SESSION['app']->urlFor('list_addItemPost',['id'=>$list->no]);
         $content  = "<h1> $list->titre</h1>";
         $content .= "<ol>";
         foreach($list->items as $item){
+            $url = $_SESSION['app']->urlFor('item_aff',['id'=>$item->id]);
             $content .= "
             <li>
-                <a href=\"./items/$item->id\">
+                <a href='$url'>
                     $item->nom
                 </a>
             </li>";
@@ -49,7 +52,7 @@ namespace mywishlist\view;
 
         $content .= "
         <p>
-            <a href=\"./item/creer/$list->no\">Créer un item</a>
+            <a href='$url2'>Créer un item</a>
         </p>";
 
 
@@ -70,6 +73,7 @@ namespace mywishlist\view;
     /* Génère le contenu HTML pour afficher une
     liste passée en paramètre */
     function renderFormList($list) {
+        $url = $_SESSION['app']->urlFor('list_createPost');
         $form = "";
         $titre = '';
         $descr = '';
@@ -80,7 +84,7 @@ namespace mywishlist\view;
             $expiration = $list->expiration;
         }
         $form =
-        "<form action='./liste/creer' method='POST'>
+        "<form action='$url' method='POST'>
           <input id='list_title' name='list_title' type='text' value='$titre' placeholder='Titre de la liste'>
           <textarea id='list_descr' name='list_descr' rows=\"10\" cols=\"50\" value='$descr' placeholder='Description'></textarea>
           <div class='form-date'>

@@ -5,6 +5,7 @@ namespace mywishlist\view;
     /* Génère le contenu HTML pour
     afficher un item passé en paramètre */
     function renderItem($item){
+        $url = $url = $_SESSION['app']->urlFor('list_aff',['id'=>$item->liste_id]);
         $content = "";
       if (!isset($item)){
           $content .= "<h3> Oups ! </h3>";
@@ -19,7 +20,7 @@ namespace mywishlist\view;
       $content .= "<h1> $item->nom </h1>";
       $content .= "<p class=\"description-item\">$item->descr</p>";
       $content .= "<p>Tarif : $item->tarif</p>";
-      $content .= "<p><a href=\"./liste/$item->liste_id\">Retour à la liste</a></p>";
+      $content .= "<p><a href='$url'>Retour à la liste</a></p>";
       $content .= "<div class=\"clear\"></div>";
 
 
@@ -30,13 +31,14 @@ namespace mywishlist\view;
     /* Génère le contenu HTML pour afficher un
     item passé en paramètre */
     function renderItemCreated($item) {
+        $url = $_SESSION['app']->urlFor('list_aff',['id'=>$item->liste_id]);
         if ($item == null)
           error("Votre item n'a pas pu être créé");
 
         $_SESSION['content']  = "<h1> L'item <i>$item->nom</i> a bien été créé ! </h1>";
         $_SESSION['content'] .= "
         <p>
-            <a href=\"./liste/$item->liste_id\">
+            <a href='$url'>
                 Retour à la liste.
             </a>
         </p>";
@@ -44,6 +46,7 @@ namespace mywishlist\view;
     }
 
     function renderFormItem($item, $id){
+        $url = $_SESSION['app']->urlFor('list_createPost');
         $form = "";
         $nom = '';
         $descr = '';
@@ -54,7 +57,7 @@ namespace mywishlist\view;
             $tarif = $item->tarif;
         }
         $form =
-        "<form action='./item/creer/$id' method='POST'>
+        "<form action='$url' method='POST'>
           <input id='item_nom' name='item_nom' type='text' value='$nom' placeholder=\"Nom de l'item\">
           <textarea id='item_descr' name='item_descr' rows=\"10\" cols=\"50\" value='$descr' placeholder='Description'></textarea>
           <input id='item_tarif' name='item_tarif' type='text' value='$tarif' placeholder='Tarif'>
