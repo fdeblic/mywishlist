@@ -47,6 +47,12 @@ namespace mywishlist\view;
         }
         $content .= "</ol>";
 
+        $content .= "
+        <p>
+            <a href=\"./item/creer/$list->no\">Créer un item</a>
+        </p>";
+
+
         $_SESSION['content'] = str_replace ("\n", "\n\t", $content)."\n";
         parent::render();
     }
@@ -63,7 +69,7 @@ namespace mywishlist\view;
 
     /* Génère le contenu HTML pour afficher une
     liste passée en paramètre */
-    function renderFormulaireList($list) {
+    function renderFormList($list) {
         $form = "";
         $titre = '';
         $descr = '';
