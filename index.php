@@ -48,8 +48,7 @@
   });
 
   //TODO OKAYDAC
-  //Ajout
-  // $app->post('/liste/items/:id', function($id))
+  $app->post('/liste/items/creer/:id', function($id){});
 
   /**
    * Partie pour les items
