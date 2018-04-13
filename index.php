@@ -45,9 +45,6 @@
       ListController::displayList($id);
   });
 
-  //TODO OKAYDAC
-  $app->post('/liste/items/creer/:id', function($id){});
-
   /**
    * Partie pour les items
    */
@@ -55,6 +52,16 @@
   $app->get('/items/:id', function($id){
       //Display item obtained with id
       ItemController::displayItem($id);
+  });
+
+  $app->get('/item/creer/:id', function($id){
+      // Create a new item
+      ItemController::editItem(null,$id);
+  });
+
+  $app->post('/item/creer/:id', function($id){
+      // Create an item with the data sent with POST
+      ItemController::createItem($id);
   });
 
   /**
