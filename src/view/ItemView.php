@@ -46,7 +46,7 @@ namespace mywishlist\view;
     }
 
     function renderFormItem($item, $id){
-        $url = $_SESSION['app']->urlFor('list_createPost');
+        $url = $_SESSION['app']->urlFor('list_addItemPost',['id'=>$id]);
         $form = "";
         $nom = '';
         $descr = '';
