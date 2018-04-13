@@ -37,7 +37,7 @@
     ListController::editList(null);
 })->name('list_createGet');
 
-  $app->post('/lists/creer', function() {
+  $app->post('/lists/create', function() {
     // Creates a wishlist with the data sent with POST
     ListController::createList();
 })->name('list_createPost');
@@ -68,8 +68,6 @@
 
 
   /**
-<<<<<<< HEAD
-=======
   *Upload image
   */
   $app->get('/image', function(){
@@ -77,7 +75,6 @@
   })->name('pot_addImg');
 
   /**
->>>>>>> ajout des routes nommées
    * Partie pour les comptes utilisateurs
    */
   $app->run();
