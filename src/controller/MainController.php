@@ -13,4 +13,10 @@
         $vue = new MainView();
         $vue->render();
     }
+
+    // Affiche la page d'upload d'une image
+    public static function getFormUploadImg(){
+        $vue = new MainView();
+        $vue->generateImgForm();
+    }
   }
