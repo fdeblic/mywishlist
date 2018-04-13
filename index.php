@@ -74,6 +74,13 @@
   });
 
   /**
+  *Upload image
+  */
+  $app->get('/image', function(){
+      MainController::getFormUploadImg( );
+  });
+
+  /**
    * Partie pour les comptes utilisateurs
    */
   $app->run();
