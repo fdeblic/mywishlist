@@ -27,6 +27,10 @@ namespace mywishlist\view;
       parent::render();
     }
 
+    function renderFormItem($item){
+      //TODO
+    }
+
   }
 
 ?>

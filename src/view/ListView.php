@@ -76,8 +76,11 @@ namespace mywishlist\view;
         $form =
         "<form action='./liste/creer' method='POST'>
           <input id='list_title' name='list_title' type='text' value='$titre' placeholder='Titre de la liste'>
-          <input id='list_descr' name='list_descr' type='text' value='$descr' placeholder='Description...'>
-          <input id='list_expiration' name='list_expiration' type='date' value='$expiration'>
+          <textarea id='list_descr' name='list_descr' rows=\"10\" cols=\"50\" value='$descr' placeholder='Description'></textarea>
+          <div class='form-date'>
+            <p> Date d'expiration </p>
+            <input id='list_expiration' name='list_expiration' type='date' value='$expiration'>
+          </div>
           <input type='submit' value='Créer la liste'>
         </form>";
 
