@@ -20,5 +20,11 @@ namespace mywishlist\view;
         parent::render();
     }
 
+    function generateImgForm(){
+        $content = "<h1> Uploadage d'image </h1>";
+        $_SESSION['content'] = $content;
+        parent::render();
+    }
+
 
  }
