@@ -38,7 +38,7 @@
     ListController::editList(null);
 })->name('list_createGet');
 
-  $app->post('/lists/create', function() {
+  $app->post('/lists/creer', function() {
     // Creates a wishlist with the data sent with POST
     ListController::createList();
 })->name('list_createPost');
@@ -54,18 +54,29 @@
 
   $app->get('/items/:id', function($id){
       //Display item obtained with id
-      ItemController::displayItem($id);
+      $c = new ItemController();
+      $c->displayItem($id);
+
   })->name('item_aff');
 
   $app->get('/item/creer/:id', function($id){
       // Create a new item
-      ItemController::editItem(null,$id);
+      $c = new ItemController();
+      $c->editItem(null,$id);
+
   })->name('list_addItemGet');
 
   $app->post('/item/creer/:id', function($id){
       // Create an item with the data sent with POST
-      ItemController::createItem($id);
+      $c = new ItemController();
+      $c->createItem($id);
   })->name('list_addItemPost');
+
+  $app->get('/item/del/:id', function($id){
+    //Delete an item obtained by id
+    $controller  = new ItemController();
+    $controller->delItem($id);
+  })->name('item_del');
 
 
   /**
