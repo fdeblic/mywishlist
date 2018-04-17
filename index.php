@@ -4,6 +4,7 @@
   use mywishlist\controller\ListController as ListController;
   use mywishlist\controller\MainController as MainController;
   use mywishlist\controller\ItemController as ItemController;
+  use mywishlist\controller\AccountController as AccountController;
 
   use Illuminate\Database\Capsule\Manager as DB;
 
@@ -77,5 +78,13 @@
   /**
    * Partie pour les comptes utilisateurs
    */
-  $app->run();
+   $app->get('/account/new', function() {
+       AccountController::createAccountForm();
+   })->name('acc_create_get');
+
+   $app->post('/account/new', function() {
+       AccountController::insertNewAccount();
+   })->name('acc_create_post');
+
+   $app->run();
 ?>
