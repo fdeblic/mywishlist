@@ -7,7 +7,7 @@ require_once 'vendor/autoload.php';
 
   class ItemController{
 
-      public static function displayItem($id){
+      public function displayItem($id){
           $item = Item::where('id','=',$id)->first();
 
           //Affiche l'item via la vue
@@ -15,7 +15,7 @@ require_once 'vendor/autoload.php';
           $vue->renderItem($item);
       }
 
-      public static function createItem($id){
+      public function createItem($id){
         $view = new ItemView();
 
         // Vérifie les données envoyées
@@ -38,10 +38,20 @@ require_once 'vendor/autoload.php';
         $view->renderItemCreated($item);
       }
 
-      public static function editItem($item, $id){
+      public function editItem($item, $id){
           //Affiche l'item via la vue
           $view = new ItemView();
           $view->renderFormItem($item, $id);
+      }
+
+      public function delItem($id){
+        $view = new ItemView();
+
+        $item = Item::where('id','=',$id)->first();
+        $itemdelete = $item->delete();
+
+        $view = new ItemView();
+        $view->renderDelItem($item);
       }
   }
 
