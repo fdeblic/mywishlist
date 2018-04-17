@@ -40,12 +40,20 @@ namespace mywishlist\view;
         $content  = "<h1> $list->titre</h1>";
         $content .= "<ol>";
         foreach($list->items as $item){
-            $url = $_SESSION['app']->urlFor('item_aff',['id'=>$item->id]);
+            $url3 = $_SESSION['app']->urlFor('item_aff',['id'=>$item->id]);
+            $url4 = $_SESSION['app']->urlFor('item_del',['id'=>$item->id]);
             $content .= "
             <li>
-                <a href='$url'>
-                    $item->nom
+                <a href='$url3'>
+                    $item->nom\t
                 </a>
+                <ul>
+                  <li>
+                    <a href='$url4'>
+                      Supprimer
+                      </a>
+                  </li>
+                </ul>
             </li>";
         }
         $content .= "</ol>";
