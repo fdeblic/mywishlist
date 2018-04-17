@@ -3,10 +3,11 @@ namespace mywishlist\controller;
 require_once 'vendor/autoload.php';
 
 use \mywishlist\models\Account as Account;
+use \mywishlist\view\AccountView as AccountView;
 
 class AccountController {
   // Verifies if the user is connected
-  public static function isConnected() {
+  public function isConnected() {
     if (!isset($_SESSION['user_connected']) || $_SESSION['user_connected'] == false) {
       return false;
     } else {
@@ -14,12 +15,14 @@ class AccountController {
     }
   }
 
-  public static function insertNewAccount() {
+  public function insertNewAccount() {
+    $acc = new Account();
     print "insert";
   }
 
-  public static function createAccountForm() {
-    print "create";
+  public function createAccountForm() {
+    $view = new AccountView();
+    $view->printAccountEditor(null);
   }
 
 

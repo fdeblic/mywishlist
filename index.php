@@ -79,11 +79,13 @@
    * Partie pour les comptes utilisateurs
    */
    $app->get('/account/new', function() {
-       AccountController::createAccountForm();
+     $ctrl = new AccountController();
+     $ctrl->createAccountForm();
    })->name('acc_create_get');
 
    $app->post('/account/new', function() {
-       AccountController::insertNewAccount();
+     $ctrl = new AccountController();
+     $ctrl->insertNewAccount();
    })->name('acc_create_post');
 
    $app->run();
