@@ -1,6 +1,20 @@
 <?php
-class AccountController{
-  
+namespace mywishlist\controller;
+require_once 'vendor/autoload.php';
+
+use \mywishlist\models\Account as Account;
+
+class AccountController {
+  private static user_id;
+
+  // Verifies if the user is connected
+  public static function isConnected() {
+    if (!isset($_SESSION['user_connected']) || $_SESSION['user_connected'] == false) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }
 
  ?>

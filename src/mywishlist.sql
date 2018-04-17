@@ -51,3 +51,19 @@ INSERT INTO `liste` (`no`, `user_id`, `titre`, `description`, `expiration`, `tok
 (1,	1,	'Pour fêter le bac !',	'Pour un week-end à Nancy qui nous fera oublier les épreuves. ',	'2018-06-27',	'nosecure1'),
 (2,	2,	'Liste de mariage d\'Alice et Bob',	'Nous souhaitons passer un week-end royal à Nancy pour notre lune de miel :)',	'2018-06-30',	'nosecure2'),
 (3,	3,	'C\'est l\'anniversaire de Charlie',	'Pour lui préparer une fête dont il se souviendra :)',	'2017-12-12',	'nosecure3');
+
+CREATE TABLE IF NOT EXISTS `account` (
+  `id_account` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(70) NOT NULL,
+  `prenom` varchar(70) NOT NULL,
+  `login` varchar(70) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `admin` tinyint(1) NOT NULL,
+  `participant` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id_account`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+INSERT INTO `wishlist_account` (`id_account`, `nom`, `prenom`, `login`, `password`, `admin`, `participant`) VALUES
+(1, 'Spacher', 'Loïc', 'loic', '123456', 0, 1),
+(2, 'Moreau', 'Elise', 'elise', '123456', 0, 0),
+(3, 'de Blic', 'François', 'francois', '123456', 1, 1);
