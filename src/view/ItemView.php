@@ -6,6 +6,7 @@ namespace mywishlist\view;
     afficher un item passé en paramètre */
     function renderItem($item){
         $url = $url = $_SESSION['app']->urlFor('list_aff',['id'=>$item->liste_id]);
+        $url2 = $_SESSION['app']->urlFor('item_del',['id'=>$item->id]);
         $content = "";
       if (!isset($item)){
           $content .= "<h3> Oups ! </h3>";
@@ -14,6 +15,8 @@ namespace mywishlist\view;
           parent::render();
           return;
       }
+
+
       if (isset($item->img)){
           $content .= "<img src=\"./img/$item->img\" alt=\"$item->nom\" >";
       }
@@ -21,6 +24,7 @@ namespace mywishlist\view;
       $content .= "<p class=\"description-item\">$item->descr</p>";
       $content .= "<p>Tarif : $item->tarif</p>";
       $content .= "<p><a href='$url'>Retour à la liste</a></p>";
+      $content .= "<p><a href='$url2'>Supprimer l'item </a></p>";
       $content .= "<div class=\"clear\"></div>";
 
 
@@ -46,7 +50,7 @@ namespace mywishlist\view;
     }
 
     function renderFormItem($item, $id){
-        $url = $_SESSION['app']->urlFor('list_addItemPost',['id'=>$id]);
+        $url = $_SESSION['app']->urlFor('list_createPost');
         $form = "";
         $nom = '';
         $descr = '';
@@ -66,6 +70,22 @@ namespace mywishlist\view;
 
         $_SESSION['content']  = $form;
         parent::render();
+    }
+
+    function renderDelItem($item){
+      $url = $_SESSION['app']->urlFor('list_aff',['id'=>$item->liste_id]);
+      if ($item == null)
+        error("Votre item n'a pas pu être supprimé.");
+
+      $_SESSION['content'] = "<h1> L'item a bien été supprimé. </h1";
+      $_SESSION['content'] .= "
+      <p>
+          <a href='$url'>
+              Retour à la liste.
+          </a>
+      </p>";
+      parent::render();
+
     }
 
   }
