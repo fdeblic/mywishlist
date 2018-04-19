@@ -68,11 +68,18 @@
 
 
   /**
-  *Upload image
+  * Affichage de la page d'upload
   */
   $app->get('/image', function(){
       MainController::getFormUploadImg( );
-  })->name('pot_addImg');
+  })->name('pot_addImg_get');
+
+  /**
+  * Upload d'une image
+  */
+  $app->post('/image', function(){
+      MainController::uploadImg( );
+  })->name('pot_addImg_post');
 
   /**
    * Partie pour les comptes utilisateurs
