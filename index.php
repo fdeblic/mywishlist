@@ -96,14 +96,16 @@
   * Affichage de la page d'upload
   */
   $app->get('/image', function(){
-      MainController::getFormUploadImg( );
+      $controller = new MainController();
+      $controller->getFormUploadImg( );
   })->name('pot_addImg_get');
 
   /**
   * Upload d'une image
   */
   $app->post('/image', function(){
-      MainController::uploadImg( );
+      $controller = new MainController();
+      $controller->uploadImg();
   })->name('pot_addImg_post');
 
   /**
