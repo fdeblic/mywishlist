@@ -6,6 +6,7 @@
   use \mywishlist\view\ListView as ListView;
   use \mywishlist\view\GlobalView as GlobalView;
   use \mywishlist\view\MainView as MainView;
+  use \mywishlist\view\ImageView as ImageView;
 
   class MainController {
     // Affiche les listes existantes
@@ -16,12 +17,12 @@
 
     // Affiche la page d'upload d'une image
     public static function getFormUploadImg(){
-        $vue = new MainView();
+        $vue = new ImageView();
         $vue->generateImgForm();
     }
 
     public function uploadImg(){
-        $vue = new MainView();
+        $vue = new ImageView();
         $img = $_FILES['image'];
 
         // Différents tests si l'image envoyée est correcte
@@ -45,8 +46,6 @@
         if(!move_uploaded_file($img['tmp_name'],"./img/".$img['name']))
             $vue->error("Echec de l'upload");
 
-        echo("Image bien uploadée :".$img['name']);
-        $vue->render();
-
+        $vue->renderUploadImage();
     }
   }
