@@ -6,7 +6,8 @@ namespace mywishlist\view;
     afficher un item passé en paramètre */
     function renderItem($item){
         $url = $url = $_SESSION['app']->urlFor('list_aff',['id'=>$item->liste_id]);
-        $url2 = $_SESSION['app']->urlFor('item_del',['id'=>$item->id]);
+        $urlDelete = $_SESSION['app']->urlFor('item_del',['id'=>$item->id]);
+        $urlEdit = $_SESSION['app']->urlFor('item_editGet',['id'=>$item->id]);
         $content = "";
       if (!isset($item)){
           $content .= "<h3> Oups ! </h3>";
@@ -24,7 +25,8 @@ namespace mywishlist\view;
       $content .= "<p class=\"description-item\">$item->descr</p>";
       $content .= "<p>Tarif : $item->tarif</p>";
       $content .= "<p><a href='$url'>Retour à la liste</a></p>";
-      $content .= "<p><a href='$url2'>Supprimer l'item </a></p>";
+      $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
+      $content .= "<p><a href='$urlDelete'>Supprimer l'item </a></p>";
       $content .= "<div class=\"clear\"></div>";
 
 
@@ -49,23 +51,48 @@ namespace mywishlist\view;
         parent::render();
     }
 
-    function renderFormItem($item, $id){
-        $url = $_SESSION['app']->urlFor('list_createPost');
+    /* Génère le contenu HTML pour afficher un
+    item édité passé en paramètre */
+    function renderEditItem($item) {
+        $url = $_SESSION['app']->urlFor('list_aff',['id'=>$item->liste_id]);
+        if ($item == null)
+          error("Votre item n'a pas pu être modifié");
+
+        $_SESSION['content']  = "<h1> L'item <i>$item->nom</i> a bien été modifié ! </h1>";
+        $_SESSION['content'] .= "
+        <p>
+            <a href='$url'>
+                Retour à la liste.
+            </a>
+        </p>";
+        parent::render();
+    }
+
+    function renderFormItem($item,$list_id){
+        $url = '';
+        if (isset($item->id)) {
+            $url = $_SESSION['app']->urlFor("item_editPost",['id'=>$item->id]);
+        }
+        else {
+            $url = $_SESSION['app']->urlFor('list_addItemPost',['id'=>$list_id]);
+        }
+        $submit = isset($item->id) ? "Modifier l'item" : "Créer l'item";
+
         $form = "";
         $nom = '';
         $descr = '';
         $tarif = '';
-        if ($item != null) {
+        if (isset($item)) {
             $nom = $item->nom;
-            $descr = $item->description;
+            $descr = $item->descr;
             $tarif = $item->tarif;
         }
         $form =
         "<form action='$url' method='POST'>
           <input id='item_nom' name='item_nom' type='text' value='$nom' placeholder=\"Nom de l'item\">
-          <textarea id='item_descr' name='item_descr' rows=\"10\" cols=\"50\" value='$descr' placeholder='Description'></textarea>
+          <textarea id='item_descr' name='item_descr' rows=\"10\" cols=\"50\" placeholder='Description'>$descr</textarea>
           <input id='item_tarif' name='item_tarif' type='text' value='$tarif' placeholder='Tarif'>
-          <input type='submit' value=\"Créer l'item\">
+          <input type='submit' value=\"$submit\">
         </form>";
 
         $_SESSION['content']  = $form;
