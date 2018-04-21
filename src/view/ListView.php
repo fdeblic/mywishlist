@@ -36,7 +36,7 @@ namespace mywishlist\view;
             parent::render();
             return;
         }
-        $url2 = $_SESSION['app']->urlFor('list_addItemPost',['id'=>$list->no]);
+        $url2 = $_SESSION['app']->urlFor('list_addItemGet',['id'=>$list->no]);
         $content  = "<h1> $list->titre</h1>";
         $content .= "<ol>";
         foreach($list->items as $item){
