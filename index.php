@@ -5,6 +5,7 @@
   use mywishlist\controller\MainController as MainController;
   use mywishlist\controller\ItemController as ItemController;
   use mywishlist\controller\AccountController as AccountController;
+  use mywishlist\models\Item as Item;
 
   use Illuminate\Database\Capsule\Manager as DB;
 
@@ -62,7 +63,7 @@
   $app->get('/item/creer/:id', function($id){
       // Create a new item
       $c = new ItemController();
-      $c->editItem(null,$id);
+      $c->getFormItem(null,$id);
 
   })->name('list_addItemGet');
 
@@ -77,6 +78,18 @@
     $controller  = new ItemController();
     $controller->delItem($id);
   })->name('item_del');
+
+  $app->post('/item/edit/:id', function($id){
+      // Edit an item obtained by id
+     $controller = new ItemController();
+      $controller->editItem($id);
+  })->name('item_editPost');
+
+  $app->get('/item/edit/:id', function($id){
+      // Edit an item obtained by id
+      $controller = new ItemController();
+      $controller->getFormItem($id,null);
+  })->name('item_editGet');
 
 
   /**
