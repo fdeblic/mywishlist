@@ -1,5 +1,6 @@
 <?php
   namespace mywishlist\view;
+  require_once 'vendor/autoload.php';
 
   abstract class GlobalView {
     protected $isAdmin = false;
@@ -7,6 +8,7 @@
     protected $messages = "";
 
     public function render() {
+      \mywishlist\controller\AccountController::generateAccountHeader();
       include($this->HTML_PATH . 'index.php');
     }
 

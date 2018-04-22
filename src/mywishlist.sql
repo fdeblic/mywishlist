@@ -64,6 +64,6 @@ CREATE TABLE IF NOT EXISTS `account` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 INSERT INTO `account` (`id_account`, `nom`, `prenom`, `login`, `password`, `admin`, `participant`) VALUES
-(1, 'Spacher', 'Loïc', 'loic', '123456', 0, 1),
-(2, 'Moreau', 'Elise', 'elise', '123456', 0, 0),
-(3, 'de Blic', 'François', 'francois', '123456', 1, 1);
+(1, 'Spacher', 'Loïc', 'loic', 'seldpJxxtvI7E', 0, 1),
+(2, 'Moreau', 'Elise', 'elise', 'seldpJxxtvI7E', 0, 0),
+(3, 'de Blic', 'François', 'francois', 'seldpJxxtvI7E', 1, 1);

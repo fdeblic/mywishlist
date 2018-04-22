@@ -121,5 +121,16 @@
      $ctrl->insertNewAccount();
    })->name('acc_create_post');
 
+   $app->post('/auth', function() {
+     $ctrl = new AccountController();
+     $ctrl->connect();
+   })->name('acc_auth');
+
    $app->run();
+
+   // Session middleware
+  $app->add(function (Request $request, Response $response, $next) {
+      session_start();
+      return $next($request, $response);
+  });
 ?>

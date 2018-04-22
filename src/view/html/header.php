@@ -7,5 +7,9 @@
     <li><a href="<?php echo $_SESSION['app']->urlFor('list_getPubLists'); ?>">Catalogue </a></li>
     <li> À propos </li>
   </ul>
+  <?php
+    if (isset($_SESSION['acc_content']))
+      echo $_SESSION['acc_content'];
+  ?>
   <hr>
 </header>

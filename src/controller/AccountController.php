@@ -7,7 +7,7 @@ use \mywishlist\view\AccountView as AccountView;
 
 class AccountController {
   // Verifies if the user is connected
-  public function isConnected() {
+  public static function isConnected() {
     if (!isset($_SESSION['user_connected']) || $_SESSION['user_connected'] == false) {
       return false;
     } else {
@@ -46,27 +46,63 @@ class AccountController {
     }
   }
 
+  // Génère le formulaire mis en haut ou le message "Bonjour [login]"
+  public static function generateAccountHeader() {
+    $content = "";
+    
+    if (AccountController::isConnected()) {
+      $content = "<p id='connectionMsg'> Bonjour " . AccountController::getLogin() . "</p>";
+    } else {
+      $content = "<form id='connectionForm' method='post' action='" . $_SESSION["app"]->urlFor("acc_auth") . "'>
+        <input required placeholder='Login' type='text' name='acc_login'>
+        <input required placeholder='******' type='password' name='acc_password'>
+        <input type='submit' value='Connexion'>
+      </form>";
+    }
+
+    $_SESSION['acc_content'] = $content;
+  }
+
   public function createAccountForm() {
     $view = new AccountView();
     $view->printAccountEditor(null);
   }
 
-  public function connect($login, $password) {
-    $vue = new AccountView();
-    $acc = Account::where('login', '=', strtolower($login))->first();
-
-    if ($acc == null) $vue->error("login inconnu");
-
-
-    if (crypt($password, 'sel de mer') === $acc->password) {
-      print "login OK";
-    } else {
-      print "bad password";
-    }
-    //$view->printAccountEditor(null);
+  public static function getLogin() {
+    if (isset($_SESSION['acc_login']))
+      return $_SESSION['acc_login'];
+    else
+      return "";
   }
 
+  public function connect() {
+    $vue = new AccountView();
 
+    if (!isset($_POST['acc_login']))
+      $vue->error("entrez un login");
+
+    if (!isset($_POST['acc_password']))
+      $vue->error("entrez votre mot de passe");
+
+    $login = $_POST['acc_login'];
+    $password = $_POST['acc_password'];
+
+    $acc = Account::where('login', '=', strtolower($login))->first();
+
+    if ($acc == null)
+      $vue->error("login inconnu");
+
+    if (crypt($password, 'sel de mer') === $acc->password) {
+
+      $_SESSION['user_connected'] = true;
+      $_SESSION['user_login'] = $acc->login;
+
+      $_SESSION['content'] = '<p> Now connected ! </p>';
+      $vue->render();
+    } else {
+      $vue->error("mauvais mot de passe !");
+    }
+  }
 }
 
  ?>
