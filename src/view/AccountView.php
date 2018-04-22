@@ -2,10 +2,6 @@
   namespace mywishlist\view;
 
   class AccountView extends GlobalView {
-    function render() {
-      echo "AccountView:render()";
-    }
-
     function printConnectionForm() {
       echo "[connection form]";
     }
@@ -30,15 +26,20 @@
       }
 
       $_SESSION['content'] = "
-      <form>
-        <input type='hidden' name='acc_id_account' value='$id_account'>
-        <input type='text' placeholder='Nom' name='acc_nom' value='$nom'>
-        <input type='text' placeholder='Prénom' name='acc_prenom' value='$prenom'>
-        <input type='text' placeholder='Login' name='acc_login' value='$login'>
-        <input type='password' placeholder='********' name='acc_password'>
+      <form method='post' action='".$_SESSION['app']->urlFor('acc_create_get')."'>
+        <input required type='hidden' name='acc_id_account' value='$id_account'>
+        <input required type='text' placeholder='Nom' name='acc_nom' value='$nom'>
+        <input required type='text' placeholder='Prénom' name='acc_prenom' value='$prenom'>
+        <input required type='text' placeholder='Login' name='acc_login' value='$login'>
+        <input required type='password' placeholder='********' name='acc_password'>
         <input type='submit' value='Créer'>
       </form>";
 
+      parent::render();
+    }
+
+    public function renderAccountCreated($acc) {
+      $_SESSION['content'] = "<p> Le compte '$acc->login' a bien été créé </p>";
       parent::render();
     }
   }
