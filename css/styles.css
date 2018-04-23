@@ -21,7 +21,28 @@ body {
 
 /* HEADER */
 
+/* Messages d'erreur, confirmation, neutre */
+.headMsg, .headMsg_bad, .headMsg_good {
+  border: 5px solid gray;
+  padding: 10px;
+  background-color: lightGray;
+}
+
+.headMsg_bad {
+  border-color: brown;
+  background-color: pink;
+}
+
+.headMsg_good {
+  border-color: darkgreen;
+  background-color: lightGreen;
+}
+
 /* Navigation menu */
+#disconnectLink {
+  color: gray;
+  font-size: 0.6em;
+}
 #menu-navig {
   list-style-type: none;
 }
@@ -39,6 +60,7 @@ body {
   position: absolute;
   top: 30px;
   right: 50px;
+  text-align: right;
 }
 
 #connectionForm {

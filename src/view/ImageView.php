@@ -10,7 +10,7 @@ namespace mywishlist\view;
     * d'une image */
     function generateImgForm(){
         $content = "<h1> Téléchargement d'image </h1>";
-        $content .= " <form action='".$_SESSION['app']->urlFor('pot_addImg_post')."' method='POST' enctype='multipart/form-data'>
+        $content .= " <form action='".\Slim\Slim::getInstance()->urlFor('pot_addImg_post')."' method='POST' enctype='multipart/form-data'>
             <p>Sélectionnez une image à télécharger : </p>
             <input type='file' name='image' id='image'>
             <input type='submit' value='Upload Image' name='submit'>

@@ -26,7 +26,7 @@
       }
 
       $_SESSION['content'] = "
-      <form method='post' action='".$_SESSION['app']->urlFor('acc_create_get')."'>
+      <form method='post' action='".\Slim\Slim::getInstance()->urlFor('acc_create_get')."'>
         <input required type='hidden' name='acc_id_account' value='$id_account'>
         <input required type='text' placeholder='Nom' name='acc_nom' value='$nom'>
         <input required type='text' placeholder='Prénom' name='acc_prenom' value='$prenom'>
@@ -39,7 +39,8 @@
     }
 
     public function renderAccountCreated($acc) {
-      $_SESSION['content'] = "<p> Le compte '$acc->login' a bien été créé </p>";
+      addHeadMessage("Le compte '$acc->login' a bien été créé", 'good');
+      //$_SESSION['content'] = "<p> Le compte '$acc->login' a bien été créé </p>";
       parent::render();
     }
   }

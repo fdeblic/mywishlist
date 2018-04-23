@@ -12,7 +12,7 @@ namespace mywishlist\view;
       $content  = "<h1> Listes : </h1>";
       $content .= "<ol>";
       foreach ($lists as $list) {
-        $url = $_SESSION['app']->urlFor('list_aff',['id'=>$list->no]);
+        $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no]);
         $content .= "
         <li>
             <a href='$url'>
@@ -29,6 +29,7 @@ namespace mywishlist\view;
     /* Génère le contenu HTML pour afficher une
     liste passée en paramètre */
     function renderList($list) {
+      $app = \Slim\Slim::getInstance();
         if ($list == null){
             $content = "<h3>Oups !</h3>";
             $content .= "<p>La liste n'existe pas !</p>";
@@ -36,12 +37,12 @@ namespace mywishlist\view;
             parent::render();
             return;
         }
-        $url2 = $_SESSION['app']->urlFor('list_addItemGet',['id'=>$list->no]);
+        $url2 = $app->urlFor('list_addItemGet',['id'=>$list->no]);
         $content  = "<h1> $list->titre</h1>";
         $content .= "<ol>";
         foreach($list->items as $item){
-            $url3 = $_SESSION['app']->urlFor('item_aff',['id'=>$item->id]);
-            $url4 = $_SESSION['app']->urlFor('item_del',['id'=>$item->id]);
+            $url3 = $app->urlFor('item_aff',['id'=>$item->id]);
+            $url4 = $app->urlFor('item_del',['id'=>$item->id]);
             $content .= "
             <li>
                 <a href='$url3'>
@@ -81,7 +82,7 @@ namespace mywishlist\view;
     /* Génère le contenu HTML pour afficher une
     liste passée en paramètre */
     function renderFormList($list) {
-        $url = $_SESSION['app']->urlFor('list_createPost');
+        $url = \Slim\Slim::getInstance()->urlFor('list_createPost');
         $form = "";
         $titre = '';
         $descr = '';

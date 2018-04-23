@@ -14,10 +14,11 @@
   $db->setAsGlobal();
   $db->bootEloquent();
 
+  session_start();
   $app = new \Slim\Slim();
-  $_SESSION['app'] = $app; // Pour le reste des scripts
-
   $app->config(['routes.case_sensitive' => false]);
+
+  $_SESSION['content'] = "";
 
     /**
     * Partie pour l'accueil
@@ -124,7 +125,12 @@
    $app->post('/auth', function() {
      $ctrl = new AccountController();
      $ctrl->connect();
-   })->name('acc_auth');
+   }, function(){} )->name('acc_auth');
+
+   $app->get('/disconnect', function() {
+     $ctrl = new AccountController();
+     $ctrl->disconnect();
+   }, function(){} )->name('acc_disconnect');
 
    $app->run();
 

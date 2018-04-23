@@ -49,11 +49,14 @@ class AccountController {
   // Génère le formulaire mis en haut ou le message "Bonjour [login]"
   public static function generateAccountHeader() {
     $content = "";
-    
+    //$app = new \Slim\Slim();
+    $app = \Slim\Slim::getInstance();
+
     if (AccountController::isConnected()) {
-      $content = "<p id='connectionMsg'> Bonjour " . AccountController::getLogin() . "</p>";
+      $content = "<p id='connectionMsg'> Bonjour " . AccountController::getLogin() . "<br>
+        <a id='disconnectLink' href='" . $app->urlFor('acc_disconnect') . "'>Déconnexion</a></p>";
     } else {
-      $content = "<form id='connectionForm' method='post' action='" . $_SESSION["app"]->urlFor("acc_auth") . "'>
+      $content = "<form id='connectionForm' method='post' action='" . $app->urlFor("acc_auth") . "'>
         <input required placeholder='Login' type='text' name='acc_login'>
         <input required placeholder='******' type='password' name='acc_password'>
         <input type='submit' value='Connexion'>
@@ -69,8 +72,8 @@ class AccountController {
   }
 
   public static function getLogin() {
-    if (isset($_SESSION['acc_login']))
-      return $_SESSION['acc_login'];
+    if (isset($_SESSION['user_login']))
+      return '<b>' . $_SESSION['user_login'] . '</b>';
     else
       return "";
   }
@@ -97,11 +100,20 @@ class AccountController {
       $_SESSION['user_connected'] = true;
       $_SESSION['user_login'] = $acc->login;
 
-      $_SESSION['content'] = '<p> Now connected ! </p>';
+      $vue->addHeadMessage("Vous êtes connecté !", 'good');
       $vue->render();
     } else {
       $vue->error("mauvais mot de passe !");
     }
+  }
+
+  public function disconnect() {
+    $_SESSION['user_connected'] = false;
+    $_SESSION['user_login'] = "";
+
+    $vue = new AccountView();
+    $vue->addHeadMessage("Vous êtes à présent déconnecté(e)", "good");
+    $vue->render();
   }
 }
 

@@ -5,9 +5,10 @@ namespace mywishlist\view;
     /* Génère le contenu HTML pour
     afficher un item passé en paramètre */
     function renderItem($item){
-        $url = $url = $_SESSION['app']->urlFor('list_aff',['id'=>$item->liste_id]);
-        $urlDelete = $_SESSION['app']->urlFor('item_del',['id'=>$item->id]);
-        $urlEdit = $_SESSION['app']->urlFor('item_editGet',['id'=>$item->id]);
+      $app = \Slim\Slim::getInstance();
+        $url = $url = $app->urlFor('list_aff',['id'=>$item->liste_id]);
+        $urlDelete = $app->urlFor('item_del',['id'=>$item->id]);
+        $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id]);
         $content = "";
       if (!isset($item)){
           $content .= "<h3> Oups ! </h3>";
@@ -37,7 +38,7 @@ namespace mywishlist\view;
     /* Génère le contenu HTML pour afficher un
     item passé en paramètre */
     function renderItemCreated($item) {
-        $url = $_SESSION['app']->urlFor('list_aff',['id'=>$item->liste_id]);
+        $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id]);
         if ($item == null)
           error("Votre item n'a pas pu être créé");
 
@@ -54,7 +55,7 @@ namespace mywishlist\view;
     /* Génère le contenu HTML pour afficher un
     item édité passé en paramètre */
     function renderEditItem($item) {
-        $url = $_SESSION['app']->urlFor('list_aff',['id'=>$item->liste_id]);
+        $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id]);
         if ($item == null)
           error("Votre item n'a pas pu être modifié");
 
@@ -71,10 +72,10 @@ namespace mywishlist\view;
     function renderFormItem($item,$list_id){
         $url = '';
         if (isset($item->id)) {
-            $url = $_SESSION['app']->urlFor("item_editPost",['id'=>$item->id]);
+            $url = \Slim\Slim::getInstance()->urlFor("item_editPost",['id'=>$item->id]);
         }
         else {
-            $url = $_SESSION['app']->urlFor('list_addItemPost',['id'=>$list_id]);
+            $url = \Slim\Slim::getInstance()->urlFor('list_addItemPost',['id'=>$list_id]);
         }
         $submit = isset($item->id) ? "Modifier l'item" : "Créer l'item";
 
@@ -100,7 +101,7 @@ namespace mywishlist\view;
     }
 
     function renderDelItem($item){
-      $url = $_SESSION['app']->urlFor('list_aff',['id'=>$item->liste_id]);
+      $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id]);
       if ($item == null)
         error("Votre item n'a pas pu être supprimé.");
 
