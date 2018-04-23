@@ -39,7 +39,7 @@
     }
 
     public function renderAccountCreated($acc) {
-      addHeadMessage("Le compte '$acc->login' a bien été créé", 'good');
+      $this->addHeadMessage("Le compte '$acc->login' a bien été créé", 'good');
       //$_SESSION['content'] = "<p> Le compte '$acc->login' a bien été créé </p>";
       parent::render();
     }
