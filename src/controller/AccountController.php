@@ -46,24 +46,9 @@ class AccountController {
     }
   }
 
-  // Génère le formulaire mis en haut ou le message "Bonjour [login]"
   public static function generateAccountHeader() {
     $content = "";
-    //$app = new \Slim\Slim();
-    $app = \Slim\Slim::getInstance();
-
-    if (AccountController::isConnected()) {
-      $content = "<p id='connectionMsg'> Bonjour " . AccountController::getLogin() . "<br>
-        <a id='disconnectLink' href='" . $app->urlFor('acc_disconnect') . "'>Déconnexion</a></p>";
-    } else {
-      $content = "<form id='connectionForm' method='post' action='" . $app->urlFor("acc_auth") . "'>
-        <input required placeholder='Login' type='text' name='acc_login'>
-        <input required placeholder='******' type='password' name='acc_password'>
-        <input type='submit' value='Connexion'>
-      </form>";
-    }
-
-    $_SESSION['acc_content'] = $content;
+    AccountView::generateAccountHeader(AccountController::isConnected(), AccountController::getLogin());
   }
 
   public function createAccountForm() {

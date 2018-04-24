@@ -1,6 +1,5 @@
 <?php
   namespace mywishlist\view;
-  require_once 'vendor/autoload.php';
 
   abstract class GlobalView {
     protected $isAdmin = false;

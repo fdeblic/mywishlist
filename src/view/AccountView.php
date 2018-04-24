@@ -38,6 +38,25 @@
       parent::render();
     }
 
+    // Génère le formulaire mis en haut ou le message "Bonjour [nom]"
+    public static function generateAccountHeader($connected, $name) {
+      $content = "";
+      $app = \Slim\Slim::getInstance();
+      if ($connected) {
+        $content = "<p id='connectionMsg'> Bonjour " . $name . "<br>
+          <a id='disconnectLink' href='" . $app->urlFor('acc_disconnect') . "'>Déconnexion</a></p>";
+      } else {
+        $content = "<form id='connectionForm' method='post' action='" . $app->urlFor("acc_auth") . "'>
+          <input required placeholder='Login' type='text' name='acc_login'>
+          <input required placeholder='******' type='password' name='acc_password'>
+          <input type='submit' value='Connexion'>
+          <a href='".$app->urlFor('acc_create_get')."'>Inscription</a>
+        </form>";
+      }
+
+      $_SESSION['acc_content'] = $content;
+    }
+
     public function renderAccountCreated($acc) {
       $this->addHeadMessage("Le compte '$acc->login' a bien été créé", 'good');
       //$_SESSION['content'] = "<p> Le compte '$acc->login' a bien été créé </p>";
