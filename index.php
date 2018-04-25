@@ -4,6 +4,7 @@
   use mywishlist\controller\ListController as ListController;
   use mywishlist\controller\MainController as MainController;
   use mywishlist\controller\ItemController as ItemController;
+  use mywishlist\controller\MessageController as MessageController;
   use mywishlist\controller\AccountController as AccountController;
   use mywishlist\models\Item as Item;
 
@@ -33,22 +34,33 @@
   $app->get('/lists', function() {
     // Displays all the existing wishlists
     ListController::dispAllList();
-})->name('list_getPubLists');
+  })->name('list_getPubLists');
 
   $app->get('/lists/create', function() {
     // Creates a new list
     ListController::editList(null);
-})->name('list_createGet');
+  })->name('list_createGet');
 
   $app->post('/lists/creer', function() {
     // Creates a wishlist with the data sent with POST
     ListController::createList();
-})->name('list_createPost');
+  })->name('list_createPost');
 
   $app->get('/lists/:id', function($id){
       //Displays the list obtained with id
       ListController::displayList($id);
   })->name('list_aff');
+
+
+  $app->post('/list/msg/:id', function($list_id){
+      $controller = new MessageController();
+      $controller->createMessage($list_id);
+  })->name('list_addMsgPost');
+
+  $app->get('/list/msg/:id', function($list_id){
+      $controller = new MessageController();
+      $controller->getFormMessage($list_id);
+  })->name('list_addMsgGet');
 
   /**
    * Partie pour les items
