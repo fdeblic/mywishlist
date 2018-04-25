@@ -61,9 +61,21 @@ CREATE TABLE IF NOT EXISTS `account` (
   `admin` tinyint(1) NOT NULL,
   `participant` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_account`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 INSERT INTO `account` (`id_account`, `nom`, `prenom`, `login`, `password`, `admin`, `participant`) VALUES
 (1, 'Spacher', 'Loïc', 'loic', 'seldpJxxtvI7E', 0, 1),
 (2, 'Moreau', 'Elise', 'elise', 'seldpJxxtvI7E', 0, 0),
 (3, 'de Blic', 'François', 'francois', 'seldpJxxtvI7E', 1, 1);
+
+
+
+CREATE TABLE IF NOT EXISTS `message_list` (
+  `id_message` int(11) NOT NULL AUTO_INCREMENT,
+  `list_id` int(11) NOT NULL,
+  `body` text COLLATE utf8_unicode_ci NOT NULL,
+  `id_creator` int(11) NOT NULL,
+  `updated_at` TIMESTAMP,
+  `created_at` TIMESTAMP,
+  PRIMARY KEY (`id_message`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
