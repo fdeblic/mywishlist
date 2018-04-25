@@ -28,9 +28,6 @@
     public static function createList(){
       $view = new ListView();
 
-      // TODO Retirer lorsque les comptes seront fonctionnels
-      $_SESSION['user_id'] = 42;
-
       // Vérifie les données envoyées
       if (!isset($_SESSION['user_id']))
         $view->notConnectedError();
@@ -44,13 +41,13 @@
       // Transcrit la date reçue
       $expiration = date('Y-m-d', strtotime($_POST['list_expiration']));
       if ($expiration == null)
-        $view->error("date correcte");
+        $view->error("date incorrecte");
 
       // Crée la nouvelle liste
       $wishlist = new WishList();
       $wishlist->user_id = $_SESSION['user_id'];
-      $wishlist->titre = $_POST['list_title'];
-      $wishlist->description = $_POST['list_descr'];
+      $wishlist->titre =  filter_var($_POST['list_title'],FILTER_SANITIZE_STRING);
+      $wishlist->description = filter_var($_POST['list_descr'],FILTER_SANITIZE_STRING);
       $wishlist->expiration = $expiration;
       $wishlist->token = crypt(
         $_POST['list_title'] . $_POST['list_descr'] . $_POST['list_expiration'],
