@@ -1,5 +1,7 @@
 <?php
 namespace mywishlist\view;
+require_once 'vendor/autoload.php';
+use \mywishlist\models\Message as Message;
 
   class ListView extends GlobalView {
 
@@ -37,20 +39,20 @@ namespace mywishlist\view;
             parent::render();
             return;
         }
-        $url2 = $app->urlFor('list_addItemGet',['id'=>$list->no]);
+        $url_addItem = $app->urlFor('list_addItemGet',['id'=>$list->no]);
         $content  = "<h1> $list->titre</h1>";
         $content .= "<ol>";
         foreach($list->items as $item){
-            $url3 = $app->urlFor('item_aff',['id'=>$item->id]);
-            $url4 = $app->urlFor('item_del',['id'=>$item->id]);
+            $url_rendItem = $app->urlFor('item_aff',['id'=>$item->id]);
+            $url_delItem = $app->urlFor('item_del',['id'=>$item->id]);
             $content .= "
             <li>
-                <a href='$url3'>
+                <a href='$url_rendItem'>
                     $item->nom\t
                 </a>
                 <ul>
                   <li>
-                    <a href='$url4'>
+                    <a href='$url_delItem'>
                       Supprimer
                       </a>
                   </li>
@@ -61,9 +63,30 @@ namespace mywishlist\view;
 
         $content .= "
         <p>
-            <a href='$url2'>Créer un item</a>
+            <a href='$url_addItem'>Créer un item</a>
         </p>";
 
+        $url_addMessage = $app->urlFor('list_addMsgPost',['id'=>$list->no]);
+        $content .= "
+        <p>
+            <a href='$url_addMessage'>Ajouter un message</a>
+        </p>
+        ";
+
+        $messages = Message::where('list_id','=',$list->no)->get();
+
+        foreach($messages as $message){
+            $creator = $message->creator;
+            $date_string = date("d/m/y", strtotime($message->created_at));
+            $content .= "
+            <div class=\"message\">
+                <p class=\"mess-creator\">
+                    <span>$creator->nom $creator->prenom, $date_string</span>
+                </p>
+                <p class=\"mess-body\"> $message->body </p>
+            </div>
+            ";
+        }
 
         $_SESSION['content'] = str_replace ("\n", "\n\t", $content)."\n";
         parent::render();
