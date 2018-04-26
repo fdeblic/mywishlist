@@ -14,15 +14,18 @@ use \mywishlist\models\Message as Message;
       $content  = "<h1> Listes : </h1>";
       $content .= "<ol>";
       foreach ($lists as $list) {
-        $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no]);
+        $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no]);
+        $url_addList = \Slim\Slim::getInstance()->urlFor('list_createGet');
         $content .= "
         <li>
-            <a href='$url'>
+            <a href='$url_list'>
             $list->titre
             </a>
         </li>";
       }
       $content .= "</ol>";
+
+      $content .= "<a href=\"$url_addList\">Ajouter une liste</a>";
 
       $_SESSION['content'] = str_replace ("\n", "\n\t", $content)."\n";
       parent::render();
@@ -72,6 +75,8 @@ use \mywishlist\models\Message as Message;
             <a href='$url_addMessage'>Ajouter un message</a>
         </p>
         ";
+        $url_modifyList = $app->urlFor('list_editGet',['id'=>$list->no]);
+        $content .= "<a href=\"$url_modifyList\">Modifier la liste</a>";
 
         $messages = Message::where('list_id','=',$list->no)->get();
 
@@ -92,8 +97,7 @@ use \mywishlist\models\Message as Message;
         parent::render();
     }
 
-    /* Génère le contenu HTML pour afficher une
-    liste passée en paramètre */
+    /* Rendu HTML de la liste créée */
     function renderListCreated($list) {
         if ($list == null)
           error("Votre liste n'a pas pu être créée");
@@ -102,28 +106,49 @@ use \mywishlist\models\Message as Message;
         parent::render();
     }
 
+    /* Rendu HTML de la liste éditée */
+    function renderListEdited($list) {
+        if ($list == null)
+          error("Votre liste n'a pas pu être éditée");
+
+        $_SESSION['content']  = "<h1> La liste <i>$list->titre</i> a bien été éditée ! </h1>";
+        parent::render();
+    }
+
     /* Génère le contenu HTML pour afficher une
     liste passée en paramètre */
     function renderFormList($list) {
-        $url = \Slim\Slim::getInstance()->urlFor('list_createPost');
+        $url = '';
+        if (isset($list->no)){
+            $url = \Slim\Slim::getInstance()->urlFor('list_editPost',['id'=>$list->no]);
+        }
+        else{
+            $url = \Slim\Slim::getInstance()->urlFor('list_createPost');
+        }
+
+        $submit = isset($list->no) ? "Modifier la liste" : "Créer la liste";
         $form = "";
         $titre = '';
         $descr = '';
+        $public = 0;
         $expiration = '1996-05-23';
         if ($list != null) {
             $titre = $list->titre;
             $descr = $list->description;
             $expiration = $list->expiration;
+            $public = $list->public;
         }
+        $checked = $public ? 'checked' : '';
         $form =
         "<form action='$url' method='POST'>
           <input id='list_title' name='list_title' type='text' value='$titre' placeholder='Titre de la liste'>
-          <textarea id='list_descr' name='list_descr' rows=\"10\" cols=\"50\" value='$descr' placeholder='Description'></textarea>
+          <textarea id='list_descr' name='list_descr' rows=\"10\" cols=\"50\" placeholder='Description'>$descr</textarea>
           <div class='form-date'>
             <p> Date d'expiration </p>
             <input id='list_expiration' name='list_expiration' type='date' value='$expiration'>
           </div>
-          <input type='submit' value='Créer la liste'>
+          <label><input type=\"checkbox\" name=\"list_public\" $checked>Liste publique</label>
+          <input type='submit' value='$submit'>
         </form>";
 
         $_SESSION['content']  = $form;
