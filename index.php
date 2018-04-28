@@ -163,10 +163,4 @@
    }, function(){} )->name('acc_disconnect');
 
    $app->run();
-
-   // Session middleware
-  $app->add(function (Request $request, Response $response, $next) {
-      session_start();
-      return $next($request, $response);
-  });
 ?>
