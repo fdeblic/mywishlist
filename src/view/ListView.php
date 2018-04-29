@@ -154,4 +154,13 @@ use \mywishlist\models\Message as Message;
         $_SESSION['content']  = $form;
         parent::render();
     }
+
+    public function renderCreators($creators) {
+      $content = '<p> Liste des créateurs de liste publique </p>';
+      foreach ($creators as $key => $creator) {
+        $content.= '<li>' . $creator->prenom . "</li><br>\n";
+      }
+      $_SESSION['content']  = $content;
+      parent::render();
+    }
   }

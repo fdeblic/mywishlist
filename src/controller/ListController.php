@@ -104,4 +104,16 @@
         $vue->renderFormList($list);
 
     }
+
+
+    public function dispPublicCreators() {
+      $vue = new ListView();
+      $creators = Account::whereIn(
+        'id_account', WishList::select('user_id')->where('public','=',true)->get()->toArray()
+        //WishList::select('no')->where('public','=',true)->get();
+      )->get();
+
+      
+      $vue->renderCreators($creators);
+    }
   }
