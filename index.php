@@ -35,6 +35,10 @@
     $controller->dispAllList();
   })->name('list_getPubLists');
 
+  $app->get('/list/creators', function() {
+    $controller = new ListController();
+    $controller->dispPublicCreators();
+  })->name('list_getCreators');
 
   $app->get('/lists/create', function() {
     // Creates a new list
