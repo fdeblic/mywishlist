@@ -17,16 +17,14 @@
     public function addHeadMessage($text, $type) {
       switch ($type) {
         case 'bad':
-        case false:
           $this->messages .= "<p class='headMsg_bad'> $text </p>";
         break;
         case 'good':
-        case true:
           $this->messages .= "<p class='headMsg_good'> $text </p>";
         break;
         case 'neutral':
-          $this->messages .= "<p class='headMsg'> $text </p>";
         default:
+          $this->messages .= "<p class='headMsg'> $text </p>";
         break;
       }
     }

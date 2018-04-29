@@ -145,10 +145,25 @@
      $ctrl->createAccountForm();
    })->name('acc_create_get');
 
+   $app->get('/account/edit', function() {
+     $ctrl = new AccountController();
+     $ctrl->edit('get');
+   })->name('acc_edit_get');
+
+   $app->post('/account/edit', function() {
+     $ctrl = new AccountController();
+     $ctrl->edit('post');
+   })->name('acc_edit_post');
+
    $app->post('/account/new', function() {
      $ctrl = new AccountController();
      $ctrl->insertNewAccount();
    })->name('acc_create_post');
+
+   $app->post('/account/delete', function() {
+     $ctrl = new AccountController();
+     $ctrl->delete();
+   })->name('acc_delete');
 
    $app->post('/auth', function() {
      $ctrl = new AccountController();

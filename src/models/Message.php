@@ -5,7 +5,7 @@ namespace mywishlist\models;
 class Message extends \Illuminate\Database\Eloquent\Model {
 
     protected $table = 'message_list';
-    protected $primary = 'id_message';
+    protected $primaryKey = 'id_message';
     public $timestamps = true;
 
     public function liste() {

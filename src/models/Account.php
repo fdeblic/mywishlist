@@ -4,7 +4,7 @@ namespace mywishlist\models;
 
 class Account extends \Illuminate\Database\Eloquent\Model {
     protected $table = 'account';
-    protected $primary = 'id_compte';
+    protected $primaryKey = 'id_account';
     public $timestamps = false;
 }
 ?>
