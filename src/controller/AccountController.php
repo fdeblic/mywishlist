@@ -4,6 +4,7 @@ require_once 'vendor/autoload.php';
 
 use \mywishlist\models\Account as Account;
 use \mywishlist\view\AccountView as AccountView;
+use \mywishlist\view\GlobalView as GlobalView;
 
 class AccountController {
   // Verifies if the user is connected
@@ -79,7 +80,7 @@ class AccountController {
   }
 
   public function connect() {
-    $vue = new AccountView();
+    $vue = new GlobalView();
 
     if (!isset($_POST['acc_login']))
       $vue->error("entrez un login");
@@ -95,23 +96,20 @@ class AccountController {
     if ($acc == null)
       $vue->error("login inconnu");
 
-    if (crypt($password, 'sel de mer') === $acc->password) {
-
-      $_SESSION['user_connected'] = true;
-      $_SESSION['user_login'] = $acc->login;
-
-      $vue->addHeadMessage("Vous êtes connecté !", 'good');
-      $vue->render();
-    } else {
+    if (crypt($password, 'sel de mer') != $acc->password)
       $vue->error("mauvais mot de passe !");
-    }
+
+    $_SESSION['user_connected'] = true;
+    $_SESSION['user_login'] = $acc->login;
+    $vue->addHeadMessage("Vous êtes connecté !", 'good');
+    $vue->render();
   }
 
   public function disconnect() {
     $_SESSION['user_connected'] = false;
     $_SESSION['user_login'] = "";
 
-    $vue = new AccountView();
+    $vue = new GlobalView();
     $vue->addHeadMessage("Vous êtes à présent déconnecté(e)", "good");
     $vue->render();
   }

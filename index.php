@@ -19,8 +19,6 @@
   $app = new \Slim\Slim();
   $app->config(['routes.case_sensitive' => false]);
 
-  $_SESSION['content'] = "";
-
     /**
     * Partie pour l'accueil
     */

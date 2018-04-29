@@ -2,7 +2,7 @@
   namespace mywishlist\view;
   require_once 'vendor/autoload.php';
 
-  abstract class GlobalView {
+  class GlobalView {
     protected $isAdmin = false;
     protected $HTML_PATH = "src/view/html/";
     protected $messages = "";
@@ -11,6 +11,7 @@
       \mywishlist\controller\AccountController::generateAccountHeader();
       $_SESSION['content'] = $this->messages . $_SESSION['content'];
       include($this->HTML_PATH . 'index.php');
+      $_SESSION['content'] = "";
     }
 
     public function addHeadMessage($text, $type) {
