@@ -12,7 +12,8 @@ CREATE TABLE `item` (
   `tarif` decimal(5,2) DEFAULT NULL,
   `token` text,
   `cagnotte` tinyint(1) NOT NULL DEFAULT '0',
-  `liste_id` int(11) NOT NULL
+  `liste_id` int(11) NOT NULL,
+  PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
