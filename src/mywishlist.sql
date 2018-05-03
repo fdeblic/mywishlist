@@ -35,7 +35,7 @@ INSERT INTO `item` (`id`, `nom`, `descr`, `img`, `tarif`, `token`, `cagnotte`, `
 (12, 'Bijoux', 'Bijoux de manteau + Sous-verre pochette de disque + Lait après-soleil', 'bijoux.jpg', '29.00', '', 0, 2),
 (19, 'Jeu contacts', 'Jeu pour échange de contacts', 'contact.png', '5.00', '', 0, 0),
 (22, 'Concert', 'Un concert à Nancy', 'concert.jpg', '17.00', '', 0, 0),
-(24, 'Hôtel d\'Haussonville', 'Hôtel d\'Haussonville, au coeur de la Vieille ville à deux pas de la place Stanislas', 'hotel_haussonville_logo.jpg', '169.00', '', 0, 2),
+(24, "Hôtel dHaussonville", "Hôtel d'Haussonville, au coeur de la Vieille ville à deux pas de la place Stanislas", 'hotel_haussonville_logo.jpg', '169.00', '', 0, 2),
 (25, 'Boite de nuit', 'Discothèque, Boîte tendance avec des soirées à thème & DJ invités', 'boitedenuit.jpg', '32.00', '', 0, 1),
 (26, 'Planètes Laser', 'Laser game : Gilet électronique et pistolet laser comme matériel, vous voilà équipé.', 'laser.jpg', '15.00', '', 0, 1),
 (29, 'Sophie la giraffe', 'Giraffe en plastique pour bébés', NULL, '7.00', NULL, 0, 4),
@@ -55,8 +55,8 @@ CREATE TABLE `liste` (
 
 INSERT INTO `liste` (`no`, `user_id`, `titre`, `description`, `expiration`, `token`,`public`) VALUES
 (1,	1,	'Pour fêter le bac !',	'Pour un week-end à Nancy qui nous fera oublier les épreuves. ',	'2018-06-27',	'nosecure1', 1),
-(2,	2,	'Liste de mariage d\'Alice et Bob',	'Nous souhaitons passer un week-end royal à Nancy pour notre lune de miel :)',	'2018-06-30',	'nosecure2', 1),
-(3,	3,	'C\'est l\'anniversaire de Charlie',	'Pour lui préparer une fête dont il se souviendra :)',	'2017-12-12',	'nosecure3',1);
+(2,	2,	"Liste de mariage d'Alice et Bob",	'Nous souhaitons passer un week-end royal à Nancy pour notre lune de miel :)',	'2018-06-30',	'nosecure2', 1),
+(3,	3,	"C'est l\'anniversaire de Charlie",	'Pour lui préparer une fête dont il se souviendra :)',	'2017-12-12',	'nosecure3',1);
 
 CREATE TABLE IF NOT EXISTS `account` (
   `id_account` int(11) NOT NULL AUTO_INCREMENT,

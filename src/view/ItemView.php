@@ -6,7 +6,7 @@ namespace mywishlist\view;
     afficher un item passé en paramètre */
     function renderItem($item){
       $app = \Slim\Slim::getInstance();
-        $url = $url = $app->urlFor('list_aff',['id'=>$item->liste_id]);
+        $url = $app->urlFor('list_aff',['id'=>$item->liste_id]);
         $urlDelete = $app->urlFor('item_del',['id'=>$item->id]);
         $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id]);
         $content = "";
