@@ -84,20 +84,24 @@ namespace mywishlist\view;
         $descr = '';
         $tarif = '';
         $pot = false;
+        $img = '';
 
         if (isset($item)) {
             $nom = $item->nom;
             $descr = $item->descr;
             $tarif = $item->tarif;
             $pot = $item->cagnotte;
+            $img = $item->img;
+
         }
         $form =
-        "<form action='$url' method='POST'>
+        "<form action='$url' method='POST' enctype='multipart/form-data'>
           <input id='item_nom' name='item_nom' type='text' value='$nom' placeholder=\"Nom de l'item\">
           <textarea id='item_descr' name='item_descr' rows=\"10\" cols=\"50\" placeholder='Description'>$descr</textarea>
           <input id='item_tarif' name='item_tarif' type='text' value='$tarif' placeholder='Tarif'>
           <p><input id='item_pot' name='item_pot' type='radio' value='reserv' ".($pot?'':'checked').">Item à réserver
           <input id='item_pot' name='item_pot' type='radio' value='pot' ".($pot?'checked ':'').">Cagnotte sur l'item</p>
+          <input id='item_img' name='item_img' type='file' value='$img' placeholder='Image'>
           <input type='submit' value=\"$submit\">
         </form>";
 
