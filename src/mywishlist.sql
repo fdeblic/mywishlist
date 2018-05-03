@@ -84,3 +84,37 @@ CREATE TABLE IF NOT EXISTS `message_list` (
   `created_at` TIMESTAMP,
   PRIMARY KEY (`id_message`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+
+--
+-- Structure de la table `pot_participation`
+--
+
+DROP TABLE IF EXISTS `pot_participation`;
+CREATE TABLE `pot_participation` (
+  `id_pot_participation` int(11) NOT NULL,
+  `pot_id` int(11) NOT NULL,
+  `name` varchar(70) NOT NULL,
+  `amount` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Index pour les tables exportées
+--
+
+--
+-- Index pour la table `pot_participation`
+--
+ALTER TABLE `pot_participation`
+  ADD PRIMARY KEY (`id_pot_participation`);
+
+--
+-- AUTO_INCREMENT pour les tables exportées
+--
+
+--
+-- AUTO_INCREMENT pour la table `pot_participation`
+--
+ALTER TABLE `pot_participation`
+  MODIFY `id_pot_participation` int(11) NOT NULL AUTO_INCREMENT;
