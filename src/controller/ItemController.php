@@ -27,12 +27,14 @@ require_once 'vendor/autoload.php';
 
         $nom = filter_var($_POST['item_nom'],FILTER_SANITIZE_STRING);
         $descr = filter_var($_POST['item_descr'],FILTER_SANITIZE_STRING);
+        $pot = $_POST['item_pot'] == 'pot' ? true : false;
 
 
         $item->liste_id = $id;
         if (strlen($nom)> 0) $item->nom = $nom;
         if (strlen($descr) > 0) $item->descr = $descr;
         $item->tarif = $_POST['item_tarif'];
+        $item->cagnotte = $pot;
 
         $item->save();
         $view->renderItemCreated($item);
@@ -61,11 +63,13 @@ require_once 'vendor/autoload.php';
           $item = Item::where('id','=',$id)->first();
           $nom = filter_var($_POST['item_nom'],FILTER_SANITIZE_STRING);
           $descr = filter_var($_POST['item_descr'],FILTER_SANITIZE_STRING);
+          $pot = $_POST['item_pot'] == 'pot' ? true : false;
 
 
           if (strlen($nom)> 0) $item->nom = $nom;
           if (strlen($descr) > 0) $item->descr = $descr;
           $item->tarif = $_POST['item_tarif'];
+          $item->cagnotte = $pot;
           $item->save();
 
           $view->renderEditItem($item,$id);

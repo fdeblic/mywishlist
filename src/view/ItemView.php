@@ -83,16 +83,21 @@ namespace mywishlist\view;
         $nom = '';
         $descr = '';
         $tarif = '';
+        $pot = false;
+
         if (isset($item)) {
             $nom = $item->nom;
             $descr = $item->descr;
             $tarif = $item->tarif;
+            $pot = $item->cagnotte;
         }
         $form =
         "<form action='$url' method='POST'>
           <input id='item_nom' name='item_nom' type='text' value='$nom' placeholder=\"Nom de l'item\">
           <textarea id='item_descr' name='item_descr' rows=\"10\" cols=\"50\" placeholder='Description'>$descr</textarea>
           <input id='item_tarif' name='item_tarif' type='text' value='$tarif' placeholder='Tarif'>
+          <p><input id='item_pot' name='item_pot' type='radio' value='reserv' ".($pot?'':'checked').">Item à réserver
+          <input id='item_pot' name='item_pot' type='radio' value='pot' ".($pot?'checked ':'').">Cagnotte sur l'item</p>
           <input type='submit' value=\"$submit\">
         </form>";
 
