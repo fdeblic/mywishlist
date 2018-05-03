@@ -6,6 +6,7 @@
   use mywishlist\controller\ItemController as ItemController;
   use mywishlist\controller\MessageController as MessageController;
   use mywishlist\controller\AccountController as AccountController;
+  use mywishlist\controller\PotController as PotController;
   use mywishlist\models\Item as Item;
 
   use Illuminate\Database\Capsule\Manager as DB;
@@ -124,6 +125,10 @@
       $controller->getFormItem($id,null);
   })->name('item_editGet');
 
+  $app->post('/pot/:id/participate', function($id){
+      $controller = new PotController();
+      $controller->participatePot($id);
+  })->name('item_part_post');
 
   /**
   * Affichage de la page d'upload
