@@ -6,35 +6,40 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 DROP TABLE IF EXISTS `item`;
 CREATE TABLE `item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `liste_id` int(11) NOT NULL,
   `nom` text NOT NULL,
   `descr` text,
   `img` text,
-  `url` text,
   `tarif` decimal(5,2) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `token` text,
+  `cagnotte` tinyint(1) NOT NULL DEFAULT '0',
+  `liste_id` int(11) NOT NULL,
+  PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `item` (`id`, `liste_id`, `nom`, `descr`, `img`, `url`, `tarif`) VALUES
-(1,	2,	'Champagne',	'Bouteille de champagne + flutes + jeux à gratter',	'champagne.jpg',	'',	20.00 ),
-(2,	2,	'Musique',	'Partitions de piano à 4 mains',	'musique.jpg',	'',	25.00),
-(3,	2,	'Exposition',	'Visite guidée de l’exposition ‘REGARDER’ à la galerie Poirel',	'poirelregarder.jpg',	'',	14.00),
-(4,	3,	'Goûter',	'Goûter au FIFNL',	'gouter.jpg',	'',	20.00),
-(5,	3,	'Projection',	'Projection courts-métrages au FIFNL',	'film.jpg',	'',	10.00),
-(6,	2,	'Bouquet',	'Bouquet de roses et Mots de Marion Renaud',	'rose.jpg',	'',	16.00),
-(7,	2,	'Diner Stanislas',	'Diner à La Table du Bon Roi Stanislas (Apéritif /Entrée / Plat / Vin / Dessert / Café / Digestif,0)',	'bonroi.jpg',	'',	60.00),
-(8,	3,	'Origami',	'Baguettes magiques en Origami en buvant un thé',	'origami.jpg',	'',	12.00),
-(9,	3,	'Livres',	'Livre bricolage avec petits-enfants + Roman',	'bricolage.jpg',	'',	24.00),
-(10,	2,	'Diner  Grand Rue ',	'Diner au Grand’Ru(e,0) (Apéritif / Entrée / Plat / Vin / Dessert / Café,0)',	'grandrue.jpg',	'',	59.00),
-(11,	0,	'Visite guidée',	'Visite guidée personnalisée de Saint-Epvre jusqu’à Stanislas',	'place.jpg',	'',	11.00),
-(12,	2,	'Bijoux',	'Bijoux de manteau + Sous-verre pochette de disque + Lait après-soleil',	'bijoux.jpg',	'',	29.00),
-(19,	0,	'Jeu contacts',	'Jeu pour échange de contacts',	'contact.png',	'',	5.00),
-(22,	0,	'Concert',	'Un concert à Nancy',	'concert.jpg',	'',	17.00),
-(23,	1,	'Appart Hotel',	'Appart’hôtel Coeur de Ville, en plein centre-ville',	'apparthotel.jpg',	'',	56.00),
-(24,	2,	'Hôtel d\'Haussonville',	'Hôtel d\'Haussonville, au coeur de la Vieille ville à deux pas de la place Stanislas',	'hotel_haussonville_logo.jpg',	'',	169.00),
-(25,	1,	'Boite de nuit',	'Discothèque, Boîte tendance avec des soirées à thème & DJ invités',	'boitedenuit.jpg',	'',	32.00),
-(26,	1,	'Planètes Laser',	'Laser game : Gilet électronique et pistolet laser comme matériel, vous voilà équipé.',	'laser.jpg',	'',	15.00),
-(27,	1,	'Fort Aventure',	'Découvrez Fort Aventure à Bainville-sur-Madon, un site Accropierre unique en Lorraine ! Des Parcours Acrobatiques pour petits et grands, Jeu Mission Aventure, Crypte de Crapahute, Tyrolienne, Saut à l\'élastique inversé, Toboggan géant... et bien plus encore.',	'fort.jpg',	'',	25.00);
+--
+-- Contenu de la table `item`
+--
+
+INSERT INTO `item` (`id`, `nom`, `descr`, `img`, `tarif`, `token`, `cagnotte`, `liste_id`) VALUES
+(1, 'Champagne', 'Bouteille de champagne + flutes + jeux à gratter', 'champagne.jpg', '20.00', '', 0, 2),
+(2, 'Musique', 'Partitions de piano à 4 mains', 'musique.jpg', '25.00', '', 0, 2),
+(3, 'Exposition', 'Visite guidée de l’exposition ‘REGARDER’ à la galerie Poirel', 'poirelregarder.jpg', '14.00', '', 0, 2),
+(4, 'Goûter', 'Goûter au FIFNL', 'gouter.jpg', '20.00', '', 0, 3),
+(5, 'Projection', 'Projection courts-métrages au FIFNL', 'film.jpg', '10.00', '', 0, 3),
+(6, 'Bouquet', 'Bouquet de roses et Mots de Marion Renaud', 'rose.jpg', '16.00', '', 0, 2),
+(7, 'Diner Stanislas', 'Diner à La Table du Bon Roi Stanislas (Apéritif /Entrée / Plat / Vin / Dessert / Café / Digestif,0)', 'bonroi.jpg', '60.00', '', 0, 2),
+(8, 'Origami', 'Baguettes magiques en Origami en buvant un thé', 'origami.jpg', '12.00', '', 0, 3),
+(9, 'Livres', 'Livre bricolage avec petits-enfants + Roman', 'bricolage.jpg', '24.00', '', 0, 3),
+(10, 'Diner  Grand Rue ', 'Diner au Grand’Ru(e,0) (Apéritif / Entrée / Plat / Vin / Dessert / Café,0)', 'grandrue.jpg', '59.00', '', 0, 2),
+(11, 'Visite guidée', 'Visite guidée personnalisée de Saint-Epvre jusqu’à Stanislas', 'place.jpg', '11.00', '', 0, 0),
+(12, 'Bijoux', 'Bijoux de manteau + Sous-verre pochette de disque + Lait après-soleil', 'bijoux.jpg', '29.00', '', 0, 2),
+(19, 'Jeu contacts', 'Jeu pour échange de contacts', 'contact.png', '5.00', '', 0, 0),
+(22, 'Concert', 'Un concert à Nancy', 'concert.jpg', '17.00', '', 0, 0),
+(24, "Hôtel dHaussonville", "Hôtel d'Haussonville, au coeur de la Vieille ville à deux pas de la place Stanislas", 'hotel_haussonville_logo.jpg', '169.00', '', 0, 2),
+(25, 'Boite de nuit', 'Discothèque, Boîte tendance avec des soirées à thème & DJ invités', 'boitedenuit.jpg', '32.00', '', 0, 1),
+(26, 'Planètes Laser', 'Laser game : Gilet électronique et pistolet laser comme matériel, vous voilà équipé.', 'laser.jpg', '15.00', '', 0, 1),
+(29, 'Sophie la giraffe', 'Giraffe en plastique pour bébés', NULL, '7.00', NULL, 0, 4),
+(30, 'Voyage en mongolfière', 'Au dessu des châteaux de la Loire', NULL, '90.00', NULL, 0, 4);
 
 DROP TABLE IF EXISTS `liste`;
 CREATE TABLE `liste` (
@@ -44,13 +49,14 @@ CREATE TABLE `liste` (
   `description` text COLLATE utf8_unicode_ci,
   `expiration` date DEFAULT NULL,
   `token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `public` tinyint(1),
   PRIMARY KEY (`no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `liste` (`no`, `user_id`, `titre`, `description`, `expiration`, `token`) VALUES
-(1,	1,	'Pour fêter le bac !',	'Pour un week-end à Nancy qui nous fera oublier les épreuves. ',	'2018-06-27',	'nosecure1'),
-(2,	2,	'Liste de mariage d\'Alice et Bob',	'Nous souhaitons passer un week-end royal à Nancy pour notre lune de miel :)',	'2018-06-30',	'nosecure2'),
-(3,	3,	'C\'est l\'anniversaire de Charlie',	'Pour lui préparer une fête dont il se souviendra :)',	'2017-12-12',	'nosecure3');
+INSERT INTO `liste` (`no`, `user_id`, `titre`, `description`, `expiration`, `token`,`public`) VALUES
+(1,	1,	'Pour fêter le bac !',	'Pour un week-end à Nancy qui nous fera oublier les épreuves. ',	'2018-06-27',	'nosecure1', 1),
+(2,	2,	"Liste de mariage d'Alice et Bob",	'Nous souhaitons passer un week-end royal à Nancy pour notre lune de miel :)',	'2018-06-30',	'nosecure2', 1),
+(3,	3,	"C'est l\'anniversaire de Charlie",	'Pour lui préparer une fête dont il se souviendra :)',	'2017-12-12',	'nosecure3',1);
 
 CREATE TABLE IF NOT EXISTS `account` (
   `id_account` int(11) NOT NULL AUTO_INCREMENT,
@@ -61,9 +67,55 @@ CREATE TABLE IF NOT EXISTS `account` (
   `admin` tinyint(1) NOT NULL,
   `participant` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_account`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 INSERT INTO `account` (`id_account`, `nom`, `prenom`, `login`, `password`, `admin`, `participant`) VALUES
 (1, 'Spacher', 'Loïc', 'loic', 'seldpJxxtvI7E', 0, 1),
 (2, 'Moreau', 'Elise', 'elise', 'seldpJxxtvI7E', 0, 0),
 (3, 'de Blic', 'François', 'francois', 'seldpJxxtvI7E', 1, 1);
+
+
+
+CREATE TABLE IF NOT EXISTS `message_list` (
+  `id_message` int(11) NOT NULL AUTO_INCREMENT,
+  `list_id` int(11) NOT NULL,
+  `body` text COLLATE utf8_unicode_ci NOT NULL,
+  `id_creator` int(11) NOT NULL,
+  `updated_at` TIMESTAMP,
+  `created_at` TIMESTAMP,
+  PRIMARY KEY (`id_message`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+
+--
+-- Structure de la table `pot_participation`
+--
+
+DROP TABLE IF EXISTS `pot_participation`;
+CREATE TABLE `pot_participation` (
+  `id_pot_participation` int(11) NOT NULL,
+  `pot_id` int(11) NOT NULL,
+  `name` varchar(70) NOT NULL,
+  `amount` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Index pour les tables exportées
+--
+
+--
+-- Index pour la table `pot_participation`
+--
+ALTER TABLE `pot_participation`
+  ADD PRIMARY KEY (`id_pot_participation`);
+
+--
+-- AUTO_INCREMENT pour les tables exportées
+--
+
+--
+-- AUTO_INCREMENT pour la table `pot_participation`
+--
+ALTER TABLE `pot_participation`
+  MODIFY `id_pot_participation` int(11) NOT NULL AUTO_INCREMENT;

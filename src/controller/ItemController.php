@@ -17,22 +17,49 @@ require_once 'vendor/autoload.php';
 
       public function createItem($id){
         $view = new ItemView();
+        $item = new Item();
+        $img = $_FILES['item_img'];
 
         // Vérifie les données envoyées
         if (!isset($_POST['item_nom'])) $view->error("veuillez entrer un nom");
         if (!isset($_POST['item_descr'])) $view->error("veuillez entrer une description");
         if (!filter_var($_POST['item_tarif'], FILTER_VALIDATE_FLOAT)) $view->error("Votre tarif est invalide.");
+        if(isset($img)){
 
-        $item = new Item();
+
+            if($img['error']!=0)
+                $view->error("Erreur dans l'envoi de l'image");
+
+            if($img['size']>1E6) // 1Mo
+                $view->error("Fichier trop lourd");
+
+            $allowedTypes = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
+            $detectedType = exif_imagetype($img['tmp_name']);
+            if(!in_array($detectedType, $allowedTypes))
+                $view->error("Le fichier n'est pas une image");
+
+            /*if(file_exists("./img/".$img['name']))
+                $view->error("Le fichier est déjà présent");*/
+
+            if(!move_uploaded_file($img['tmp_name'],"./img/".$img['name']))
+                $view->error("Echec de l'upload");
+
+            $item->img = $img['name'];
+
+        }
+
 
         $nom = filter_var($_POST['item_nom'],FILTER_SANITIZE_STRING);
         $descr = filter_var($_POST['item_descr'],FILTER_SANITIZE_STRING);
+        $pot = $_POST['item_pot'] == 'pot' ? true : false;
 
 
         $item->liste_id = $id;
         if (strlen($nom)> 0) $item->nom = $nom;
         if (strlen($descr) > 0) $item->descr = $descr;
         $item->tarif = $_POST['item_tarif'];
+        $item->cagnotte = $pot;
+
 
         $item->save();
         $view->renderItemCreated($item);
@@ -54,18 +81,44 @@ require_once 'vendor/autoload.php';
       public function editItem($id){
           //Affiche l'item via la vue
           $view = new ItemView();
+          $item = Item::where('id','=',$id)->first();
+          $img = $_FILES['item_img'];
+
           if (!isset($_POST['item_nom'])) $view->error("veuillez entrer un nom");
           if (!isset($_POST['item_descr'])) $view->error("veuillez entrer une description");
           if (!filter_var($_POST['item_tarif'], FILTER_VALIDATE_FLOAT)) $view->error("Votre tarif est invalide.");
+          if(isset($img)){
 
-          $item = Item::where('id','=',$id)->first();
+              if($img['error']!=0)
+                  $view->error("Erreur dans l'envoi de l'image");
+
+              if($img['size']>1E6) // 1Mo
+                  $view->error("Fichier trop lourd");
+
+              $allowedTypes = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
+              $detectedType = exif_imagetype($img['tmp_name']);
+              if(!in_array($detectedType, $allowedTypes))
+                  $view->error("Le fichier n'est pas une image");
+
+              /*if(file_exists("./img/".$img['name']))
+                  $view->error("Le fichier est déjà présent");*/
+
+              if(!move_uploaded_file($img['tmp_name'],"./img/".$img['name']))
+                  $view->error("Echec de l'upload");
+
+              $item->img = $img['name'];
+
+          }
+
           $nom = filter_var($_POST['item_nom'],FILTER_SANITIZE_STRING);
           $descr = filter_var($_POST['item_descr'],FILTER_SANITIZE_STRING);
+          $pot = $_POST['item_pot'] == 'pot' ? true : false;
 
 
           if (strlen($nom)> 0) $item->nom = $nom;
           if (strlen($descr) > 0) $item->descr = $descr;
           $item->tarif = $_POST['item_tarif'];
+          $item->cagnotte = $pot;
           $item->save();
 
           $view->renderEditItem($item,$id);

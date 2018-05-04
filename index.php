@@ -4,7 +4,9 @@
   use mywishlist\controller\ListController as ListController;
   use mywishlist\controller\MainController as MainController;
   use mywishlist\controller\ItemController as ItemController;
+  use mywishlist\controller\MessageController as MessageController;
   use mywishlist\controller\AccountController as AccountController;
+  use mywishlist\controller\PotController as PotController;
   use mywishlist\models\Item as Item;
 
   use Illuminate\Database\Capsule\Manager as DB;
@@ -18,8 +20,6 @@
   $app = new \Slim\Slim();
   $app->config(['routes.case_sensitive' => false]);
 
-  $_SESSION['content'] = "";
-
     /**
     * Partie pour l'accueil
     */
@@ -32,23 +32,56 @@
    */
   $app->get('/lists', function() {
     // Displays all the existing wishlists
-    ListController::dispAllList();
-})->name('list_getPubLists');
+    $controller = new ListController();
+    $controller->dispAllList();
+  })->name('list_getPubLists');
+
+  $app->get('/list/creators', function() {
+    $controller = new ListController();
+    $controller->dispPublicCreators();
+  })->name('list_getCreators');
 
   $app->get('/lists/create', function() {
     // Creates a new list
-    ListController::editList(null);
-})->name('list_createGet');
+    $controller = new ListController();
+    $controller->getFormList(null);
+  })->name('list_createGet');
 
   $app->post('/lists/creer', function() {
     // Creates a wishlist with the data sent with POST
-    ListController::createList();
-})->name('list_createPost');
+    $controller = new ListController();
+    $controller->createList();
+  })->name('list_createPost');
 
   $app->get('/lists/:id', function($id){
       //Displays the list obtained with id
-      ListController::displayList($id);
+      $controller = new ListController();
+      $controller->displayList($id);
   })->name('list_aff');
+
+  //Edit list
+  $app->post('/list/:id/edit', function($id){
+      // Edit an list obtained by id
+      $controller = new ListController();
+      $controller->editList($id);
+  })->name('list_editPost');
+
+  $app->get('/list/:id/edit', function($id){
+      // Edit an list obtained by id
+      $controller = new ListController();
+      $controller->getFormList($id);
+  })->name('list_editGet');
+
+
+  $app->post('/list/:id/msg', function($list_id){
+      $controller = new MessageController();
+      $controller->createMessage($list_id);
+  })->name('list_addMsgPost');
+
+  $app->get('/list/:id/msg', function($list_id){
+      $controller = new MessageController();
+      $controller->getFormMessage($list_id);
+  })->name('list_addMsgGet');
 
   /**
    * Partie pour les items
@@ -61,37 +94,41 @@
 
   })->name('item_aff');
 
-  $app->get('/item/creer/:id', function($id){
+  $app->get('/item/:id/creer', function($id){
       // Create a new item
       $c = new ItemController();
       $c->getFormItem(null,$id);
 
   })->name('list_addItemGet');
 
-  $app->post('/item/creer/:id', function($id){
+  $app->post('/item/:id/creer', function($id){
       // Create an item with the data sent with POST
       $c = new ItemController();
       $c->createItem($id);
   })->name('list_addItemPost');
 
-  $app->get('/item/del/:id', function($id){
+  $app->get('/item/:id/del', function($id){
     //Delete an item obtained by id
     $controller  = new ItemController();
     $controller->delItem($id);
   })->name('item_del');
 
-  $app->post('/item/edit/:id', function($id){
+  $app->post('/item/:id/edit', function($id){
       // Edit an item obtained by id
      $controller = new ItemController();
       $controller->editItem($id);
   })->name('item_editPost');
 
-  $app->get('/item/edit/:id', function($id){
+  $app->get('/item/:id/edit', function($id){
       // Edit an item obtained by id
       $controller = new ItemController();
       $controller->getFormItem($id,null);
   })->name('item_editGet');
 
+  $app->post('/pot/:id/participate', function($id){
+      $controller = new PotController();
+      $controller->participatePot($id);
+  })->name('item_part_post');
 
   /**
   * Affichage de la page d'upload
@@ -117,10 +154,25 @@
      $ctrl->createAccountForm();
    })->name('acc_create_get');
 
+   $app->get('/account/edit', function() {
+     $ctrl = new AccountController();
+     $ctrl->edit('get');
+   })->name('acc_edit_get');
+
+   $app->post('/account/edit', function() {
+     $ctrl = new AccountController();
+     $ctrl->edit('post');
+   })->name('acc_edit_post');
+
    $app->post('/account/new', function() {
      $ctrl = new AccountController();
      $ctrl->insertNewAccount();
    })->name('acc_create_post');
+
+   $app->post('/account/delete', function() {
+     $ctrl = new AccountController();
+     $ctrl->delete();
+   })->name('acc_delete');
 
    $app->post('/auth', function() {
      $ctrl = new AccountController();
@@ -133,10 +185,4 @@
    }, function(){} )->name('acc_disconnect');
 
    $app->run();
-
-   // Session middleware
-  $app->add(function (Request $request, Response $response, $next) {
-      session_start();
-      return $next($request, $response);
-  });
 ?>

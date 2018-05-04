@@ -5,7 +5,7 @@ namespace mywishlist\models;
 class WishList extends \Illuminate\Database\Eloquent\Model {
 
     protected $table = 'liste';
-    protected $primary = 'id';
+    protected $primaryKey = 'no';
     public $timestamps = false;
 
     public function items() {
