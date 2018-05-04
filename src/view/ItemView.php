@@ -6,10 +6,13 @@ namespace mywishlist\view;
     afficher un item passé en paramètre */
     function renderItem($item){
       $app = \Slim\Slim::getInstance();
-        $url = $app->urlFor('list_aff',['id'=>$item->liste_id]);
-        $urlDelete = $app->urlFor('item_del',['id'=>$item->id]);
-        $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id]);
-        $content = "";
+      $url = $app->urlFor('list_aff',['id'=>$item->liste_id]);
+      $urlDelete = $app->urlFor('item_del',['id'=>$item->id]);
+      $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id]);
+      $urlPot = $app->urlFor('item_participate_post',['id'=>$item->id]);
+      //$urlReserv =
+      $content = "";
+
       if (!isset($item)){
           $content .= "<h3> Oups ! </h3>";
           $content .= "<p> L'objet sélectionné n'existe pas !</p>";
@@ -27,6 +30,19 @@ namespace mywishlist\view;
       $content .= "<p>Tarif : $item->tarif</p>";
       $content .= "<p><a href='$url'>Retour à la liste</a></p>";
       $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
+      if ($item->cagnotte) {
+        $login = '';
+        if (isset($_SESSION['user_login']))
+          $login = $_SESSION['user_login'];
+        $content .= "
+        <form action='$urlPot' method='POST'>
+          <p>Participer à la cagnotte :</p>
+          <input type='text' name='name' placeholder='Votre nom' value='$login'>
+          <input type='submit' value='Participer'>
+        </form>";
+      } else {
+        $content .= "<p><a href='$urlReserv'>Réserver l'item</a></p>";
+      }
       $content .= "<p><a href='$urlDelete'>Supprimer l'item </a></p>";
       $content .= "<div class=\"clear\"></div>";
 
