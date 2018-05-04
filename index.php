@@ -125,10 +125,10 @@
       $controller->getFormItem($id,null);
   })->name('item_editGet');
 
-  $app->post('/pot/:id/participate', function($id){
-      $controller = new PotController();
-      $controller->participatePot($id);
-  })->name('item_part_post');
+  $app->post('/item/:id/participate', function($id){
+    $controller = new PotController();
+    $controller->participatePot($id);
+  })->name('item_participate_post');
 
   /**
   * Affichage de la page d'upload

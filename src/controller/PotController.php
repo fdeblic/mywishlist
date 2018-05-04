@@ -1,13 +1,15 @@
 <?php
 namespace mywishlist\controller;
 
-class AccountController {
+class PotController {
   public function createPot() {
     echo "createPot";
   }
 
-  public function participatePot() {
-    echo "participatePot";
+  public function participatePot($id) {
+    $vue = new ItemView();
+    $vue->addHeadMessage("OK", "good");
+    $vue->renderItem();
   }
 }
 
