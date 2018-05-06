@@ -34,13 +34,15 @@ namespace mywishlist\view;
       $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
       if ($item->cagnotte) {
         $login = '';
+        $max = $item->maxParticipation();
         if (isset($_SESSION['user_login']))
           $login = $_SESSION['user_login'];
+
         $content .= "
         <form action='$urlPot' method='POST'>
           <p>Participer à la cagnotte :</p>
-          <input type='text' name='name' placeholder='Votre nom' value='$login' required>
-          <input type='number' name='amount' placeholder='Montant' min='1' max='$item->tarif' required>
+          <p>Pseudo : <input type='text' name='name' placeholder='Votre nom' value='$login' required></p>
+          <p>Montant : <input type='number' name='amount' placeholder='Montant (1 à $max €)' min='1' max='$max' required></p>
           <input type='submit' value='Participer'>
         </form>";
       } else {

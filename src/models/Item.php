@@ -12,5 +12,14 @@ class Item extends \Illuminate\Database\Eloquent\Model {
       return $this->belongsTo('mywishlist\models\WishList','liste_id','no');
     }
 
+    public function maxParticipation() {
+      if ($this->cagnotte == true) {
+        $somme = PotParticipation::where('pot_id','=',$this->id)->sum('amount');
+        return $this->tarif - $somme;
+      } else {
+        return 0;
+      }
+    }
+
 }
 ?>
