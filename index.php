@@ -72,6 +72,11 @@
       $controller->getFormList($id);
   })->name('list_editGet');
 
+  $app->get('/list/:id/del', function($id){
+      $controller = new ListController();
+      $controller->deleteList($id);
+  })->name('list_delete');
+
 
   $app->post('/list/:id/msg', function($list_id){
       $controller = new MessageController();
