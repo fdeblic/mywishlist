@@ -3,6 +3,23 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
+DROP TABLE IF EXISTS `liste`;
+CREATE TABLE `liste` (
+    `no` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) DEFAULT NULL,
+    `titre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+    `description` text COLLATE utf8_unicode_ci,
+    `expiration` date DEFAULT NULL,
+    `token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+    `public` tinyint(1),
+    PRIMARY KEY (`no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `liste` (`no`, `user_id`, `titre`, `description`, `expiration`, `token`,`public`) VALUES
+(1,	1,	'Pour fêter le bac !',	'Pour un week-end à Nancy qui nous fera oublier les épreuves. ',	'2018-06-27',	'nosecure1', 1),
+(2,	2,	"Liste de mariage d'Alice et Bob",	'Nous souhaitons passer un week-end royal à Nancy pour notre lune de miel :)',	'2018-06-30',	'nosecure2', 1),
+(3,	3,	"C'est l\'anniversaire de Charlie",	'Pour lui préparer une fête dont il se souviendra :)',	'2017-12-12',	'nosecure3',1);
+
 DROP TABLE IF EXISTS `item`;
 CREATE TABLE `item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -13,6 +30,7 @@ CREATE TABLE `item` (
   `token` text,
   `cagnotte` tinyint(1) NOT NULL DEFAULT '0',
   `liste_id` int(11) NOT NULL,
+  CONSTRAINT fk_liste_id FOREIGN KEY (liste_id) REFERENCES Liste(no) ON DELETE CASCADE,
   PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -31,32 +49,14 @@ INSERT INTO `item` (`id`, `nom`, `descr`, `img`, `tarif`, `token`, `cagnotte`, `
 (8, 'Origami', 'Baguettes magiques en Origami en buvant un thé', 'origami.jpg', '12.00', '', 0, 3),
 (9, 'Livres', 'Livre bricolage avec petits-enfants + Roman', 'bricolage.jpg', '24.00', '', 0, 3),
 (10, 'Diner  Grand Rue ', 'Diner au Grand’Ru(e,0) (Apéritif / Entrée / Plat / Vin / Dessert / Café,0)', 'grandrue.jpg', '59.00', '', 0, 2),
-(11, 'Visite guidée', 'Visite guidée personnalisée de Saint-Epvre jusqu’à Stanislas', 'place.jpg', '11.00', '', 0, 0),
+(11, 'Visite guidée', 'Visite guidée personnalisée de Saint-Epvre jusqu’à Stanislas', 'place.jpg', '11.00', '', 0, 2),
 (12, 'Bijoux', 'Bijoux de manteau + Sous-verre pochette de disque + Lait après-soleil', 'bijoux.jpg', '29.00', '', 0, 2),
-(19, 'Jeu contacts', 'Jeu pour échange de contacts', 'contact.png', '5.00', '', 0, 0),
-(22, 'Concert', 'Un concert à Nancy', 'concert.jpg', '17.00', '', 0, 0),
+(19, 'Jeu contacts', 'Jeu pour échange de contacts', 'contact.png', '5.00', '', 0, 1),
+(22, 'Concert', 'Un concert à Nancy', 'concert.jpg', '17.00', '', 0, 1),
 (24, "Hôtel dHaussonville", "Hôtel d'Haussonville, au coeur de la Vieille ville à deux pas de la place Stanislas", 'hotel_haussonville_logo.jpg', '169.00', '', 0, 2),
 (25, 'Boite de nuit', 'Discothèque, Boîte tendance avec des soirées à thème & DJ invités', 'boitedenuit.jpg', '32.00', '', 0, 1),
-(26, 'Planètes Laser', 'Laser game : Gilet électronique et pistolet laser comme matériel, vous voilà équipé.', 'laser.jpg', '15.00', '', 0, 1),
-(29, 'Sophie la giraffe', 'Giraffe en plastique pour bébés', NULL, '7.00', NULL, 0, 4),
-(30, 'Voyage en mongolfière', 'Au dessu des châteaux de la Loire', NULL, '90.00', NULL, 0, 4);
+(26, 'Planètes Laser', 'Laser game : Gilet électronique et pistolet laser comme matériel, vous voilà équipé.', 'laser.jpg', '15.00', '', 0, 1);
 
-DROP TABLE IF EXISTS `liste`;
-CREATE TABLE `liste` (
-  `no` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `titre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `description` text COLLATE utf8_unicode_ci,
-  `expiration` date DEFAULT NULL,
-  `token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `public` tinyint(1),
-  PRIMARY KEY (`no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-INSERT INTO `liste` (`no`, `user_id`, `titre`, `description`, `expiration`, `token`,`public`) VALUES
-(1,	1,	'Pour fêter le bac !',	'Pour un week-end à Nancy qui nous fera oublier les épreuves. ',	'2018-06-27',	'nosecure1', 1),
-(2,	2,	"Liste de mariage d'Alice et Bob",	'Nous souhaitons passer un week-end royal à Nancy pour notre lune de miel :)',	'2018-06-30',	'nosecure2', 1),
-(3,	3,	"C'est l\'anniversaire de Charlie",	'Pour lui préparer une fête dont il se souviendra :)',	'2017-12-12',	'nosecure3',1);
 
 CREATE TABLE IF NOT EXISTS `account` (
   `id_account` int(11) NOT NULL AUTO_INCREMENT,
