@@ -10,8 +10,12 @@
     // Affiche les listes existantes
     public function dispAllList() {
       // Récupère toutes les listes existantes dans la base de données
-      $lists = WishList::select('*')->get();
-
+      $lists = WishList::where('public','=', 1);
+      if (isset($_SESSION['user_login'])){
+          $user = Account::where('login','=',$_SESSION['user_login'])->first();
+          $lists = $lists->orWhere('user_id','=', $user->id_account);
+      }
+      $lists = $lists->get();
       // Affiche les listes via la vue
       $vue = new ListView();
       $vue->renderLists($lists);
@@ -113,7 +117,7 @@
         //WishList::select('no')->where('public','=',true)->get();
       )->get();
 
-      
+
       $vue->renderCreators($creators);
     }
   }
