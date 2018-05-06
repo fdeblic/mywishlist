@@ -70,13 +70,15 @@ use \mywishlist\models\Message as Message;
         </p>";
 
         $url_addMessage = $app->urlFor('list_addMsgPost',['id'=>$list->no]);
+        $url_deleteList = $app->urlFor('list_delete',['id'=>$list->no]);
         $content .= "
         <p>
             <a href='$url_addMessage'>Ajouter un message</a>
         </p>
         ";
         $url_modifyList = $app->urlFor('list_editGet',['id'=>$list->no]);
-        $content .= "<a href=\"$url_modifyList\">Modifier la liste</a>";
+        $content .= "<p><a href=\"$url_modifyList\">Modifier la liste</a></p>";
+        $content .= "<p><a href=\"$url_deleteList\">Supprimer la liste</a></p>";
 
         $messages = Message::where('list_id','=',$list->no)->get();
 
@@ -152,6 +154,12 @@ use \mywishlist\models\Message as Message;
         </form>";
 
         $_SESSION['content']  = $form;
+        parent::render();
+    }
+
+    public function renderListDelete(){
+        $content = 'La liste a été correctement supprimée.';
+        $_SESSION['content'] = $content;
         parent::render();
     }
 
