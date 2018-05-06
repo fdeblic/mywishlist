@@ -41,7 +41,7 @@ namespace mywishlist\view;
           <input type='submit' value='Participer'>
         </form>";
       } else {
-        $content .= "<p><a href='$urlReserv'>Réserver l'item</a></p>";
+        // $content .= "<p><a href='$urlReserv'>Réserver l'item</a></p>";
       }
       $content .= "<p><a href='$urlDelete'>Supprimer l'item </a></p>";
       $content .= "<div class=\"clear\"></div>";
