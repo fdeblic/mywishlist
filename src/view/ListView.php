@@ -43,6 +43,7 @@ use \mywishlist\models\Message as Message;
             return;
         }
         $url_addItem = $app->urlFor('list_addItemGet',['id'=>$list->no]);
+        $url_share = $app->urlFor('list_aff', ['id'=>$list->no]);
         $content  = "<h1> $list->titre</h1>";
         $content .= "<ol>";
         foreach($list->items as $item){
@@ -78,6 +79,7 @@ use \mywishlist\models\Message as Message;
         ";
         $url_modifyList = $app->urlFor('list_editGet',['id'=>$list->no]);
         $content .= "<p><a href=\"$url_modifyList\">Modifier la liste</a></p>";
+        $content .= "<p> Partager la liste : copier et envoyer le lien suivant : <i><u>http://".$_SERVER['SERVER_NAME'].$url_share."</u></i></p>";
         $content .= "<p><a href=\"$url_deleteList\">Supprimer la liste</a></p>";
 
         $messages = Message::where('list_id','=',$list->no)->get();
