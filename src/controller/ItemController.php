@@ -18,15 +18,15 @@ require_once 'vendor/autoload.php';
       public function createItem($id){
         $view = new ItemView();
         $item = new Item();
-        $img = $_FILES['item_img'];
 
         // Vérifie les données envoyées
         if (!isset($_POST['item_nom'])) $view->error("veuillez entrer un nom");
         if (!isset($_POST['item_descr'])) $view->error("veuillez entrer une description");
         if (!filter_var($_POST['item_tarif'], FILTER_VALIDATE_FLOAT)) $view->error("Votre tarif est invalide.");
-        if(isset($img)){
 
+        $img = $_FILES['item_img'];
 
+        if(is_uploaded_file($img['tmp_name'])){
             if($img['error']!=0)
                 $view->error("Erreur dans l'envoi de l'image");
 
@@ -82,13 +82,14 @@ require_once 'vendor/autoload.php';
           //Affiche l'item via la vue
           $view = new ItemView();
           $item = Item::where('id','=',$id)->first();
-          $img = $_FILES['item_img'];
 
           if (!isset($_POST['item_nom'])) $view->error("veuillez entrer un nom");
           if (!isset($_POST['item_descr'])) $view->error("veuillez entrer une description");
           if (!filter_var($_POST['item_tarif'], FILTER_VALIDATE_FLOAT)) $view->error("Votre tarif est invalide.");
-          if(isset($img)){
 
+          $img = $_FILES['item_img'];
+
+          if(is_uploaded_file($img['tmp_name'])){
               if($img['error']!=0)
                   $view->error("Erreur dans l'envoi de l'image");
 

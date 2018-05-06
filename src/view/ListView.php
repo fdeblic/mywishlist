@@ -156,7 +156,7 @@ use \mywishlist\models\Message as Message;
     }
 
     public function renderCreators($creators) {
-      $content = '<p> Liste des créateurs de liste publique </p>';
+      $content = '<p> Créateurs de listes publiques </p>';
       foreach ($creators as $key => $creator) {
         $content.= '<li>' . $creator->prenom . "</li><br>\n";
       }
