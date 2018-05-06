@@ -96,7 +96,13 @@
       $view->renderListEdited($wishlist);
     }
 
-    public static function getFormList($id){
+    public function deleteList($id){
+        $view = new ListView();
+        $wishlist = Wishlist::where('no','=',$id)->delete();
+        $view->renderListDelete();
+    }
+
+    public function getFormList($id){
         //Affiche la liste via la vue
         if (!isset($id)){
             $list = new WishList();
