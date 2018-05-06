@@ -6,6 +6,10 @@
   font-family: verdana, sans-serif;
 }
 
+a, a:visited, a:focus {
+  color: green;
+}
+
 html {
     background-color: lightgrey;
 }
@@ -53,6 +57,13 @@ body {
   width: 100px;
   padding: 5px 10px;
   border-bottom: 1px solid grey;
+  transition: 0.1s;
+  color: darkslategray;
+}
+
+#menu-navig li:hover {
+  color: white;
+  background-color: darkslategray;
 }
 
 /* Connection */
@@ -76,7 +87,8 @@ body {
   padding: 5px;
   margin: 2px;
 }
-#connectionForm input[type=submit] {
+#connectionForm input[type=submit],
+#inscriptionLink {
   padding: 5px 10px;
   font-weight: bold;
   font-size: 0.7em;
@@ -84,6 +96,10 @@ body {
   background-color: gray;
 }
 
+#inscriptionLink {
+  border-radius: 10px;
+  text-decoration: none;
+}
 
 /* FOOTER */
 footer {

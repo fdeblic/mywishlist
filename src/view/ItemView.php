@@ -10,7 +10,7 @@ namespace mywishlist\view;
       $urlDelete = $app->urlFor('item_del',['id'=>$item->id]);
       $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id]);
       $urlPot = $app->urlFor('item_participate_post',['id'=>$item->id]);
-      //$urlReserv =
+      $urlReserv = '';
       $content = "";
 
       if (!isset($item)){

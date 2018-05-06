@@ -63,7 +63,7 @@
           <input required placeholder='Login' type='text' name='acc_login'>
           <input required placeholder='******' type='password' name='acc_password'>
           <input type='submit' value='Connexion'>
-          <a href='".$app->urlFor('acc_create_get')."'>Inscription</a>
+          <a id='inscriptionLink' href='".$app->urlFor('acc_create_get')."'>Inscription</a>
         </form>";
       }
 
