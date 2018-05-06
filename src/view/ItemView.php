@@ -6,11 +6,6 @@ namespace mywishlist\view;
     afficher un item passé en paramètre */
     function renderItem($item){
       $app = \Slim\Slim::getInstance();
-      $url = $app->urlFor('list_aff',['id'=>$item->liste_id]);
-      $urlDelete = $app->urlFor('item_del',['id'=>$item->id]);
-      $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id]);
-      $urlPot = $app->urlFor('item_participate_post',['id'=>$item->id]);
-      $urlReserv = '';
       $content = "";
 
       if (!isset($item)){
@@ -20,6 +15,13 @@ namespace mywishlist\view;
           parent::render();
           return;
       }
+
+      $url = $app->urlFor('list_aff',['id'=>$item->liste_id]);
+      $urlDelete = $app->urlFor('item_del',['id'=>$item->id]);
+      $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id]);
+      $urlPot = $app->urlFor('item_participate_post',['id'=>$item->id]);
+      $urlReserv = '';
+
 
 
       if (isset($item->img)){
@@ -37,7 +39,8 @@ namespace mywishlist\view;
         $content .= "
         <form action='$urlPot' method='POST'>
           <p>Participer à la cagnotte :</p>
-          <input type='text' name='name' placeholder='Votre nom' value='$login'>
+          <input type='text' name='name' placeholder='Votre nom' value='$login' required>
+          <input type='number' name='amount' placeholder='Montant' min='1' max='$item->tarif' required>
           <input type='submit' value='Participer'>
         </form>";
       } else {
