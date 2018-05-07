@@ -206,12 +206,12 @@
   $app->post('/auth', function() {
    $ctrl = new AccountController();
    $ctrl->connect();
-  }, function(){} )->name('acc_auth');
+  })->name('acc_auth');
 
   // Se déconnecter
   $app->get('/disconnect', function() {
    $ctrl = new AccountController();
    $ctrl->disconnect();
-  }, function(){} )->name('acc_disconnect');
+  })->name('acc_disconnect');
 
   $app->run();
