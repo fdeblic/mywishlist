@@ -98,37 +98,37 @@
   $app->get('/item/:id/:token', function($id, $token){
       //Display item obtained with id
       $c = new ItemController();
-      $c->displayItem($id);
+      $c->displayItem($id, $token);
   })->name('item_aff');
 
-  $app->get('/item/creer/:id/:token', function($id, $token){
+  $app->get('/list/:id/:token/creerItem', function($idList, $tokenList){
       // Create a new item
       $c = new ItemController();
-      $c->getFormItem(null,$id);
+      $c->getFormCreateItem($idList, $tokenList);
   })->name('list_addItemGet');
 
-  $app->post('/item/creer/:id/:token', function($id, $token){
+  $app->post('/list/:id/:token/creerItem', function($idList, $tokenList){
       // Create an item with the data sent with POST
       $c = new ItemController();
-      $c->createItem($id);
+      $c->createItem($idList, $tokenList);
   })->name('list_addItemPost');
 
   $app->get('/item/del/:id/:token', function($id, $token){
     //Delete an item obtained by id
     $controller  = new ItemController();
-    $controller->delItem($id);
+    $controller->delItem($id, $token);
   })->name('item_del');
 
-  $app->post('/item/edit/:id/:token', function($id, $token){
+  $app->post('/item/:id/:token/edit', function($id, $token){
       // Edit an item obtained by id
      $controller = new ItemController();
-     $controller->editItem($id);
+     $controller->editItem($id, $token);
   })->name('item_editPost');
 
-  $app->get('/item/edit/:id/:token', function($id, $token){
+  $app->get('/item/:id/:token/edit', function($idItem, $tokenItem){
       // Edit an item obtained by id
       $controller = new ItemController();
-      $controller->getFormItem($id,null);
+      $controller->getFormItem($idItem, $tokenItem);
   })->name('item_editGet');
 
   $app->post('/item/participate/:id/:token', function($id, $token){

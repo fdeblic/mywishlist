@@ -2,6 +2,10 @@
   namespace mywishlist\view;
 
   class AccountView extends GlobalView {
+    function __construct() {
+      parent::__construct();
+    }
+
     function printConnectionForm() {
       echo "[connection form]";
     }

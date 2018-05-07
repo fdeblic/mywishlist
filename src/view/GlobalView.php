@@ -4,26 +4,31 @@
   class GlobalView {
     protected $isAdmin = false;
     protected $HTML_PATH = "src/view/html/";
-    protected $messages = "";
+
+    function __construct() {
+      if (!isset($_SESSION['messages']))
+        $_SESSION['messages'] = '';
+    }
 
     public function render() {
       \mywishlist\controller\AccountController::generateAccountHeader();
-      $_SESSION['content'] = $this->messages . $_SESSION['content'];
+      $_SESSION['content'] = $_SESSION['messages'] . $_SESSION['content'];
       include($this->HTML_PATH . 'index.php');
       $_SESSION['content'] = "";
+      $_SESSION['messages'] = "";
     }
 
     public function addHeadMessage($text, $type) {
       switch ($type) {
         case 'bad':
-          $this->messages .= "<p class='headMsg_bad'> $text </p>";
+          $_SESSION['messages'] .= "<p class='headMsg_bad'> $text </p>";
         break;
         case 'good':
-          $this->messages .= "<p class='headMsg_good'> $text </p>";
+          $_SESSION['messages'] .= "<p class='headMsg_good'> $text </p>";
         break;
         case 'neutral':
         default:
-          $this->messages .= "<p class='headMsg'> $text </p>";
+          $_SESSION['messages'] .= "<p class='headMsg'> $text </p>";
         break;
       }
     }

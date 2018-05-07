@@ -4,6 +4,7 @@ namespace mywishlist\view;
   class MainView extends GlobalView {
 
     function __construct() {
+      parent::__construct();
     }
 
     /* Génère le contenu HTML pour afficher une

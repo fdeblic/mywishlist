@@ -3,6 +3,10 @@ namespace mywishlist\view;
 use \mywishlist\models\WishList as WishList;
 
   class ItemView extends GlobalView{
+    function __construct() {
+      parent::__construct();
+    }
+
     /* Génère le contenu HTML pour
     afficher un item passé en paramètre */
     function renderItem($item){
@@ -19,7 +23,7 @@ use \mywishlist\models\WishList as WishList;
 
       $url = $app->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
       $urlDelete = $app->urlFor('item_del',['id'=>$item->id, 'token'=>$item->liste->token]);
-      $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id, 'token'=>$item->liste->token]);
+      $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id, 'token'=>$item->token]);
       $urlPot = $app->urlFor('item_participate_post',['id'=>$item->id]);
       $urlReserv = '';
 
@@ -97,7 +101,7 @@ use \mywishlist\models\WishList as WishList;
         parent::render();
     }
 
-    function renderFormItem($item,$list_id){
+    function renderFormItem($item, $list){
         $form = "";
         $nom = '';
         $descr = '';
@@ -113,21 +117,27 @@ use \mywishlist\models\WishList as WishList;
             $pot = $item->cagnotte;
             $url_item = $item->url;
             $img = $item->img;
+            $url = \Slim\Slim::getInstance()->urlFor("item_editPost",[
+              'id' => $item->id,
+              'token' => $item->token]);
+        } else {
+            $url = \Slim\Slim::getInstance()->urlFor('list_addItemPost', [
+              'id' => $list->no,
+              'token' => $list->token]);
         }
 
-        $url = '';
-        if (isset($item->id)) {
-            $url = \Slim\Slim::getInstance()->urlFor("item_editPost",['id'=>$item->id, 'token'=>$item->liste->token]);
+        /*if (isset($item->id)) {
+            $url = \Slim\Slim::getInstance()->urlFor("item_editPost",['id'=>$item->id, 'token'=>$item->token]);
         }
         else {
-            $url = \Slim\Slim::getInstance()->urlFor('list_addItemPost',['id'=>$list_id, 'token'=>$item->liste->token]);
-        }
+            $url = \Slim\Slim::getInstance()->urlFor('list_addItemPost',['id'=>$item->list_id, 'token'=>$item->liste->token]);
+        }*/
         $valueSubmit = isset($item->id) ? "Modifier l'item" : "Créer l'item";
 
         $form =
         "<form action='$url' method='POST' enctype='multipart/form-data'>
           <input id='item_nom' name='item_nom' type='text' value='$nom' placeholder=\"Nom de l'item\">
-          <textarea id='item_descr' name='item_descr' rows=\"10\" cols=\"50\" placeholder='Description'>$descr</textarea>
+          <textarea id='item_descr' name='item_descr' rows='10' cols='50' placeholder='Description'>$descr</textarea>
           <input id='item_tarif' name='item_tarif' type='text' value='$tarif' placeholder='Tarif'>
           <input type='text' name='url_item' value='$url_item' placeholder='Lien'\>
           <p><input id='item_pot' name='item_pot' type='radio' value='reserv' ".($pot?'':'checked').">Item à réserver
@@ -136,7 +146,7 @@ use \mywishlist\models\WishList as WishList;
           <input type='submit' value='$valueSubmit'>
         </form>";
 
-        $_SESSION['content']  = $form;
+        $_SESSION['content'] = $form;
         parent::render();
     }
 

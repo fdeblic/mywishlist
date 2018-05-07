@@ -6,6 +6,7 @@ use \mywishlist\models\Message as Message;
   class ListView extends GlobalView {
 
     function __construct() {
+      parent::__construct();
     }
 
     /* Génère le contenu HTML pour afficher une

@@ -4,6 +4,7 @@ namespace mywishlist\view;
   class MessageView extends GlobalView {
 
     function __construct() {
+      parent::__construct();
     }
 
 

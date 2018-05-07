@@ -4,6 +4,7 @@ namespace mywishlist\view;
   class ImageView extends GlobalView {
 
     function __construct() {
+      parent::__construct();
     }
 
     /* Génère le contenu HTML pour la page d'upload
