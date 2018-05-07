@@ -42,8 +42,6 @@ use \mywishlist\models\WishList as WishList;
           $item->url
          </a>
       </p>";
-      $content .= "<p><a href='$url'>Retour à la liste</a></p>";
-      $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
       if (isset($item->img)) $content .= "<p><a href='$urlDelImg'>Supprimer l'image</a></p>";
       if ($item->cagnotte) {
         $login = '';

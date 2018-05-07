@@ -131,7 +131,7 @@
       $controller->getFormItem($idItem, $tokenItem);
   })->name('item_editGet');
 
-  $app->get('/item/:id/delimg', function($id){
+  $app->get('/item/:id/delImg', function($id){
     // Delete an object's image obtained by id of the obect
     $controller = new ItemController();
     $controller->delImg($id);

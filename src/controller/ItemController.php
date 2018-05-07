@@ -1,10 +1,10 @@
 <?php
 namespace mywishlist\controller;
-require_once 'vendor/autoload.php';
 
   use \mywishlist\models\Item as Item;
   use \mywishlist\models\WishList as WishList;
   use \mywishlist\view\ItemView as ItemView;
+  use \mywishlist\view\ListView as ListView;
 
   class ItemController{
 
@@ -146,14 +146,23 @@ require_once 'vendor/autoload.php';
           }
       }
 
-      public function delItem($id){
-        $view = new ItemView();
+      public function delItem($idItem, $tokenItem) {
+        $view = new ListView();
+        $item = Item::where('id','=',$idItem)->where('token','=',$tokenItem)->first();
 
-        $item = Item::where('id','=',$id)->first();
-        $itemdelete = $item->delete();
+        if (!isset($item))
+          $view->error('Item inexistant');
 
-        $view = new ItemView();
-        //$view->renderDelItem($item);
+        $list = $item->liste;
+
+        if (isset($item) && $item->delete()) {
+          $view->addHeadMessage('Votre item a bien été supprimé', 'good');
+          $view->renderList($list);
+        } else {
+          $view = new ItemView();
+          $view->addHeadMessage("Votre item n'a pas pu être supprimé", 'bad');
+          $view->renderFormItem($item, $liste);
+        }
       }
 
       public function delImg($id){
