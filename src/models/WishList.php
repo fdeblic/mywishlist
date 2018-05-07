@@ -11,5 +11,9 @@ class WishList extends \Illuminate\Database\Eloquent\Model {
     public function items() {
       return $this->hasMany('mywishlist\models\Item','liste_id','no');
     }
+
+    public static function token($id) {
+      return WishList::where('no','=',$id)->first()->token;
+    }
   }
 ?>
