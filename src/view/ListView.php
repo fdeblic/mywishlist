@@ -77,7 +77,7 @@ use \mywishlist\models\Message as Message;
             <a href='$url_addMessage'>Ajouter un message</a>
         </p>
         ";
-        $url_modifyList = $app->urlFor('list_editGet',['id'=>$list->no]);
+        $url_modifyList = $app->urlFor('list_editGet',['id'=>$list->no, 'token'=>$list->token]);
         $content .= "<p><a href=\"$url_modifyList\">Modifier la liste</a></p>";
         $content .= "<p> Partager la liste : copier et envoyer le lien suivant : <i><u>http://".$_SERVER['SERVER_NAME'].$url_share."</u></i></p>";
         $content .= "<p><a href=\"$url_deleteList\">Supprimer la liste</a></p>";
@@ -124,7 +124,7 @@ use \mywishlist\models\Message as Message;
     function renderFormList($list) {
         $url = '';
         if (isset($list->no)){
-            $url = \Slim\Slim::getInstance()->urlFor('list_editPost',['id'=>$list->no]);
+            $url = \Slim\Slim::getInstance()->urlFor('list_editPost',['id'=>$list->no, 'token'=>$list->token]);
         }
         else{
             $url = \Slim\Slim::getInstance()->urlFor('list_createPost');
