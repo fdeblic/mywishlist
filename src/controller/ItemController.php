@@ -51,13 +51,16 @@ require_once 'vendor/autoload.php';
 
         $nom = filter_var($_POST['item_nom'],FILTER_SANITIZE_STRING);
         $descr = filter_var($_POST['item_descr'],FILTER_SANITIZE_STRING);
+        if(isset($_POST['url_item']))  $url_item = filter_var($_POST['url_item'],FILTER_VALIDATE_URL);
         $pot = $_POST['item_pot'] == 'pot' ? true : false;
 
 
         $item->liste_id = $id;
         if (strlen($nom)> 0) $item->nom = $nom;
         if (strlen($descr) > 0) $item->descr = $descr;
+
         $item->tarif = $_POST['item_tarif'];
+        if(isset($_POST['url_item'])) $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
         $item->cagnotte = $pot;
 
 
@@ -101,24 +104,22 @@ require_once 'vendor/autoload.php';
               if(!in_array($detectedType, $allowedTypes))
                   $view->error("Le fichier n'est pas une image");
 
-              /*if(file_exists("./img/".$img['name']))
-                  $view->error("Le fichier est déjà présent");*/
-
               if(!move_uploaded_file($img['tmp_name'],"./img/".$img['name']))
                   $view->error("Echec de l'upload");
 
               $item->img = $img['name'];
-
           }
 
           $nom = filter_var($_POST['item_nom'],FILTER_SANITIZE_STRING);
           $descr = filter_var($_POST['item_descr'],FILTER_SANITIZE_STRING);
+          if(isset($_POST['url_item']))  $url_item = filter_var($_POST['url_item'],FILTER_VALIDATE_URL);
           $pot = $_POST['item_pot'] == 'pot' ? true : false;
 
 
           if (strlen($nom)> 0) $item->nom = $nom;
           if (strlen($descr) > 0) $item->descr = $descr;
           $item->tarif = $_POST['item_tarif'];
+          if(isset($_POST['url_item'])) $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
           $item->cagnotte = $pot;
           $item->save();
 
