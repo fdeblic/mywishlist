@@ -38,9 +38,6 @@ require_once 'vendor/autoload.php';
             if(!in_array($detectedType, $allowedTypes))
                 $view->error("Le fichier n'est pas une image");
 
-            /*if(file_exists("./img/".$img['name']))
-                $view->error("Le fichier est déjà présent");*/
-
             if(!move_uploaded_file($img['tmp_name'],"./img/".$img['name']))
                 $view->error("Echec de l'upload");
 
@@ -110,6 +107,8 @@ require_once 'vendor/autoload.php';
               $item->img = $img['name'];
           }
 
+          if(isset($_POST['img_del'])) $item->img = NULL;
+
           $nom = filter_var($_POST['item_nom'],FILTER_SANITIZE_STRING);
           $descr = filter_var($_POST['item_descr'],FILTER_SANITIZE_STRING);
           if(isset($_POST['url_item']))  $url_item = filter_var($_POST['url_item'],FILTER_VALIDATE_URL);
@@ -135,6 +134,9 @@ require_once 'vendor/autoload.php';
         $view = new ItemView();
         $view->renderDelItem($item);
       }
+
+
+      
   }
 
 
