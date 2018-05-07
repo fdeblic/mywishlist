@@ -121,7 +121,7 @@
   $app->post('/item/:id/edit', function($id){
       // Edit an item obtained by id
      $controller = new ItemController();
-      $controller->editItem($id);
+     $controller->editItem($id);
   })->name('item_editPost');
 
   $app->get('/item/:id/edit', function($id){
@@ -129,6 +129,12 @@
       $controller = new ItemController();
       $controller->getFormItem($id,null);
   })->name('item_editGet');
+
+  $app->get('/item/:id/delimg', function($id){
+    // Delete an object's image obtained by id of the obect
+    $controller = new ItemController();
+    $controller->delImg($id);
+  })->name('item_delImg');
 
   $app->post('/item/:id/participate', function($id){
     $controller = new PotController();
