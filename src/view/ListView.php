@@ -47,7 +47,7 @@ use \mywishlist\models\Message as Message;
         $content  = "<h1> $list->titre</h1>";
         $content .= "<ol>";
         foreach($list->items as $item){
-            $url_rendItem = $app->urlFor('item_aff',['id'=>$item->id]);
+            $url_rendItem = $app->urlFor('item_aff',['id'=>$item->id, 'token'=>$item->token]);
             $url_delItem = $app->urlFor('item_del',['id'=>$item->id]);
             $content .= "
             <li>
