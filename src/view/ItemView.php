@@ -30,6 +30,12 @@ namespace mywishlist\view;
       $content .= "<h1> $item->nom </h1>";
       $content .= "<p class=\"description-item\">$item->descr</p>";
       $content .= "<p>Tarif : $item->tarif</p>";
+      if (isset($item->url)) $content .= "
+      <p>Lien :
+         <a href='$item->url' target=_blank>
+          $item->url
+         </a>
+      </p>";
       $content .= "<p><a href='$url'>Retour à la liste</a></p>";
       $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
       if ($item->cagnotte) {
@@ -105,6 +111,7 @@ namespace mywishlist\view;
         $descr = '';
         $tarif = '';
         $pot = false;
+        $url_item = '';
         $img = '';
 
         if (isset($item)) {
@@ -112,6 +119,7 @@ namespace mywishlist\view;
             $descr = $item->descr;
             $tarif = $item->tarif;
             $pot = $item->cagnotte;
+            $url_item = $item->url;
             $img = $item->img;
 
         }
@@ -120,6 +128,7 @@ namespace mywishlist\view;
           <input id='item_nom' name='item_nom' type='text' value='$nom' placeholder=\"Nom de l'item\">
           <textarea id='item_descr' name='item_descr' rows=\"10\" cols=\"50\" placeholder='Description'>$descr</textarea>
           <input id='item_tarif' name='item_tarif' type='text' value='$tarif' placeholder='Tarif'>
+          <input type='text' name='url_item' value='$url_item' placeholder='Lien'\>
           <p><input id='item_pot' name='item_pot' type='radio' value='reserv' ".($pot?'':'checked').">Item à réserver
           <input id='item_pot' name='item_pot' type='radio' value='pot' ".($pot?'checked ':'').">Cagnotte sur l'item</p>
           <input id='item_img' name='item_img' type='file' value='$img' placeholder='Image'>
