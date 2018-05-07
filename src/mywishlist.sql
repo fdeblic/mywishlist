@@ -98,7 +98,7 @@ CREATE TABLE `pot_participation` (
   `pot_id` int(11) NOT NULL,
   `name` varchar(70) NOT NULL,
   `amount` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Index pour les tables exportées
