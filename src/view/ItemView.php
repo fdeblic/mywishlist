@@ -18,7 +18,7 @@ use \mywishlist\models\WishList as WishList;
       }
 
       $url = $app->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>WishList::token($item->liste_id)]);
-      $urlDelete = $app->urlFor('item_del',['id'=>$item->id]);
+      $urlDelete = $app->urlFor('item_del',['id'=>$item->id, 'token'=>WishList::token($item->liste_id)]);
       $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id]);
       $urlPot = $app->urlFor('item_participate_post',['id'=>$item->id]);
       $urlReserv = '';
