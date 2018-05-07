@@ -21,8 +21,8 @@
       $vue->renderLists($lists);
     }
 
-    public function displayList($id){
-        $list = WishList::where('no','=',$id)->first();
+    public function displayList($id, $token) {
+        $list = WishList::where('no','=',$id)->where('token','=',$token)->first();
 
         //Affiche la liste via la vue
         $vue = new ListView();
@@ -67,7 +67,7 @@
 
 
     //Editer la liste par les données passées en post
-    public function editList($id){
+    public function editList($id, $token) {
       $view = new ListView();
 
       // Vérifie les données envoyées
@@ -87,7 +87,11 @@
 
       // Crée la nouvelle liste
       $user = Account::where('login','=',$_SESSION['user_login'])->first();
-      $wishlist = WishList::where('no','=',$id)->first();
+      $wishlist = WishList::where('no','=',$id)->where('token','=',$token)->first();
+
+      if ($wishlist == null)
+        $view->error('cette liste n\'existe pas');
+
       $wishlist->titre =  filter_var($_POST['list_title'],FILTER_SANITIZE_STRING);
       $wishlist->description = filter_var($_POST['list_descr'],FILTER_SANITIZE_STRING);
       $wishlist->expiration = $expiration;
@@ -96,19 +100,27 @@
       $view->renderListEdited($wishlist);
     }
 
-    public function deleteList($id){
+    public function deleteList($id, $token) {
         $view = new ListView();
-        $wishlist = Wishlist::where('no','=',$id)->delete();
-        $view->renderListDelete();
+        $wishlist = Wishlist::where('no','=',$id)->where('token','=',$token)->first();
+
+        if ($wishlist == null)
+          $view->error("la liste n'exite pas");
+
+        if ($wishlist->delete())
+          $view->renderListDelete();
+        else {
+          $view->error('impossible de supprimer la liste');
+        }
     }
 
-    public function getFormList($id){
+    public function getFormList($id, $token) {
         //Affiche la liste via la vue
         if (!isset($id)){
             $list = new WishList();
         }
         else{
-            $list = WishList::where('no','=',$id)->first();
+            $list = WishList::where('no','=',$id)->where('token','=',$token)->first();
         }
         $vue = new ListView();
         $vue->renderFormList($list);

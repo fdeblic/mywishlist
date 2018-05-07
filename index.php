@@ -44,7 +44,7 @@
   $app->get('/list/create', function() {
     // Creates a new list
     $controller = new ListController();
-    $controller->getFormList(null);
+    $controller->getFormList(null, null);
   })->name('list_createGet');
 
   $app->post('/list/create', function() {
@@ -56,25 +56,25 @@
   $app->get('/list/:id/:token', function($id, $token){
       //Displays the list obtained with id
       $controller = new ListController();
-      $controller->displayList($id);
+      $controller->displayList($id, $token);
   })->name('list_aff');
 
   //Edit list
   $app->post('/list/edit/:id/:token', function($id, $token){
       // Edit an list obtained by id
       $controller = new ListController();
-      $controller->editList($id);
+      $controller->editList($id, $token);
   })->name('list_editPost');
 
   $app->get('/list/edit/:id/:token', function($id, $token){
       // Edit an list obtained by id
       $controller = new ListController();
-      $controller->getFormList($id);
+      $controller->getFormList($id, $token);
   })->name('list_editGet');
 
   $app->get('/list/del/:id/:token', function($id, $token){
       $controller = new ListController();
-      $controller->deleteList($id);
+      $controller->deleteList($id, $token);
   })->name('list_delete');
 
 
