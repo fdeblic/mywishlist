@@ -133,7 +133,7 @@ namespace mywishlist\view;
           <input id='item_pot' name='item_pot' type='radio' value='pot' ".($pot?'checked ':'').">Cagnotte sur l'item</p>
           <input id='item_img' name='item_img' type='file' value='$img' placeholder='Image'>";
         if (isset($item->img)){ $form .="<p> Supprimer l'image
-          <input id='img_del' name='img_del' type='radio' value='del' ".($pot?'':'')."> </p>";}
+          <input id='img_del' name='img_del' type='checkbox' value='del' ".($pot?'':'')."> </p>";}
         $form .="<input type='submit' value=\"$submit\">
         </form>";
 
