@@ -1,200 +1,217 @@
 <?php
   require_once 'vendor/autoload.php';
-  use mywishlist\view\GlobalView as GlobalView;
+
+  // Contrôleurs
   use mywishlist\controller\ListController as ListController;
   use mywishlist\controller\MainController as MainController;
   use mywishlist\controller\ItemController as ItemController;
   use mywishlist\controller\MessageController as MessageController;
   use mywishlist\controller\AccountController as AccountController;
   use mywishlist\controller\PotController as PotController;
-  use mywishlist\models\Item as Item;
 
+  // Base de données
   use Illuminate\Database\Capsule\Manager as DB;
-
   $db = new DB();
   $db->addConnection(parse_ini_file('src/conf/db.config.ini'));
   $db->setAsGlobal();
   $db->bootEloquent();
 
+  // Démarre la session
   session_start();
+
+  // Démarre Slim
   $app = new \Slim\Slim();
   $app->config(['routes.case_sensitive' => false]);
 
-    /**
-    * Partie pour l'accueil
-    */
+  /* --------
+    ROUTES
+  -------- */
+
+  // Page : accueil
   $app->get('/', function() {
     MainController::displayHome();
   })->name('home');
 
-  /**
-   * Partie pour les listes
-   */
+  /*
+    LISTES
+  */
+
+  // Page : affiche les listes publiques
   $app->get('/lists', function() {
-    // Displays all the existing wishlists
-    $controller = new ListController();
-    $controller->dispAllList();
+    $ctrl = new ListController();
+    $ctrl->dispAllList();
   })->name('list_getPubLists');
 
+  // Page : affiche les créateurs de liste publique
   $app->get('/list/creators', function() {
-    $controller = new ListController();
-    $controller->dispPublicCreators();
+    $ctrl = new ListController();
+    $ctrl->dispPublicCreators();
   })->name('list_getCreators');
 
+  // Page : créer une liste
   $app->get('/list/create', function() {
-    // Creates a new list
-    $controller = new ListController();
-    $controller->getFormList(null, null);
+    $ctrl = new ListController();
+    $ctrl->getFormList(null, null);
   })->name('list_createGet');
 
+  // Enregistre une nouvelle liste
   $app->post('/list/create', function() {
-    // Creates a wishlist with the data sent with POST
-    $controller = new ListController();
-    $controller->createList();
+    $ctrl = new ListController();
+    $ctrl->createList();
   })->name('list_createPost');
 
+  // Page : affiche une liste
   $app->get('/list/:id/:token', function($id, $token){
-      //Displays the list obtained with id
-      $controller = new ListController();
-      $controller->displayList($id, $token);
+    $ctrl = new ListController();
+    $ctrl->displayList($id, $token);
   })->name('list_aff');
 
-  //Edit list
-  $app->post('/list/edit/:id/:token', function($id, $token){
-      // Edit an list obtained by id
-      $controller = new ListController();
-      $controller->editList($id, $token);
-  })->name('list_editPost');
-
+  // Page : éditer une liste
   $app->get('/list/edit/:id/:token', function($id, $token){
-      // Edit an list obtained by id
-      $controller = new ListController();
-      $controller->getFormList($id, $token);
+    $ctrl = new ListController();
+    $ctrl->getFormList($id, $token);
   })->name('list_editGet');
 
+  // Enregistre les modifs d'une liste
+  $app->post('/list/edit/:id/:token', function($id, $token){
+    $ctrl = new ListController();
+    $ctrl->editList($id, $token);
+  })->name('list_editPost');
+
+  // Supprime une liste
   $app->get('/list/del/:id/:token', function($id, $token){
-      $controller = new ListController();
-      $controller->deleteList($id, $token);
+    $ctrl = new ListController();
+    $ctrl->deleteList($id, $token);
   })->name('list_delete');
 
-  /**
-   * Partie pour les messages de liste
-   */
+  /*
+    MESSAGES DE LISTE
+  */
 
-  $app->post('/list/msg/:id/:token', function($id, $token){
-      $controller = new MessageController();
-      $controller->createMessage($id, $token);
-  })->name('list_addMsgPost');
-
+  // Page : nouveau message
   $app->get('/list/msg/:id/:token', function($id, $token){
-      $controller = new MessageController();
-      $controller->getFormMessage($id, $token);
+    $ctrl = new MessageController();
+    $ctrl->getFormMessage($id, $token);
   })->name('list_addMsgGet');
 
-  /**
-   * Partie pour les items
-   */
+  // Ajouter un message à une liste
+  $app->post('/list/msg/:id/:token', function($id, $token){
+    $ctrl = new MessageController();
+    $ctrl->createMessage($id, $token);
+  })->name('list_addMsgPost');
 
+  /*
+    ITEMS
+  */
+
+  // Page : afficher un item
   $app->get('/item/:id/:token', function($id, $token){
-      //Display item obtained with id
-      $c = new ItemController();
-      $c->displayItem($id, $token);
+    $ctrl = new ItemController();
+    $ctrl->displayItem($id, $token);
   })->name('item_aff');
 
+  // Page : créer un item
   $app->get('/list/:id/:token/creerItem', function($idList, $tokenList){
-      // Create a new item
-      $c = new ItemController();
-      $c->getFormCreateItem($idList, $tokenList);
+    $ctrl = new ItemController();
+    $ctrl->getFormCreateItem($idList, $tokenList);
   })->name('list_addItemGet');
 
+  // Créer un nouvel item
   $app->post('/list/:id/:token/creerItem', function($idList, $tokenList){
-      // Create an item with the data sent with POST
-      $c = new ItemController();
-      $c->createItem($idList, $tokenList);
+    $ctrl = new ItemController();
+    $ctrl->createItem($idList, $tokenList);
   })->name('list_addItemPost');
 
+  // Supprimer un item
   $app->get('/item/del/:id/:token', function($id, $token){
-    //Delete an item obtained by id
-    $controller  = new ItemController();
-    $controller->delItem($id, $token);
+    $ctrl = new ItemController();
+    $ctrl->delItem($id, $token);
   })->name('item_del');
 
-  $app->post('/item/:id/:token/edit', function($id, $token){
-      // Edit an item obtained by id
-     $controller = new ItemController();
-     $controller->editItem($id, $token);
-  })->name('item_editPost');
-
+  // Page : éditer un item
   $app->get('/item/:id/:token/edit', function($idItem, $tokenItem){
-      // Edit an item obtained by id
-      $controller = new ItemController();
-      $controller->getFormItem($idItem, $tokenItem);
+    $ctrl = new ItemController();
+    $ctrl->getFormItem($idItem, $tokenItem);
   })->name('item_editGet');
 
+  // Enregistrer un item
+  $app->post('/item/:id/:token/edit', function($id, $token){
+    $ctrl = new ItemController();
+    $ctrl->editItem($id, $token);
+  })->name('item_editPost');
+
+  // Supprimer l'image d'un item
   $app->get('/item/:id/delImg', function($id){
-    // Delete an object's image obtained by id of the obect
-    $controller = new ItemController();
-    $controller->delImg($id);
+    $ctrl = new ItemController();
+    $ctrl->delImg($id);
   })->name('item_delImg');
 
+  // Participer à une cagnotte
   $app->post('/item/participate/:id/:token', function($id, $token){
-    $controller = new PotController();
-    $controller->participatePot($id);
+    $ctrl = new PotController();
+    $ctrl->participatePot($id);
   })->name('item_participate_post');
 
-  /**
-  * Affichage de la page d'upload
+  /*
+    IMAGES
   */
+
+  // Page : formulaire d'envoi d'image
   $app->get('/image', function(){
-      $controller = new MainController();
-      $controller->getFormUploadImg( );
+    $ctrl = new MainController();
+    $ctrl->getFormUploadImg( );
   })->name('pot_addImg_get');
 
-  /**
-  * Upload d'une image
-  */
+  // Enregistrer une image
   $app->post('/image', function(){
-      $controller = new MainController();
-      $controller->uploadImg();
+    $ctrl = new MainController();
+    $ctrl->uploadImg();
   })->name('pot_addImg_post');
 
-  /**
-   * Partie pour les comptes utilisateurs
-   */
-   $app->get('/account/new', function() {
-     $ctrl = new AccountController();
-     $ctrl->createAccountForm();
-   })->name('acc_create_get');
+  /*
+    COMPTES
+  */
 
-   $app->get('/account/edit', function() {
-     $ctrl = new AccountController();
-     $ctrl->edit('get');
-   })->name('acc_edit_get');
+  // Page : créer un compte
+  $app->get('/account/new', function() {
+   $ctrl = new AccountController();
+   $ctrl->createAccountForm();
+  })->name('acc_create_get');
 
-   $app->post('/account/edit', function() {
-     $ctrl = new AccountController();
-     $ctrl->edit('post');
-   })->name('acc_edit_post');
+  // Enregistrer le nouveau compte
+  $app->post('/account/new', function() {
+   $ctrl = new AccountController();
+   $ctrl->insertNewAccount();
+  })->name('acc_create_post');
 
-   $app->post('/account/new', function() {
-     $ctrl = new AccountController();
-     $ctrl->insertNewAccount();
-   })->name('acc_create_post');
+  // Page : modifier un compte
+  $app->get('/account/edit', function() {
+   $ctrl = new AccountController();
+   $ctrl->edit('get');
+  })->name('acc_edit_get');
 
-   $app->post('/account/delete', function() {
-     $ctrl = new AccountController();
-     $ctrl->delete();
-   })->name('acc_delete');
+  // Enregistrer les modifications
+  $app->post('/account/edit', function() {
+   $ctrl = new AccountController();
+   $ctrl->edit('post');
+  })->name('acc_edit_post');
 
-   $app->post('/auth', function() {
-     $ctrl = new AccountController();
-     $ctrl->connect();
-   }, function(){} )->name('acc_auth');
+  // Supprimer un compte
+  $app->post('/account/delete', function() {
+   $ctrl = new AccountController();
+   $ctrl->delete();
+  })->name('acc_delete');
 
-   $app->get('/disconnect', function() {
-     $ctrl = new AccountController();
-     $ctrl->disconnect();
-   }, function(){} )->name('acc_disconnect');
+  // S'authentifier
+  $app->post('/auth', function() {
+   $ctrl = new AccountController();
+   $ctrl->connect();
+  }, function(){} )->name('acc_auth');
 
-   $app->run();
-?>
+  // Se déconnecter
+  $app->get('/disconnect', function() {
+   $ctrl = new AccountController();
+   $ctrl->disconnect();
+  }, function(){} )->name('acc_disconnect');
+
+  $app->run();
