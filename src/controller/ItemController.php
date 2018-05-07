@@ -108,7 +108,6 @@ require_once 'vendor/autoload.php';
                   $view->error("Echec de l'upload");
 
               $item->img = $img['name'];
-
           }
 
           $nom = filter_var($_POST['item_nom'],FILTER_SANITIZE_STRING);
