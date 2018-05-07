@@ -41,96 +41,94 @@
     $controller->dispPublicCreators();
   })->name('list_getCreators');
 
-  $app->get('/lists/create', function() {
+  $app->get('/list/create', function() {
     // Creates a new list
     $controller = new ListController();
     $controller->getFormList(null);
   })->name('list_createGet');
 
-  $app->post('/lists/creer', function() {
+  $app->post('/list/create', function() {
     // Creates a wishlist with the data sent with POST
     $controller = new ListController();
     $controller->createList();
   })->name('list_createPost');
 
-  $app->get('/lists/:id', function($id){
+  $app->get('/list/:id/:token', function($id, $token){
       //Displays the list obtained with id
       $controller = new ListController();
       $controller->displayList($id);
   })->name('list_aff');
 
   //Edit list
-  $app->post('/list/:id/edit', function($id){
+  $app->post('/list/edit/:id/:token', function($id, $token){
       // Edit an list obtained by id
       $controller = new ListController();
       $controller->editList($id);
   })->name('list_editPost');
 
-  $app->get('/list/:id/edit', function($id){
+  $app->get('/list/edit/:id/:token', function($id, $token){
       // Edit an list obtained by id
       $controller = new ListController();
       $controller->getFormList($id);
   })->name('list_editGet');
 
-  $app->get('/list/:id/del', function($id){
+  $app->get('/list/del/:id/:token', function($id, $token){
       $controller = new ListController();
       $controller->deleteList($id);
   })->name('list_delete');
 
 
-  $app->post('/list/:id/msg', function($list_id){
+  $app->post('/list/msg/:id/:token', function($id, $token){
       $controller = new MessageController();
-      $controller->createMessage($list_id);
+      $controller->createMessage($id);
   })->name('list_addMsgPost');
 
-  $app->get('/list/:id/msg', function($list_id){
+  $app->get('/list/msg/:id/:token', function($id, $token){
       $controller = new MessageController();
-      $controller->getFormMessage($list_id);
+      $controller->getFormMessage($id);
   })->name('list_addMsgGet');
 
   /**
    * Partie pour les items
    */
 
-  $app->get('/items/:id', function($id){
+  $app->get('/item/:id/:token', function($id, $token){
       //Display item obtained with id
       $c = new ItemController();
       $c->displayItem($id);
-
   })->name('item_aff');
 
-  $app->get('/item/:id/creer', function($id){
+  $app->get('/item/creer/:id/:token', function($id, $token){
       // Create a new item
       $c = new ItemController();
       $c->getFormItem(null,$id);
-
   })->name('list_addItemGet');
 
-  $app->post('/item/:id/creer', function($id){
+  $app->post('/item/creer/:id/:token', function($id, $token){
       // Create an item with the data sent with POST
       $c = new ItemController();
       $c->createItem($id);
   })->name('list_addItemPost');
 
-  $app->get('/item/:id/del', function($id){
+  $app->get('/item/del/:id/:token', function($id, $token){
     //Delete an item obtained by id
     $controller  = new ItemController();
     $controller->delItem($id);
   })->name('item_del');
 
-  $app->post('/item/:id/edit', function($id){
+  $app->post('/item/edit/:id/:token', function($id, $token){
       // Edit an item obtained by id
      $controller = new ItemController();
-      $controller->editItem($id);
+     $controller->editItem($id);
   })->name('item_editPost');
 
-  $app->get('/item/:id/edit', function($id){
+  $app->get('/item/edit/:id/:token', function($id, $token){
       // Edit an item obtained by id
       $controller = new ItemController();
       $controller->getFormItem($id,null);
   })->name('item_editGet');
 
-  $app->post('/item/:id/participate', function($id){
+  $app->post('/item/participate/:id/:token', function($id, $token){
     $controller = new PotController();
     $controller->participatePot($id);
   })->name('item_participate_post');
