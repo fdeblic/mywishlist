@@ -70,7 +70,7 @@ use \mywishlist\models\Message as Message;
             <a href='$url_addItem'>Créer un item</a>
         </p>";
 
-        $url_addMessage = $app->urlFor('list_addMsgPost',['id'=>$list->no]);
+        $url_addMessage = $app->urlFor('list_addMsgPost',['id'=>$list->no, 'token'=>$list->token]);
         $url_deleteList = $app->urlFor('list_delete',['id'=>$list->no, 'token'=>$list->token]);
         $content .= "
         <p>

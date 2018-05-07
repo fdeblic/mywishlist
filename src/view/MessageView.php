@@ -1,5 +1,6 @@
 <?php
 namespace mywishlist\view;
+use \mywishlist\models\WishList as WishList;
 
   class MessageView extends GlobalView {
 
@@ -23,7 +24,7 @@ namespace mywishlist\view;
     /* Génère le contenu HTML pour afficher une
     liste passée en paramètre */
     function renderFormMessage($id) {
-        $url = \Slim\Slim::getInstance()->urlFor('list_addMsgPost',['id'=>$id]);
+        $url = \Slim\Slim::getInstance()->urlFor('list_addMsgPost',['id'=>$id, 'token'=>WishList::token($id)]);
         $form =
         "<form action='$url' method='POST'>
           <textarea id='message_body' name='message_body' rows=\"10\" cols=\"50\" placeholder='Entrez votre message'></textarea>
