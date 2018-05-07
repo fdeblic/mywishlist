@@ -1,6 +1,8 @@
 <?php
 namespace mywishlist\view;
 
+use \mywishlist\controller\AccountController as AccountController;
+
 class GlobalView {
 
   /*
@@ -25,9 +27,12 @@ class GlobalView {
     </form>";
   }
 
+  /*
+    Envoie la page générée au visiteur
+  */
   public function render() {
     // Génère les parties variables
-    \mywishlist\controller\AccountController::generateAccountHeader();
+    AccountController::generateAccountHeader();
     $_SESSION['globalViewContent'] = $_SESSION['messages'] . $_SESSION['globalViewContent'];
 
     // Création de la page
@@ -38,10 +43,16 @@ class GlobalView {
     $_SESSION['messages'] = "";
   }
 
+  /*
+    Ajoute du contenu à la page (dans la section associée)
+  */
   public function addContent($content) {
     $_SESSION['globalViewContent'] .= $content . "\r\n";
   }
 
+  /*
+    Récupère le contenu de la page
+  */
   public static function getContent() {
     if (isset($_SESSION['globalViewContent']))
       return $_SESSION['globalViewContent'];
@@ -49,6 +60,9 @@ class GlobalView {
       return "(pas de contenu généré)";
   }
 
+  /*
+    Ajoute un message à afficher juste au-dessus du contenu
+  */
   public function addHeadMessage($text, $type) {
     switch ($type) {
       case 'bad':
@@ -64,10 +78,16 @@ class GlobalView {
     }
   }
 
+  /*
+    Crée une erreur de connexion
+  */
   public function notConnectedError() {
     $this->error("veuillez vous connecter...");
   }
 
+  /*
+    Erreur : stoppe la génération de la page
+  */
   public function error($errorMessage) {
     $this->addHeadMessage("Erreur : $errorMessage", "bad");
     $_SESSION['globalViewContent'] = "";
