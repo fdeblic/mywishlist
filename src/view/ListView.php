@@ -101,23 +101,6 @@ use \mywishlist\models\Message as Message;
         parent::render();
     }
 
-    /* Rendu HTML de la liste créée */
-    function renderListCreated($list) {
-        if ($list == null)
-          error("Votre liste n'a pas pu être créée");
-
-        $_SESSION['content']  = "<h1> La liste <i>$list->titre</i> a bien été créée ! </h1>";
-        parent::render();
-    }
-
-    /* Rendu HTML de la liste éditée */
-    function renderListEdited($list) {
-        if ($list == null)
-          error("Votre liste n'a pas pu être éditée");
-
-        $_SESSION['content']  = "<h1> La liste <i>$list->titre</i> a bien été éditée ! </h1>";
-        parent::render();
-    }
 
     /* Génère le contenu HTML pour afficher une
     liste passée en paramètre */
@@ -145,23 +128,17 @@ use \mywishlist\models\Message as Message;
         $checked = $public ? 'checked' : '';
         $form =
         "<form action='$url' method='POST'>
-          <input id='list_title' name='list_title' type='text' value='$titre' placeholder='Titre de la liste'>
-          <textarea id='list_descr' name='list_descr' rows=\"10\" cols=\"50\" placeholder='Description'>$descr</textarea>
+          <input id='list_title' name='list_title' type='text' value='$titre' placeholder='Titre de la liste' required>
+          <textarea id='list_descr' name='list_descr' rows=\"10\" cols=\"50\" placeholder='Description' required>$descr</textarea>
           <div class='form-date'>
             <p> Date d'expiration </p>
-            <input id='list_expiration' name='list_expiration' type='date' value='$expiration'>
+            <input id='list_expiration' name='list_expiration' type='date' value='$expiration' required>
           </div>
           <label><input type=\"checkbox\" name=\"list_public\" $checked>Liste publique</label>
           <input type='submit' value='$submit'>
         </form>";
 
         $_SESSION['content']  = $form;
-        parent::render();
-    }
-
-    public function renderListDelete(){
-        $content = 'La liste a été correctement supprimée.';
-        $_SESSION['content'] = $content;
         parent::render();
     }
 
