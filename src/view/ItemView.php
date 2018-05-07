@@ -103,7 +103,7 @@ use \mywishlist\models\WishList as WishList;
             $url = \Slim\Slim::getInstance()->urlFor("item_editPost",['id'=>$item->id]);
         }
         else {
-            $url = \Slim\Slim::getInstance()->urlFor('list_addItemPost',['id'=>$list_id]);
+            $url = \Slim\Slim::getInstance()->urlFor('list_addItemPost',['id'=>$list_id, 'token'=>WishList::token($list_id)]);
         }
         $submit = isset($item->id) ? "Modifier l'item" : "Créer l'item";
 

@@ -42,13 +42,13 @@ use \mywishlist\models\Message as Message;
             parent::render();
             return;
         }
-        $url_addItem = $app->urlFor('list_addItemGet',['id'=>$list->no]);
+        $url_addItem = $app->urlFor('list_addItemGet',['id'=>$list->no, 'token'=>$list->token]);
         $url_share = $app->urlFor('list_aff', ['id'=>$list->no, 'token'=>$list->token]);
         $content  = "<h1> $list->titre</h1>";
         $content .= "<ol>";
         foreach($list->items as $item){
             $url_rendItem = $app->urlFor('item_aff',['id'=>$item->id, 'token'=>$item->token]);
-            $url_delItem = $app->urlFor('item_del',['id'=>$item->id]);
+            $url_delItem = $app->urlFor('item_del',['id'=>$item->id, 'token'=>$item->token]);
             $content .= "
             <li>
                 <a href='$url_rendItem'>
