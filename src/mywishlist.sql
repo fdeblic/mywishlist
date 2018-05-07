@@ -31,7 +31,7 @@ CREATE TABLE `item` (
   `url` text,
   `cagnotte` tinyint(1) NOT NULL DEFAULT '0',
   `liste_id` int(11) NOT NULL,
-  CONSTRAINT fk_liste_id FOREIGN KEY (liste_id) REFERENCES Liste(no) ON DELETE CASCADE,
+  CONSTRAINT fk_liste_id FOREIGN KEY (liste_id) REFERENCES liste(no) ON DELETE CASCADE,
   PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
