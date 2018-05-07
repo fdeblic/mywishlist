@@ -121,9 +121,14 @@ require_once 'vendor/autoload.php';
           $item->tarif = $_POST['item_tarif'];
           if(isset($_POST['url_item'])) $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
           $item->cagnotte = $pot;
-          $item->save();
-
-          $view->renderEditItem($item,$id);
+          if($item->save()){
+            $view->addHeadMessage("Votre item a bien été modifié", 'good');
+            $view->renderItem($item);
+          }
+          else{
+            $view->addHeadMessage("Votre item n'a pu être modifié", 'bad');
+            $this->getFormItem($item);
+          }
       }
 
       public function delItem($id){

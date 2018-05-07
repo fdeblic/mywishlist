@@ -83,23 +83,6 @@ namespace mywishlist\view;
         parent::render();
     }
 
-    /* Génère le contenu HTML pour afficher un
-    item édité passé en paramètre */
-    function renderEditItem($item) {
-        $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id]);
-        if ($item == null)
-          error("Votre item n'a pas pu être modifié");
-
-        $_SESSION['content']  = "<h1> L'item <i>$item->nom</i> a bien été modifié ! </h1>";
-        $_SESSION['content'] .= "
-        <p>
-            <a href='$url'>
-                Retour à la liste.
-            </a>
-        </p>";
-        parent::render();
-    }
-
     function renderFormItem($item,$list_id){
         $url = '';
         if (isset($item->id)) {
