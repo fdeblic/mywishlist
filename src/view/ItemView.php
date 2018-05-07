@@ -1,5 +1,6 @@
 <?php
 namespace mywishlist\view;
+use \mywishlist\models\WishList as WishList;
 
   class ItemView extends GlobalView{
     /* Génère le contenu HTML pour
@@ -16,7 +17,7 @@ namespace mywishlist\view;
           return;
       }
 
-      $url = $app->urlFor('list_aff',['id'=>$item->liste_id]);
+      $url = $app->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>WishList::token($item->liste_id)]);
       $urlDelete = $app->urlFor('item_del',['id'=>$item->id]);
       $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id]);
       $urlPot = $app->urlFor('item_participate_post',['id'=>$item->id]);
@@ -59,7 +60,7 @@ namespace mywishlist\view;
     /* Génère le contenu HTML pour afficher un
     item passé en paramètre */
     function renderItemCreated($item) {
-        $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id]);
+        $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>WishList::token($item->liste_id)]);
         if ($item == null)
           error("Votre item n'a pas pu être créé");
 
@@ -76,7 +77,7 @@ namespace mywishlist\view;
     /* Génère le contenu HTML pour afficher un
     item édité passé en paramètre */
     function renderEditItem($item) {
-        $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id]);
+        $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>WishList::token($item->liste_id)]);
         if ($item == null)
           error("Votre item n'a pas pu être modifié");
 
@@ -131,7 +132,7 @@ namespace mywishlist\view;
     }
 
     function renderDelItem($item){
-      $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id]);
+      $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>WishList::token($item->liste_id)]);
       if ($item == null)
         error("Votre item n'a pas pu être supprimé.");
 

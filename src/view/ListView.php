@@ -14,7 +14,7 @@ use \mywishlist\models\Message as Message;
       $content  = "<h1> Listes : </h1>";
       $content .= "<ol>";
       foreach ($lists as $list) {
-        $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no]);
+        $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
         $url_addList = \Slim\Slim::getInstance()->urlFor('list_createGet');
         $content .= "
         <li>
@@ -43,7 +43,7 @@ use \mywishlist\models\Message as Message;
             return;
         }
         $url_addItem = $app->urlFor('list_addItemGet',['id'=>$list->no]);
-        $url_share = $app->urlFor('list_aff', ['id'=>$list->no]);
+        $url_share = $app->urlFor('list_aff', ['id'=>$list->no, 'token'=>$list->token]);
         $content  = "<h1> $list->titre</h1>";
         $content .= "<ol>";
         foreach($list->items as $item){

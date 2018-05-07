@@ -13,7 +13,7 @@ namespace mywishlist\view;
         if ($message == null)
           error("Votre message n'a pas pu être créé");
 
-        $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$message->list_id]);
+        $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$message->list_id, 'token'=>\mywishlist\models\WishList::token($message->list_id)]);
         $content = "<h1> Le message a bien été publié ! </h1>";
         $content .= "<p><a href=\"$url_list\">Retour à la liste</a></p>";
         $_SESSION['content']  = $content;
