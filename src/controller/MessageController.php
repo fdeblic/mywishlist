@@ -9,18 +9,18 @@
 
   class MessageController {
 
-    public static function createMessage($list_id){
+    public static function createMessage($list_id, $token){
       $view = new MessageView();
-      $list = Wishlist::where('no','=',$list_id)->first();
+      $list = Wishlist::where('no','=',$list_id)->where('token','=',$token)->first();
+
+      if($list == null || !isset($list))
+        $view->error("La liste n'existe pas.");
 
       if (!isset($_SESSION['user_login']))
         $view->notConnectedError();
 
       if (!isset($_POST['message_body']))
         $view->error("veuillez entrer un message");
-
-      if(!isset($list))
-        $view->error("La liste n'existe pas.");
 
       $user = Account::where('login','=',$_SESSION['user_login'])->first();
       $message = new Message();
@@ -31,11 +31,17 @@
       $view->renderMessageCreated($message);
     }
 
-    public static function getFormMessage($id){
-
+    public static function getFormMessage($id, $token){
         //Affiche la liste via la vue
         $vue = new MessageView();
-        $vue->renderFormMessage($id);
+
+        if (!AccountController::isConnected())
+          $vue->notConnectedError();
+
+        if (Wishlist::where('no','=',$id)->where('token','=',$token)->first() == null)
+          $vue->error('la liste n\'existe pas');
+
+        $vue->renderFormMessage($id, $token);
 
     }
   }

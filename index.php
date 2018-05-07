@@ -77,15 +77,18 @@
       $controller->deleteList($id, $token);
   })->name('list_delete');
 
+  /**
+   * Partie pour les messages de liste
+   */
 
   $app->post('/list/msg/:id/:token', function($id, $token){
       $controller = new MessageController();
-      $controller->createMessage($id);
+      $controller->createMessage($id, $token);
   })->name('list_addMsgPost');
 
   $app->get('/list/msg/:id/:token', function($id, $token){
       $controller = new MessageController();
-      $controller->getFormMessage($id);
+      $controller->getFormMessage($id, $token);
   })->name('list_addMsgGet');
 
   /**
