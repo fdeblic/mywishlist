@@ -19,6 +19,7 @@ namespace mywishlist\view;
       $url = $app->urlFor('list_aff',['id'=>$item->liste_id]);
       $urlDelete = $app->urlFor('item_del',['id'=>$item->id]);
       $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id]);
+      $urlDelImg = $app->urlFor('item_delImg',['id'=>$item->id]);
       $urlPot = $app->urlFor('item_participate_post',['id'=>$item->id]);
       $urlReserv = '';
 
@@ -38,6 +39,7 @@ namespace mywishlist\view;
       </p>";
       $content .= "<p><a href='$url'>Retour à la liste</a></p>";
       $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
+      if (isset($item->img)) $content .= "<p><a href='$urlDelImg'>Supprimer l'image</a></p>";
       if ($item->cagnotte) {
         $login = '';
         $max = $item->maxParticipation();
@@ -113,6 +115,7 @@ namespace mywishlist\view;
         $pot = false;
         $url_item = '';
         $img = '';
+        $img_del = '';
 
         if (isset($item)) {
             $nom = $item->nom;
@@ -133,7 +136,7 @@ namespace mywishlist\view;
           <input id='item_pot' name='item_pot' type='radio' value='pot' ".($pot?'checked ':'').">Cagnotte sur l'item</p>
           <input id='item_img' name='item_img' type='file' value='$img' placeholder='Image'>";
         if (isset($item->img)){ $form .="<p> Supprimer l'image
-          <input id='img_del' name='img_del' type='checkbox' value='del' ".($pot?'':'')."> </p>";}
+          <input id='img_del' name='img_del' type='checkbox' value='del' ".($img_del?'':'')."> </p>";}
         $form .="<input type='submit' value=\"$submit\">
         </form>";
 
