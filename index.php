@@ -131,6 +131,12 @@
       $controller->getFormItem($idItem, $tokenItem);
   })->name('item_editGet');
 
+  $app->get('/item/:id/delimg', function($id){
+    // Delete an object's image obtained by id of the obect
+    $controller = new ItemController();
+    $controller->delImg($id);
+  })->name('item_delImg');
+
   $app->post('/item/participate/:id/:token', function($id, $token){
     $controller = new PotController();
     $controller->participatePot($id);

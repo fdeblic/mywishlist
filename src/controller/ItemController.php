@@ -39,9 +39,6 @@ require_once 'vendor/autoload.php';
             if(!in_array($detectedType, $allowedTypes))
                 $view->error("Le fichier n'est pas une image");
 
-            /*if(file_exists("./img/".$img['name']))
-                $view->error("Le fichier est déjà présent");*/
-
             if(!move_uploaded_file($img['tmp_name'],"./img/".$img['name']))
                 $view->error("Echec de l'upload");
 
@@ -126,6 +123,8 @@ require_once 'vendor/autoload.php';
               $item->img = $img['name'];
           }
 
+          if(isset($_POST['img_del'])) $item->img = NULL;
+
           $nom = filter_var($_POST['item_nom'],FILTER_SANITIZE_STRING);
           $descr = filter_var($_POST['item_descr'],FILTER_SANITIZE_STRING);
           if(isset($_POST['url_item']))  $url_item = filter_var($_POST['url_item'],FILTER_VALIDATE_URL);
@@ -137,9 +136,14 @@ require_once 'vendor/autoload.php';
           $item->tarif = $_POST['item_tarif'];
           if(isset($_POST['url_item'])) $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
           $item->cagnotte = $pot;
-          $item->save();
-
-          $view->renderEditItem($item,$id);
+          if($item->save()){
+            $view->addHeadMessage("Votre item a bien été modifié", 'good');
+            $view->renderItem($item);
+          }
+          else{
+            $view->addHeadMessage("Votre item n'a pu être modifié", 'bad');
+            $this->getFormItem($item);
+          }
       }
 
       public function delItem($id){
@@ -149,7 +153,22 @@ require_once 'vendor/autoload.php';
         $itemdelete = $item->delete();
 
         $view = new ItemView();
-        $view->renderDelItem($item);
+        //$view->renderDelItem($item);
+      }
+
+      public function delImg($id){
+        $view = new ItemView();
+
+        $item = Item::where('id','=',$id)->first();
+        $item->img = NULL;
+        if ($item->save()){
+            $view->addHeadMessage("Votre image a bien été supprimée.","good");
+            $view->renderItem($item);
+        }
+        else{
+            $view->addHeadMessage("Votre image n'a pas pu être supprimée.","bad");
+            $view->renderItem($item);
+        }
       }
   }
 

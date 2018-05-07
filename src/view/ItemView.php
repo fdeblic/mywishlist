@@ -24,6 +24,7 @@ use \mywishlist\models\WishList as WishList;
       $url = $app->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
       $urlDelete = $app->urlFor('item_del',['id'=>$item->id, 'token'=>$item->liste->token]);
       $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id, 'token'=>$item->token]);
+      $urlDelImg = $app->urlFor('item_delImg',['id'=>$item->id]);
       $urlPot = $app->urlFor('item_participate_post',['id'=>$item->id]);
       $urlReserv = '';
 
@@ -43,6 +44,7 @@ use \mywishlist\models\WishList as WishList;
       </p>";
       $content .= "<p><a href='$url'>Retour à la liste</a></p>";
       $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
+      if (isset($item->img)) $content .= "<p><a href='$urlDelImg'>Supprimer l'image</a></p>";
       if ($item->cagnotte) {
         $login = '';
         $max = $item->maxParticipation();
@@ -57,9 +59,11 @@ use \mywishlist\models\WishList as WishList;
           <input type='submit' value='Participer'>
         </form>";
       } else {
-        // $content .= "<p><a href='$urlReserv'>Réserver l'item</a></p>";
+        $content .= "<p><a href='$urlReserv'>Réserver l'item</a></p>";
       }
+      $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
       $content .= "<p><a href='$urlDelete'>Supprimer l'item </a></p>";
+      $content .= "<p><a href='$url'>Retour à la liste</a></p>";
       $content .= "<div class='clear'></div>";
 
 
@@ -109,6 +113,7 @@ use \mywishlist\models\WishList as WishList;
         $pot = false;
         $url_item = '';
         $img = '';
+        $img_del = '';
 
         if (isset($item)) {
             $nom = $item->nom;
@@ -142,29 +147,16 @@ use \mywishlist\models\WishList as WishList;
           <input type='text' name='url_item' value='$url_item' placeholder='Lien'\>
           <p><input id='item_pot' name='item_pot' type='radio' value='reserv' ".($pot?'':'checked').">Item à réserver
           <input id='item_pot' name='item_pot' type='radio' value='pot' ".($pot?'checked ':'').">Cagnotte sur l'item</p>
-          <input id='item_img' name='item_img' type='file' value='$img' placeholder='Image'>
-          <input type='submit' value='$valueSubmit'>
+          <input id='item_img' name='item_img' type='file' value='$img' placeholder='Image'>";
+        if (isset($item->img)){ $form .="<p> Supprimer l'image
+          <input id='img_del' name='img_del' type='checkbox' value='del' ".($img_del?'':'')."> </p>";}
+        $form .="<input type='submit' value='$valueSubmit'>
         </form>";
 
         $_SESSION['content'] = $form;
         parent::render();
     }
 
-    function renderDelItem($item){
-      $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
-      if ($item == null)
-        error("Votre item n'a pas pu être supprimé.");
-
-      $_SESSION['content'] = "<h1> L'item a bien été supprimé. </h1";
-      $_SESSION['content'] .= "
-      <p>
-          <a href='$url'>
-              Retour à la liste.
-          </a>
-      </p>";
-      parent::render();
-
-    }
 
   }
 

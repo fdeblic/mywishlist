@@ -11,22 +11,22 @@
     public function dispAllList() {
       // Récupère toutes les listes existantes dans la base de données
       $lists = WishList::where('public','=', 1);
-      if (isset($_SESSION['user_login'])){
+      if (AccountController::isConnected()){
           $user = Account::where('login','=',$_SESSION['user_login'])->first();
           $lists = $lists->orWhere('user_id','=', $user->id_account);
       }
       $lists = $lists->get();
       // Affiche les listes via la vue
-      $vue = new ListView();
-      $vue->renderLists($lists);
+      $view = new ListView();
+      $view->renderLists($lists);
     }
 
     public function displayList($id, $token) {
         $list = WishList::where('no','=',$id)->where('token','=',$token)->first();
 
         //Affiche la liste via la vue
-        $vue = new ListView();
-        $vue->renderList($list);
+        $view = new ListView();
+        $view->renderList($list);
 
     }
 
@@ -34,14 +34,8 @@
       $view = new ListView();
 
       // Vérifie les données envoyées
-      if (!isset($_SESSION['user_login']))
+      if ( !AccountController::isConnected())
         $view->notConnectedError();
-      if (!isset($_POST['list_title']))
-        $view->error("veuillez entrer un titre");
-      if (!isset($_POST['list_descr']))
-        $view->error("veuillez entrer une description");
-      if (!isset($_POST['list_expiration']))
-        $view->error("veuillez entrer une date d'expiration");
 
       // Transcrit la date reçue
       $expiration = date('Y-m-d', strtotime($_POST['list_expiration']));
@@ -61,8 +55,14 @@
         $_SESSION['user_login'] . "sel de mer"
       );
 
-      $wishlist->save();
-      $view->renderListCreated($wishlist);
+      if($wishlist->save()){
+        $view->addHeadMessage("Votre liste a bien été créée", 'good');
+        $view->renderList($wishlist);
+      }
+      else{
+        $view->addHeadMessage("Votre liste n'a pu être créée", 'bad');
+        $this->getFormList(null);
+      }
     }
 
 
@@ -71,14 +71,8 @@
       $view = new ListView();
 
       // Vérifie les données envoyées
-      if (!isset($_SESSION['user_login']))
+      if ( !AccountController::isConnected() )
         $view->notConnectedError();
-      if (!isset($_POST['list_title']))
-        $view->error("veuillez entrer un titre");
-      if (!isset($_POST['list_descr']))
-        $view->error("veuillez entrer une description");
-      if (!isset($_POST['list_expiration']))
-        $view->error("veuillez entrer une date d'expiration");
 
       // Transcrit la date reçue
       $expiration = date('Y-m-d', strtotime($_POST['list_expiration']));
@@ -96,8 +90,14 @@
       $wishlist->description = filter_var($_POST['list_descr'],FILTER_SANITIZE_STRING);
       $wishlist->expiration = $expiration;
       $wishlist->public = isset($_POST['list_public']) ? 1 : 0;
-      $wishlist->save();
-      $view->renderListEdited($wishlist);
+      if($wishlist->save()){
+        $view->addHeadMessage("Votre liste a bien été modifiée", 'good');
+        $view->renderList($wishlist);
+      }
+      else{
+        $view->addHeadMessage("Votre liste n'a pu être modifiée", 'bad');
+        $this->getFormList(null);
+      }
     }
 
     public function deleteList($id, $token) {
@@ -105,10 +105,12 @@
         $wishlist = Wishlist::where('no','=',$id)->where('token','=',$token)->first();
 
         if ($wishlist == null)
-          $view->error("la liste n'exite pas");
+          $view->error("la liste n'existe pas");
 
-        if ($wishlist->delete())
-          $view->renderListDelete();
+        if ($wishlist->delete()) {
+          $view->addHeadMessage("Votre liste a bien été supprimée", 'good');
+          $view->dispAllList();
+        }
         else {
           $view->error('impossible de supprimer la liste');
         }
