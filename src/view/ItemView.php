@@ -131,8 +131,10 @@ namespace mywishlist\view;
           <input type='text' name='url_item' value='$url_item' placeholder='Lien'\>
           <p><input id='item_pot' name='item_pot' type='radio' value='reserv' ".($pot?'':'checked').">Item à réserver
           <input id='item_pot' name='item_pot' type='radio' value='pot' ".($pot?'checked ':'').">Cagnotte sur l'item</p>
-          <input id='item_img' name='item_img' type='file' value='$img' placeholder='Image'>
-          <input type='submit' value=\"$submit\">
+          <input id='item_img' name='item_img' type='file' value='$img' placeholder='Image'>";
+        if (isset($item->img)){ $form .="<p> Supprimer l'image
+          <input id='img_del' name='img_del' type='radio' value='del' ".($pot?'':'')."> </p>";}
+        $form .="<input type='submit' value=\"$submit\">
         </form>";
 
         $_SESSION['content']  = $form;
