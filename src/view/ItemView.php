@@ -19,7 +19,7 @@ use \mywishlist\models\WishList as WishList;
 
       $url = $app->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>WishList::token($item->liste_id)]);
       $urlDelete = $app->urlFor('item_del',['id'=>$item->id, 'token'=>WishList::token($item->liste_id)]);
-      $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id]);
+      $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id, 'token'=>WishList::token($item->liste_id)]);
       $urlPot = $app->urlFor('item_participate_post',['id'=>$item->id]);
       $urlReserv = '';
 
@@ -100,7 +100,7 @@ use \mywishlist\models\WishList as WishList;
     function renderFormItem($item,$list_id){
         $url = '';
         if (isset($item->id)) {
-            $url = \Slim\Slim::getInstance()->urlFor("item_editPost",['id'=>$item->id]);
+            $url = \Slim\Slim::getInstance()->urlFor("item_editPost",['id'=>$item->id, 'token'=>WishList::token($item->liste_id)]);
         }
         else {
             $url = \Slim\Slim::getInstance()->urlFor('list_addItemPost',['id'=>$list_id, 'token'=>WishList::token($list_id)]);
