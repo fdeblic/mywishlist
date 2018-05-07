@@ -5,6 +5,7 @@ require_once 'vendor/autoload.php';
 use \mywishlist\models\Account as Account;
 use \mywishlist\view\AccountView as AccountView;
 use \mywishlist\view\GlobalView as GlobalView;
+use \mywishlist\view\MainView as MainView;
 
 class AccountController {
   private $errorMessage = "";
@@ -40,9 +41,12 @@ class AccountController {
 
     // Enregistre le nouveau compte
     if ($acc->save()) {
-      $vue->renderAccountCreated($acc);
+      $vue = new MainView();
+      $vue->addHeadMessage('Votre compte a bien été créé !', 'good');
+      $vue->render($acc);
     } else {
-      $vue->error("impossible de créer le compte");
+      $vue->addHeadMessage('Impossible de créer le compte', 'bad');
+      $vue->renderAccountEditor($acc);
     }
   }
 

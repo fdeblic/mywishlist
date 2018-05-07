@@ -17,7 +17,8 @@ namespace mywishlist\view;
             mais également aux listes privées auxquelles vous auriez été invités.
             Pour cela, merci de vous connecter.
         </p>";
-        $_SESSION['content'] = str_replace ("\n", "\n\t", $content)."\n";
+        $content = str_replace ("\n", "\n\t", $content)."\n";
+        $this->addContent($content);
         parent::render();
     }
  }

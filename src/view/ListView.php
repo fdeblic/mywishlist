@@ -28,7 +28,8 @@ use \mywishlist\models\Message as Message;
 
       $content .= "<a href=\"$url_addList\">Ajouter une liste</a>";
 
-      $_SESSION['content'] = str_replace ("\n", "\n\t", $content)."\n";
+      $content = str_replace("\n", "\n\t", $content)."\n";
+      $this->addContent($content);
       parent::render();
     }
 
@@ -39,7 +40,8 @@ use \mywishlist\models\Message as Message;
         if ($list == null){
             $content = "<h3>Oups !</h3>";
             $content .= "<p>La liste n'existe pas !</p>";
-            $_SESSION['content'] = str_replace ("\n", "\n\t", $content)."\n";
+            $content = str_replace("\n", "\n\t", $content)."\n";
+            $this->addContent($content);
             parent::render();
             return;
         }
@@ -98,7 +100,8 @@ use \mywishlist\models\Message as Message;
             ";
         }
 
-        $_SESSION['content'] = str_replace ("\n", "\n\t", $content)."\n";
+        $content = str_replace("\n", "\n\t", $content)."\n";
+        $this->addContent($content);
         parent::render();
     }
 
@@ -139,7 +142,8 @@ use \mywishlist\models\Message as Message;
           <input type='submit' value='$submit'>
         </form>";
 
-        $_SESSION['content']  = $form;
+        $content = str_replace("\n", "\n\t", $form)."\n";
+        $this->addContent($form);
         parent::render();
     }
 
@@ -148,7 +152,8 @@ use \mywishlist\models\Message as Message;
       foreach ($creators as $key => $creator) {
         $content.= '<li>' . $creator->prenom . "</li><br>\n";
       }
-      $_SESSION['content']  = $content;
+      $content = str_replace("\n", "\n\t", $content)."\n";
+      $this->addContent($content);
       parent::render();
     }
   }

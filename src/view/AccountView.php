@@ -35,7 +35,7 @@
         $participant = $account->participant;
       }
 
-      $_SESSION['content'] = "
+      $this->addContent("
       <form method='post' action='".$url."'>
         <input required type='text' placeholder='Login' name='acc_login' value='$login' ". ($connected ? 'disabled':'') .">
         <input required type='hidden' name='acc_id_account' value='$id_account'>
@@ -44,12 +44,12 @@
         <input type='password' minlength='8' placeholder='Mot de passe' name='acc_password' ". (!$connected ? 'required':'') .">
         <input type='password' minlength='8' placeholder='Confirmation mot de passe' name='acc_password_confirmation'". (!$connected ? 'required':'') .">
         <input type='submit' value='Enregistrer'>
-      </form>";
+      </form>");
 
       if ($connected) {
-        $_SESSION['content'] .= "<form method='post' action='".$app->urlFor('acc_delete')."'>
+        $this->addContent("<form method='post' action='".$app->urlFor('acc_delete')."'>
           <input type='submit' value='Supprimer mon compte'>
-        </form>";
+        </form>");
       }
 
       parent::render();
@@ -76,7 +76,6 @@
 
     public function renderAccountCreated($acc) {
       $this->addHeadMessage("Le compte '$acc->login' a bien été créé", 'good');
-      //$_SESSION['content'] = "<p> Le compte '$acc->login' a bien été créé </p>";
       parent::render();
     }
   }

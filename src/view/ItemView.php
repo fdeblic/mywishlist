@@ -16,7 +16,8 @@ use \mywishlist\models\WishList as WishList;
       if (!isset($item)){
           $content .= "<h3> Oups ! </h3>";
           $content .= "<p> L'objet sélectionné n'existe pas !</p>";
-          $_SESSION['content'] = str_replace ("\n", "\n\t", $content)."\n";
+          $content = str_replace ("\n", "\n\t", $content)."\n";
+          $this->addContent($content);
           parent::render();
           return;
       }
@@ -65,7 +66,8 @@ use \mywishlist\models\WishList as WishList;
       $content .= "<div class='clear'></div>";
 
 
-      $_SESSION['content'] = str_replace ("\n", "\n\t", $content)."\n";
+      $content = str_replace ("\n", "\n\t", $content)."\n";
+      $this->addContent($content);
       parent::render();
     }
 
@@ -76,13 +78,13 @@ use \mywishlist\models\WishList as WishList;
         if ($item == null)
           error("Votre item n'a pas pu être créé");
 
-        $_SESSION['content']  = "<h1> L'item <i>$item->nom</i> a bien été créé ! </h1>";
-        $_SESSION['content'] .= "
+        $this->addContent("<h1> L'item <i>$item->nom</i> a bien été créé ! </h1>");
+        $this->addContent("
         <p>
             <a href='$url'>
                 Retour à la liste.
             </a>
-        </p>";
+        </p>");
         parent::render();
     }
 
@@ -92,14 +94,13 @@ use \mywishlist\models\WishList as WishList;
         $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
         if ($item == null)
           error("Votre item n'a pas pu être modifié");
-
-        $_SESSION['content']  = "<h1> L'item <i>$item->nom</i> a bien été modifié ! </h1>";
-        $_SESSION['content'] .= "
+        $this->addContent("<h1> L'item <i>$item->nom</i> a bien été modifié ! </h1>");
+        $this->addContent("
         <p>
             <a href='$url'>
                 Retour à la liste.
             </a>
-        </p>";
+        </p>");
         parent::render();
     }
 
@@ -151,7 +152,7 @@ use \mywishlist\models\WishList as WishList;
         $form .="<input type='submit' value='$valueSubmit'>
         </form>";
 
-        $_SESSION['content'] = $form;
+        $this->addContent($form);
         parent::render();
     }
 

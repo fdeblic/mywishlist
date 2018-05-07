@@ -9,20 +9,44 @@ class GlobalView {
   function __construct() {
     if (!isset($_SESSION['messages']))
       $_SESSION['messages'] = '';
-    if (!isset($_SESSION['content']))
-      $_SESSION['content'] = '';
+    if (!isset($_SESSION['globalViewContent']))
+      $_SESSION['globalViewContent'] = '';
+  }
+
+  /*
+    Renvoie le code d'un bouton vers une url en POST ou GET uniquement
+  */
+  public function genererBouton($nom, $url, $methode, $className) {
+    $methode = strtoupper($methode);
+    if ($methode != 'GET' && $methode != 'POST')
+      return '[methode incorrecte]';
+    return "<form action='$url' method='$methode'>
+      <input type='submit' value='$nom' class='$className'>
+    </form>";
   }
 
   public function render() {
+    // Génère les parties variables
     \mywishlist\controller\AccountController::generateAccountHeader();
-    $_SESSION['content'] = $_SESSION['messages'] . $_SESSION['content'];
+    $_SESSION['globalViewContent'] = $_SESSION['messages'] . $_SESSION['globalViewContent'];
+
+    // Création de la page
     include('src/view/html/index.php');
-    $_SESSION['content'] = "";
+
+    // Reset des contenus pour la prochaine page
+    $_SESSION['globalViewContent'] = "";
     $_SESSION['messages'] = "";
   }
 
   public function addContent($content) {
-    $_SESSION['content'] .= $content . "\r\n";
+    $_SESSION['globalViewContent'] .= $content . "\r\n";
+  }
+
+  public static function getContent() {
+    if (isset($_SESSION['globalViewContent']))
+      return $_SESSION['globalViewContent'];
+    else
+      return "(pas de contenu généré)";
   }
 
   public function addHeadMessage($text, $type) {
@@ -46,7 +70,7 @@ class GlobalView {
 
   public function error($errorMessage) {
     $this->addHeadMessage("Erreur : $errorMessage", "bad");
-    $_SESSION['content'] = "";
+    $_SESSION['globalViewContent'] = "";
     $this->render();
     die();
   }

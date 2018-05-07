@@ -16,13 +16,13 @@ namespace mywishlist\view;
             <input type='file' name='image' id='image'>
             <input type='submit' value='Upload Image' name='submit'>
         </form>";
-        $_SESSION['content'] = $content;
+        $this->addContent($content);
         parent::render();
     }
 
     function renderUploadImage(){
         $content = "<p>Image correctement téléchargée.</p>";
-        $_SESSION['content'] = $content;
+        $this->addContent($content);
         parent::render();
     }
  }

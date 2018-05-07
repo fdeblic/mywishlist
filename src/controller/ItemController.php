@@ -63,8 +63,13 @@ namespace mywishlist\controller;
 
         $item->token = crypt($item->id, 'sel de mer');
 
-        $item->save();
-        $view->renderItemCreated($item);
+        if ($item->save()) {
+          $view->addHeadMessage("L'item a bien été enregistré", 'good');
+          $view->renderItem($item);
+        } else {
+          $view->addHeadMessage("Erreur lors de l'enregistrement", 'bad');
+          $view->renderFormItem($item, null);
+        }
       }
 
       public function getFormCreateItem($idList, $tokenList) {

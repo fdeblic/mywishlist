@@ -16,8 +16,8 @@ namespace mywishlist\view;
 
         $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$message->list_id, 'token'=>$message->liste->token]);
         $content = "<h1> Le message a bien été publié ! </h1>";
-        $content .= "<p><a href=\"$url_list\">Retour à la liste</a></p>";
-        $_SESSION['content']  = $content;
+        $content .= "<p><a href='$url_list'>Retour à la liste</a></p>";
+        $this->addContent($content);
         parent::render();
     }
 
@@ -32,7 +32,7 @@ namespace mywishlist\view;
           <input type='submit' value='Envoyer le message'>
         </form>";
 
-        $_SESSION['content']  = $form;
+        $this->addContent($form);
         parent::render();
     }
   }
