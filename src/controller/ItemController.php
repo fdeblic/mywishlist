@@ -135,8 +135,20 @@ require_once 'vendor/autoload.php';
         $view->renderDelItem($item);
       }
 
+      public function delImg($id){
+        $view = new ItemView();
 
-      
+        $item = Item::where('id','=',$id)->first();
+        $item->img = NULL;
+        if ($item->save()){
+            $view->addHeadMessage("Votre image a bien été supprimée.","good");
+            $view->renderItem($item);
+        }
+        else{
+            $view->addHeadMessage("Votre image n'a pas pu être supprimée.","bad");
+            $view->renderItem($item);
+        }
+      }
   }
 
 
