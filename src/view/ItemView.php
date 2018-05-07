@@ -144,21 +144,6 @@ namespace mywishlist\view;
         parent::render();
     }
 
-    function renderDelItem($item){
-      $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id]);
-      if ($item == null)
-        error("Votre item n'a pas pu être supprimé.");
-
-      $_SESSION['content'] = "<h1> L'item a bien été supprimé. </h1";
-      $_SESSION['content'] .= "
-      <p>
-          <a href='$url'>
-              Retour à la liste.
-          </a>
-      </p>";
-      parent::render();
-
-    }
 
   }
 
