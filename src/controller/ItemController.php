@@ -160,7 +160,7 @@ namespace mywishlist\controller;
         if (!isset($item))
           $view->error('Item inexistant');
 
-        $list = $item->liste();
+        $list = Wishlist::where('no','=',$item->liste_id)->first();
 
         if (isset($item) && $item->delete()) {
           $view->addHeadMessage('Votre item a bien été supprimé', 'good');
