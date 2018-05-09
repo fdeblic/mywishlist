@@ -201,13 +201,19 @@ namespace mywishlist\controller;
 
           $name =  filter_var($_POST['user_booking'],FILTER_SANITIZE_STRING);
           $message =  filter_var($_POST['booking_message'],FILTER_SANITIZE_STRING);
-          $item->user_booking = $name;
-          $item->message_booking = $message;
 
+          if(isset($item->user_booking)){
+              $view->addHeadMessage("L'item est déjà réservé", 'bad');
+              $view->renderItem($item);
+              return;
+          }
           if($item->save()){
+              $item->user_booking =  $name ;
+              $item->message_booking = $message;
               $view->addHeadMessage("L'item a bien été réservé",'good');
               $view->renderItem($item);
-          } else {
+          }
+          else {
               $view->addHeadMessage("L'item n'a pu être réservé", 'bad');
               $view->renderItem($item);
           }
