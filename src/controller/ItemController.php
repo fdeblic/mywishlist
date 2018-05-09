@@ -8,8 +8,8 @@ namespace mywishlist\controller;
 
   class ItemController{
 
-      public function displayItem($id, $token){
-          $item = Item::where('id','=',$id)->where('token','=',$token)->first();
+      public function displayItem($idItem, $tokenItem){
+          $item = Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
 
           //Affiche l'item via la vue
           $vue = new ItemView();
@@ -61,14 +61,15 @@ namespace mywishlist\controller;
         if(isset($_POST['url_item'])) $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
         $item->cagnotte = $pot;
 
-        $item->token = crypt($item->id, 'sel de mer');
 
         if ($item->save()) {
-          $view->addHeadMessage("L'item a bien été enregistré", 'good');
-          $view->renderItem($item);
+            $item->token = crypt($item->id, 'sel de mer');
+            $item->save();
+            $view->addHeadMessage("L'item a bien été enregistré", 'good');
+            $view->renderItem($item);
         } else {
-          $view->addHeadMessage("Erreur lors de l'enregistrement", 'bad');
-          $view->renderFormItem($item, null);
+            $view->addHeadMessage("Erreur lors de l'enregistrement", 'bad');
+            $view->renderFormItem($item, null);
         }
       }
 
@@ -92,7 +93,7 @@ namespace mywishlist\controller;
            $item = new Item();
         }
         else{
-           $item = Item::where('id','=',$idItem)->where('token','=',$tokenItem)->first();
+           $item = Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
            $list = $item->liste;
         }
         $view->renderFormItem($item, $list);
@@ -122,10 +123,11 @@ namespace mywishlist\controller;
               if(!in_array($detectedType, $allowedTypes))
                   $view->error("Le fichier n'est pas une image");
 
-              if(!move_uploaded_file($img['tmp_name'],"./img/".$img['name']))
+            $newfilename = $id.".".$token;
+              if(!move_uploaded_file($img['tmp_name'],"./img/".$newfilename))
                   $view->error("Echec de l'upload");
 
-              $item->img = $img['name'];
+              $item->img = $newfilename;
           }
 
           if(isset($_POST['img_del'])) $item->img = NULL;
@@ -153,12 +155,12 @@ namespace mywishlist\controller;
 
       public function delItem($idItem, $tokenItem) {
         $view = new ListView();
-        $item = Item::where('id','=',$idItem)->where('token','=',$tokenItem)->first();
+        $item = Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
 
         if (!isset($item))
           $view->error('Item inexistant');
 
-        $list = $item->liste;
+        $list = $item->liste();
 
         if (isset($item) && $item->delete()) {
           $view->addHeadMessage('Votre item a bien été supprimé', 'good');
@@ -166,14 +168,14 @@ namespace mywishlist\controller;
         } else {
           $view = new ItemView();
           $view->addHeadMessage("Votre item n'a pas pu être supprimé", 'bad');
-          $view->renderFormItem($item, $liste);
+          $view->renderFormItem($item, $list);
         }
       }
 
-      public function delImg($id){
+      public function delImg($idItem, $tokenItem){
         $view = new ItemView();
 
-        $item = Item::where('id','=',$id)->first();
+        $item =  Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
         $item->img = NULL;
         if ($item->save()){
             $view->addHeadMessage("Votre image a bien été supprimée.","good");
