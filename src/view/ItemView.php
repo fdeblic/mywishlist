@@ -23,9 +23,9 @@ use \mywishlist\models\WishList as WishList;
       }
 
       $url = $app->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
-      $urlDelete = $app->urlFor('item_del',['id'=>$item->id, 'token'=>$item->liste->token]);
+      $urlDelete = $app->urlFor('item_del',['id'=>$item->id, 'token'=>$item->token]);
       $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id, 'token'=>$item->token]);
-      $urlDelImg = $app->urlFor('item_delImg',['id'=>$item->id]);
+      $urlDelImg = $app->urlFor('item_delImg',['id'=>$item->id, 'token'=>$item->token]);
       $urlPot = $app->urlFor('item_participate_post',['id'=>$item->id]);
       $urlReserv = '';
 
@@ -130,12 +130,7 @@ use \mywishlist\models\WishList as WishList;
               'token' => $list->token]);
         }
 
-        /*if (isset($item->id)) {
-            $url = \Slim\Slim::getInstance()->urlFor("item_editPost",['id'=>$item->id, 'token'=>$item->token]);
-        }
-        else {
-            $url = \Slim\Slim::getInstance()->urlFor('list_addItemPost',['id'=>$item->list_id, 'token'=>$item->liste->token]);
-        }*/
+
         $valueSubmit = isset($item->id) ? "Modifier l'item" : "Créer l'item";
 
         $form =
