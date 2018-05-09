@@ -8,7 +8,12 @@ namespace mywishlist\controller;
 
   class ItemController{
 
-      public function displayItem($idItem, $tokenItem){
+      /**
+       * Afficher un item
+       * @param  $idItem    l'id de l'item
+       * @param  $tokenItem le token de l'item
+       */
+      function displayItem($idItem, $tokenItem){
           $item = Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
 
           //Affiche l'item via la vue
@@ -16,7 +21,12 @@ namespace mywishlist\controller;
           $vue->renderItem($item);
       }
 
-      public function createItem($list_id, $listToken){
+      /**
+       * Créer un item
+       * @param  $list_id   l'id de la liste
+       * @param  $listToken le token de la liste
+       */
+      function createItem($list_id, $listToken){
         $view = new ItemView();
         $item = new Item();
 
@@ -60,6 +70,8 @@ namespace mywishlist\controller;
         $item->tarif = $_POST['item_tarif'];
         if(isset($_POST['url_item'])) $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
         $item->cagnotte = $pot;
+        $item->user_booking = NULL;
+        $item->message_booking = '';
 
 
         if ($item->save()) {
@@ -73,7 +85,12 @@ namespace mywishlist\controller;
         }
       }
 
-      public function getFormCreateItem($idList, $tokenList) {
+      /**
+       * Récupérer le formulaire de création d'un item
+       * @param  $idList    l'id de la liste de l'item
+       * @param  $tokenList le token de la liste de l'item
+       */
+      function getFormCreateItem($idList, $tokenList) {
         $view = new ItemView();
 
         $list = WishList::where('no','=',$idList)->where('token','=',$tokenList)->first();
@@ -84,7 +101,7 @@ namespace mywishlist\controller;
         $view->renderFormItem(null, $list);
       }
 
-      public function getFormItem($idItem, $tokenItem){
+      function getFormItem($idItem, $tokenItem){
         //Affiche l'item via la vue
         $view = new ItemView();
         $list = null;
@@ -99,7 +116,12 @@ namespace mywishlist\controller;
         $view->renderFormItem($item, $list);
       }
 
-      public function editItem($id, $token){
+      /**
+       * Editer l'item
+       * @param  $id    L'id de l'item à éditer
+       * @param  $token Le token de l'item à éditer
+       */
+      function editItem($id, $token){
           //Affiche l'item via la vue
           $view = new ItemView();
           $item = Item::where('id','=',$id)->where('token','=',$token)->first();
@@ -153,7 +175,50 @@ namespace mywishlist\controller;
           }
       }
 
-      public function delItem($idItem, $tokenItem) {
+      /**
+       * Récupérer le formulaire de réservation
+       * @param  $idItem    L'id de l'item à réserver
+       * @param  $tokenItem Le token de l'item à réserver
+       */
+      function getItemBookingForm($idItem, $tokenItem){
+          $view= new ItemView();
+          $item = Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
+          $view->renderBookItemForm($item);
+
+      }
+
+      /**
+       * Validation des données de réservation
+       * @param  $idItem    L'id de l'item à réserver
+       * @param  $tokenItem Le token de l'item à réserver
+       */
+      function bookItem($idItem, $tokenItem){
+          $item = Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
+          $view= new ItemView();
+
+          if (!isset($item))
+          $view->error('Item inexistant');
+
+          $name =  filter_var($_POST['user_booking'],FILTER_SANITIZE_STRING);
+          $message =  filter_var($_POST['booking_message'],FILTER_SANITIZE_STRING);
+          $item->user_booking = $name;
+          $item->message_booking = $message;
+
+          if($item->save()){
+              $view->addHeadMessage("L'item a bien été réservé",'good');
+              $view->renderItem($item);
+          } else {
+              $view->addHeadMessage("L'item n'a pu être réservé", 'bad');
+              $view->renderItem($item);
+          }
+      }
+
+      /**
+       * Supprimer un item
+       * @param  $idItem    L'id de l'item à supprimer
+       * @param  $tokenItem Le token de l'item à supprimer
+       */
+      function delItem($idItem, $tokenItem) {
         $view = new ListView();
         $item = Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
 
@@ -172,7 +237,12 @@ namespace mywishlist\controller;
         }
       }
 
-      public function delImg($idItem, $tokenItem){
+      /**
+       * Supprimer l'image
+       * @param  $idItem    L'id de l'item dont l'image va être supprimée
+       * @param  $tokenItem Le token de l'item dont l'image va être supprimée
+       */
+      function delImg($idItem, $tokenItem){
         $view = new ItemView();
 
         $item =  Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
