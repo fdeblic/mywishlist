@@ -7,8 +7,11 @@ use \mywishlist\models\WishList as WishList;
       parent::__construct();
     }
 
-    /* Génère le contenu HTML pour
-    afficher un item passé en paramètre */
+    /**
+    * Génère le contenu HTML pour aficher un
+    * item passé en paramètre
+    * @param $item l'item à éditer
+    */
     function renderItem($item){
       $app = \Slim\Slim::getInstance();
       $content = "";
@@ -27,7 +30,7 @@ use \mywishlist\models\WishList as WishList;
       $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id, 'token'=>$item->token]);
       $urlDelImg = $app->urlFor('item_delImg',['id'=>$item->id, 'token'=>$item->token]);
       $urlPot = $app->urlFor('item_participate_post',['id'=>$item->id]);
-      $urlReserv = '';
+      $urlReserv = $app->urlFor('item_reserv_get',['id'=>$item->id, 'token'=>$item->token]);
 
 
 
@@ -58,7 +61,13 @@ use \mywishlist\models\WishList as WishList;
           <input type='submit' value='Participer'>
         </form>";
       } else {
-        $content .= "<p><a href='$urlReserv'>Réserver l'item</a></p>";
+        $content .= isset($item->user_booking) ?
+        "<p> Cet item a déjà été réservé.</p>"
+        :
+        "<p>
+        <a href='$urlReserv'>Réserver l'item
+        </a>
+        </p>";
       }
       $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
       $content .= "<p><a href='$urlDelete'>Supprimer l'item </a></p>";
@@ -71,8 +80,12 @@ use \mywishlist\models\WishList as WishList;
       parent::render();
     }
 
-    /* Génère le contenu HTML pour afficher un
-    item passé en paramètre */
+
+    /**
+    * Génère le contenu HTML pour afficher un
+    * item créé
+     * @param $item l'item créé à afficher
+     */
     function renderItemCreated($item) {
         $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
         if ($item == null)
@@ -88,8 +101,11 @@ use \mywishlist\models\WishList as WishList;
         parent::render();
     }
 
-    /* Génère le contenu HTML pour afficher un
-    item édité passé en paramètre */
+    /**
+    * Génère le contenu HTML pour éditer un
+    * item passé en paramètre
+    * @param $item l'item à éditer
+    */
     function renderEditItem($item) {
         $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
         if ($item == null)
@@ -104,6 +120,12 @@ use \mywishlist\models\WishList as WishList;
         parent::render();
     }
 
+    /**
+    * Génère le formulaire HTML pour éditer un
+    * item passé en paramètre
+    * @param $item l'item à éditer
+    * @param @list la liste qui va recevoir l'item
+    */
     function renderFormItem($item, $list){
         $form = "";
         $nom = '';
@@ -151,6 +173,28 @@ use \mywishlist\models\WishList as WishList;
         parent::render();
     }
 
+    /**
+    * Génère le contenu HTML pour réserver un
+    * item passé en paramètre
+    * @param $item l'item à réserver
+    */
+    function renderBookItemForm($item){
+        $form = '';
+        $name = '';
+        $message = '';
+
+        $urlBookController = \Slim\Slim::getInstance()->urlFor("item_reserv_post",[
+          'id' => $item->id,
+          'token' => $item->token]);
+        $form =
+        "<form action='$urlBookController' method='POST' enctype='multipart/form-data'>
+            <input id='user_booking' name='user_booking' type='text' placeholder='Votre nom' required/>
+            <textarea id='booking_message' name='booking_message' rows='10' cols='50' placeholder='Votre message'></textarea>
+            <input type='submit' value='Réserver' />
+        </form>";
+        $this->addContent($form);
+        parent::render();
+    }
 
   }
 
