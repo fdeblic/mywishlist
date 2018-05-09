@@ -30,7 +30,7 @@ CREATE TABLE `item` (
   `token` text,
   `url` text,
   `cagnotte` tinyint(1) NOT NULL DEFAULT '0',
-  `user_booking` int(11) DEFAULT NULL,
+  `user_booking` varchar(30) DEFAULT NULL,
   `message_booking` text,
   `liste_id` int(11) NOT NULL,
   CONSTRAINT fk_liste_id FOREIGN KEY (liste_id) REFERENCES liste(no) ON DELETE CASCADE,
@@ -42,23 +42,23 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`id`, `nom`, `descr`, `img`, `tarif`, `token`, `url`, `cagnotte`,`user_booking`,`message_booking`, `liste_id`) VALUES
-(1, 'Champagne', 'Bouteille de champagne + flutes + jeux à gratter', 'champagne.jpg', '20.00', 'tokItem', 'www.uneurl.com', 0, '', '', 2),
-(2, 'Musique', 'Partitions de piano à 4 mains', 'musique.jpg', '25.00', 'tokItem', 'www.uneurl.com', 0, '', '', 2),
-(3, 'Exposition', 'Visite guidée de l’exposition ‘REGARDER’ à la galerie Poirel', 'poirelregarder.jpg', '14.00', 'tokItem', 'www.uneurl.com', 0, '', '', 2),
-(4, 'Goûter', 'Goûter au FIFNL', 'gouter.jpg', '20.00', 'tokItem', 'www.uneurl.com', 0, '', '', 3),
-(5, 'Projection', 'Projection courts-métrages au FIFNL', 'film.jpg', '10.00', 'tokItem', 'www.uneurl.com', 0, '', '', 3),
-(6, 'Bouquet', 'Bouquet de roses et Mots de Marion Renaud', 'rose.jpg', '16.00', 'tokItem', 'www.uneurl.com', 0, '', '', 2),
-(7, 'Diner Stanislas', 'Diner à La Table du Bon Roi Stanislas (Apéritif /Entrée / Plat / Vin / Dessert / Café / Digestif,0)', 'bonroi.jpg', '60.00', 'tokItem', 'www.uneurl.com', 0, '', '', 2),
-(8, 'Origami', 'Baguettes magiques en Origami en buvant un thé', 'origami.jpg', '12.00', 'tokItem', 'www.uneurl.com', 0, '', '', 3),
-(9, 'Livres', 'Livre bricolage avec petits-enfants + Roman', 'bricolage.jpg', '24.00', 'tokItem', 'www.uneurl.com', 0, '', '', 3),
-(10, 'Diner  Grand Rue ', 'Diner au Grand’Ru(e,0) (Apéritif / Entrée / Plat / Vin / Dessert / Café,0)', 'grandrue.jpg', '59.00', 'tokItem', 'www.uneurl.com', 0, '', '', 2),
-(11, 'Visite guidée', 'Visite guidée personnalisée de Saint-Epvre jusqu’à Stanislas', 'place.jpg', '11.00', 'tokItem', 'www.uneurl.com', 0, '', '', 2),
-(12, 'Bijoux', 'Bijoux de manteau + Sous-verre pochette de disque + Lait après-soleil', 'bijoux.jpg', '29.00', 'tokItem', 'www.uneurl.com', 0, '', '', 2),
-(19, 'Jeu contacts', 'Jeu pour échange de contacts', 'contact.png', '5.00', 'tokItem', 'www.uneurl.com', 0, '', '', 1),
-(22, 'Concert', 'Un concert à Nancy', 'concert.jpg', '17.00', 'tokItem', 'www.uneurl.com', 0, '', '', 1),
-(24, "Hôtel dHaussonville", "Hôtel d'Haussonville, au coeur de la Vieille ville à deux pas de la place Stanislas", 'hotel_haussonville_logo.jpg', '169.00', 'tokItem', 'www.uneurl.com', 0, '', '', 2),
-(25, 'Boite de nuit', 'Discothèque, Boîte tendance avec des soirées à thème & DJ invités', 'boitedenuit.jpg', '32.00', 'tokItem', 'www.uneurl.com', 0, '', '', 1),
-(26, 'Planètes Laser', 'Laser game : Gilet électronique et pistolet laser comme matériel, vous voilà équipé.', 'laser.jpg', '15.00', 'tokItem', 'www.uneurl.com', 0, '', '', 1);
+(1, 'Champagne', 'Bouteille de champagne + flutes + jeux à gratter', 'champagne.jpg', '20.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 2),
+(2, 'Musique', 'Partitions de piano à 4 mains', 'musique.jpg', '25.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 2),
+(3, 'Exposition', 'Visite guidée de l’exposition ‘REGARDER’ à la galerie Poirel', 'poirelregarder.jpg', '14.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 2),
+(4, 'Goûter', 'Goûter au FIFNL', 'gouter.jpg', '20.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 3),
+(5, 'Projection', 'Projection courts-métrages au FIFNL', 'film.jpg', '10.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 3),
+(6, 'Bouquet', 'Bouquet de roses et Mots de Marion Renaud', 'rose.jpg', '16.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 2),
+(7, 'Diner Stanislas', 'Diner à La Table du Bon Roi Stanislas (Apéritif /Entrée / Plat / Vin / Dessert / Café / Digestif,0)', 'bonroi.jpg', '60.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 2),
+(8, 'Origami', 'Baguettes magiques en Origami en buvant un thé', 'origami.jpg', '12.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 3),
+(9, 'Livres', 'Livre bricolage avec petits-enfants + Roman', 'bricolage.jpg', '24.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 3),
+(10, 'Diner  Grand Rue ', 'Diner au Grand’Ru(e,0) (Apéritif / Entrée / Plat / Vin / Dessert / Café,0)', 'grandrue.jpg', '59.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 2),
+(11, 'Visite guidée', 'Visite guidée personnalisée de Saint-Epvre jusqu’à Stanislas', 'place.jpg', '11.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 2),
+(12, 'Bijoux', 'Bijoux de manteau + Sous-verre pochette de disque + Lait après-soleil', 'bijoux.jpg', '29.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 2),
+(19, 'Jeu contacts', 'Jeu pour échange de contacts', 'contact.png', '5.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 1),
+(22, 'Concert', 'Un concert à Nancy', 'concert.jpg', '17.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 1),
+(24, "Hôtel dHaussonville", "Hôtel d'Haussonville, au coeur de la Vieille ville à deux pas de la place Stanislas", 'hotel_haussonville_logo.jpg', '169.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 2),
+(25, 'Boite de nuit', 'Discothèque, Boîte tendance avec des soirées à thème & DJ invités', 'boitedenuit.jpg', '32.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 1),
+(26, 'Planètes Laser', 'Laser game : Gilet électronique et pistolet laser comme matériel, vous voilà équipé.', 'laser.jpg', '15.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 1);
 
 
 CREATE TABLE IF NOT EXISTS `account` (
