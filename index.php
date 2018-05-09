@@ -105,9 +105,9 @@
   */
 
   // Page : afficher un item
-  $app->get('/item/:id/:token', function($id, $token){
+  $app->get('/item/:id/:token', function($idItem, $tokenItem){
     $ctrl = new ItemController();
-    $ctrl->displayItem($id, $token);
+    $ctrl->displayItem($idItem, $tokenItem);
   })->name('item_aff');
 
   // Page : créer un item
@@ -123,7 +123,7 @@
   })->name('list_addItemPost');
 
   // Supprimer un item
-  $app->get('/item/del/:id/:token', function($id, $token){
+  $app->get('/item/del/:id/:token', function($id, $tokenItem){
     $ctrl = new ItemController();
     $ctrl->delItem($id, $token);
   })->name('item_del');
@@ -135,23 +135,34 @@
   })->name('item_editGet');
 
   // Enregistrer un item
-  $app->post('/item/:id/:token/edit', function($id, $token){
+  $app->post('/item/:id/:token/edit', function($idItem, $tokenItem){
     $ctrl = new ItemController();
-    $ctrl->editItem($id, $token);
+    $ctrl->editItem($idItem, $tokenItem);
   })->name('item_editPost');
 
   // Supprimer l'image d'un item
-  $app->get('/item/:id/delImg/:token', function($id, $tokenItem){
+  $app->get('/item/:id/delImg/:token', function($idItem, $tokenItem){
     $ctrl = new ItemController();
-    $ctrl->delImg($id, $tokenItem);
+    $ctrl->delImg($idItem, $tokenItem);
   })->name('item_delImg');
 
   // Participer à une cagnotte
-  $app->post('/item/participate/:id/:token', function($id, $token){
+  $app->post('/item/participate/:id/:token', function($idItem, $tokenItem){
     $ctrl = new PotController();
-    $ctrl->participatePot($id);
+    $ctrl->participatePot($idItem);
   })->name('item_participate_post');
 
+  //Réserver un item
+  $app->get('/item/:id/:token/book', function($idItem, $tokenItem){
+      $ctrl = new ItemController();
+      $ctrl->getItemBookingForm($idItem, $tokenItem);
+  })->name('item_reserv_get');
+
+  // Envoi des données du formulaire de réservation
+  $app->post('/item/:id/:token/book', function($idItem, $tokenItem){
+      $ctrl = new ItemController();
+      $ctrl->bookItem($idItem, $tokenItem);
+  })->name('item_reserv_post');
   /*
     IMAGES
   */
