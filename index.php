@@ -141,9 +141,9 @@
   })->name('item_editPost');
 
   // Supprimer l'image d'un item
-  $app->get('/item/:id/delImg', function($id){
+  $app->get('/item/:id/delImg/:token', function($id, $tokenItem){
     $ctrl = new ItemController();
-    $ctrl->delImg($id);
+    $ctrl->delImg($id, $tokenItem);
   })->name('item_delImg');
 
   // Participer à une cagnotte
