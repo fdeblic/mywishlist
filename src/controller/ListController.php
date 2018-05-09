@@ -109,7 +109,7 @@
 
         if ($wishlist->delete()) {
           $view->addHeadMessage("Votre liste a bien été supprimée", 'good');
-          $view->dispAllList();
+          $this->dispAllList();
         }
         else {
           $view->error('impossible de supprimer la liste');
