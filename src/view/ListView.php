@@ -52,11 +52,20 @@ use \mywishlist\models\Message as Message;
         foreach($list->items as $item){
             $url_rendItem = $app->urlFor('item_aff',['id'=>$item->id, 'token'=>$item->token]);
             $url_delItem = $app->urlFor('item_del',['id'=>$item->id, 'token'=>$item->token]);
+            $book_status="(Non réservé)";
+            if(isset($item->user_booking))
+                if(strtotime($item->liste->expiration)> strtotime('now')){
+                    $book_status="(Réservé)";
+                }
+                else {
+                        $book_status="(Réservé par " . $item->user_booking . ": " . $item->message_booking . ")";
+                }
             $content .= "
             <li>
                 <a href='$url_rendItem'>
                     $item->nom\t
                 </a>
+                <span>$book_status</span>
                 <ul>
                   <li>
                     <a href='$url_delItem'>
