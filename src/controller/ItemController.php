@@ -207,9 +207,11 @@ namespace mywishlist\controller;
               $view->renderItem($item);
               return;
           }
+
+          $item->user_booking =  $name ;
+          $item->message_booking = $message;
+
           if($item->save()){
-              $item->user_booking =  $name ;
-              $item->message_booking = $message;
               $view->addHeadMessage("L'item a bien été réservé",'good');
               $view->renderItem($item);
           }
