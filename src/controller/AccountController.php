@@ -10,8 +10,8 @@ use \mywishlist\view\MainView as MainView;
 class AccountController {
   private $errorMessage = "";
 
-  // Verifies if the user is connected
-  public static function isConnected() {
+  // Verify if the user is connected
+  static function isConnected() {
     if (!isset($_SESSION['user_connected']) || $_SESSION['user_connected'] == false) {
       return false;
     } else {
@@ -19,7 +19,7 @@ class AccountController {
     }
   }
 
-  public function insertNewAccount() {
+  function insertNewAccount() {
     $acc = new Account();
     $vue = new AccountView();
 
@@ -50,24 +50,24 @@ class AccountController {
     }
   }
 
-  public static function generateAccountHeader() {
+  static function generateAccountHeader() {
     $content = "";
     AccountView::generateAccountHeader(AccountController::isConnected(), AccountController::getLogin());
   }
 
-  public function createAccountForm() {
+  function createAccountForm() {
     $view = new AccountView();
     $view->renderAccountEditor(null);
   }
 
-  public static function getLogin() {
+  static function getLogin() {
     if (isset($_SESSION['user_login']))
       return $_SESSION['user_login'];
     else
       return "";
   }
 
-  public function connect() {
+    function connect() {
     $vue = new GlobalView();
 
     if (!isset($_POST['acc_login']))
@@ -94,7 +94,7 @@ class AccountController {
     $vue->render();
   }
 
-  public function disconnect() {
+    function disconnect() {
     $_SESSION['user_connected'] = false;
     $_SESSION['user_login'] = "";
     $_SESSION['user_id'] = 0;
@@ -104,7 +104,7 @@ class AccountController {
     $vue->render();
   }
 
-  public function edit($method) {
+    function edit($method) {
     $vue = new AccountView();
 
     if ($this->isConnected() == false)
@@ -147,7 +147,7 @@ class AccountController {
     }
   }
 
-  public function delete() {
+    function delete() {
     $vue = new AccountView();
     $acc = Account::where('id_account','=',$_SESSION['user_id'])->first();
     $acc->delete();
@@ -158,6 +158,16 @@ class AccountController {
     $_SESSION['user_id'] = 0;
     $vue->render();
   }
+
+    /**
+     * Get the current user
+     * @return $user the user
+     */
+    static function getCurrentUser(){
+        if (!isset($_SESSION['user_id'])) return null;
+        $user = Account::where('id_account','=',$_SESSION['user_id'])->first();
+        return $user;
+    }
 }
 
  ?>
