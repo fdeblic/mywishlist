@@ -1,6 +1,6 @@
 <?php
 namespace mywishlist\view;
-use \mywishlist\models\WishList as WishList;
+use \mywishlist\controller\AccountController as AccountController;
 
   class ItemView extends GlobalView{
     function __construct() {
@@ -69,7 +69,19 @@ use \mywishlist\models\WishList as WishList;
         </a>
         </p>";
       }
-      $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
+
+      $user = AccountController::getCurrentUser();
+      $wishlist = $item->liste;
+
+      /* Si l'utilisateur existe et est le créateur
+      * ou s'il est admin
+      * Alors il peut modifier l'item (ou le supprimer)
+      */
+     if(isset($user)){
+         if ($wishlist->user_id == $user->id_account || $user->admin == 1){
+             $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
+         }
+     }
       $content .= "<p><a href='$urlDelete'>Supprimer l'item </a></p>";
       $content .= "<p><a href='$url'>Retour à la liste</a></p>";
       $content .= "<div class='clear'></div>";
