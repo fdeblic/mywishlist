@@ -13,7 +13,7 @@ class WishList extends \Illuminate\Database\Eloquent\Model {
     }
 
     public function messages() {
-      return $this->hasMany('mywishlist\models\Message','liste_id','no');
+      return $this->hasMany('mywishlist\models\Message','list_id','no');
     }
   }
 ?>
