@@ -30,7 +30,7 @@ CREATE TABLE `item` (
   `token` text,
   `url` text,
   `cagnotte` tinyint(1) NOT NULL DEFAULT '0',
-  `user_booking` varchar(30) DEFAULT NULL,
+  `booking_user` varchar(30) DEFAULT NULL,
   `message_booking` text,
   `liste_id` int(11) NOT NULL,
   CONSTRAINT fk_liste_id FOREIGN KEY (liste_id) REFERENCES liste(no) ON DELETE CASCADE,
@@ -41,7 +41,7 @@ CREATE TABLE `item` (
 -- Contenu de la table `item`
 --
 
-INSERT INTO `item` (`id`, `nom`, `descr`, `img`, `tarif`, `token`, `url`, `cagnotte`,`user_booking`,`message_booking`, `liste_id`) VALUES
+INSERT INTO `item` (`id`, `nom`, `descr`, `img`, `tarif`, `token`, `url`, `cagnotte`,`booking_user`,`message_booking`, `liste_id`) VALUES
 (1, 'Champagne', 'Bouteille de champagne + flutes + jeux à gratter', 'champagne.jpg', '20.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 2),
 (2, 'Musique', 'Partitions de piano à 4 mains', 'musique.jpg', '25.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 2),
 (3, 'Exposition', 'Visite guidée de l’exposition ‘REGARDER’ à la galerie Poirel', 'poirelregarder.jpg', '14.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 2),

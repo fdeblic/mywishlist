@@ -61,7 +61,7 @@ use \mywishlist\controller\AccountController as AccountController;
           <input type='submit' value='Participer'>
         </form>";
       } else {
-        $content .= isset($item->user_booking) ?
+        $content .= isset($item->booking_user) ?
         "<p> Cet item a déjà été réservé.</p>"
         :
         "<p>
@@ -200,7 +200,7 @@ use \mywishlist\controller\AccountController as AccountController;
           'token' => $item->token]);
         $form =
         "<form action='$urlBookController' method='POST' enctype='multipart/form-data'>
-            <input id='user_booking' name='user_booking' type='text' placeholder='Votre nom' required/>
+            <input id='booking_user' name='booking_user' type='text' placeholder='Votre nom' required/>
             <textarea id='booking_message' name='booking_message' rows='10' cols='50' placeholder='Votre message'></textarea>
             <input type='submit' value='Réserver' />
         </form>";
