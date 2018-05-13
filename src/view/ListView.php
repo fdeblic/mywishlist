@@ -1,7 +1,7 @@
 <?php
 namespace mywishlist\view;
 require_once 'vendor/autoload.php';
-use \mywishlist\models\Message as Message;
+
 
   class ListView extends GlobalView {
 
@@ -35,7 +35,7 @@ use \mywishlist\models\Message as Message;
 
     /* Génère le contenu HTML pour afficher une
     liste passée en paramètre */
-    function renderList($list) {
+    function renderList($list,$user) {
       $app = \Slim\Slim::getInstance();
         if ($list == null){
             $content = "<h3>Oups !</h3>";
@@ -90,11 +90,19 @@ use \mywishlist\models\Message as Message;
         </p>
         ";
         $url_modifyList = $app->urlFor('list_editGet',['id'=>$list->no, 'token'=>$list->token]);
-        $content .= "<p><a href=\"$url_modifyList\">Modifier la liste</a></p>";
+        /* Si l'utilisateur est le créateur
+        * ou s'il est admin
+        * Alors il peut modifier l'item (ou le supprimer)
+        */
+        if (isset($user)){
+            if ($list->user_id == $user->id_account || $user->admin == 1) {
+                $content .= "<p><a href=\"$url_modifyList\">Modifier la liste</a></p>";
+                $content .= "<p><a href=\"$url_deleteList\">Supprimer la liste</a></p>";
+            }
+        }
         $content .= "<p> Partager la liste : copier et envoyer le lien suivant : <i><u>http://".$_SERVER['SERVER_NAME'].$url_share."</u></i></p>";
-        $content .= "<p><a href=\"$url_deleteList\">Supprimer la liste</a></p>";
 
-        $messages = Message::where('list_id','=',$list->no)->get();
+        $messages = $list->messages()->get();
 
         foreach($messages as $message){
             $creator = $message->creator;
