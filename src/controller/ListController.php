@@ -1,119 +1,125 @@
 <?php
-  namespace mywishlist\controller;
-  require_once 'vendor/autoload.php';
+namespace mywishlist\controller;
+require_once 'vendor/autoload.php';
 
-  use \mywishlist\models\WishList as WishList;
-  use \mywishlist\models\Account as Account;
-  use \mywishlist\view\ListView as ListView;
+use \mywishlist\models\WishList as WishList;
+use \mywishlist\models\Account as Account;
+use \mywishlist\view\ListView as ListView;
 
-  class ListController {
+class ListController {
     // Affiche les listes existantes
     public function dispAllList() {
-      // Récupère toutes les listes existantes dans la base de données
-      $lists = WishList::where('public','=', 1);
-      if (AccountController::isConnected()){
-          $user = Account::where('login','=',$_SESSION['user_login'])->first();
-          $lists = $lists->orWhere('user_id','=', $user->id_account);
-      }
-      $lists = $lists->get();
-      // Affiche les listes via la vue
-      $view = new ListView();
-      $view->renderLists($lists);
+        // Récupère toutes les listes existantes dans la base de données
+        $lists = WishList::where('public','=', 1);
+        if (AccountController::isConnected()){
+            $user = AccountController::getCurrentUser();
+            $lists = $lists->orWhere('user_id','=', $user->id_account);
+        }
+        $lists = $lists->get();
+        // Affiche les listes via la vue
+        $view = new ListView();
+        $view->renderLists($lists);
     }
 
     public function displayList($id, $token) {
         $list = WishList::where('no','=',$id)->where('token','=',$token)->first();
-
+        $user = AccountController::getCurrentUser();
         //Affiche la liste via la vue
         $view = new ListView();
-        $view->renderList($list);
+        $view->renderList($list,$user);
 
     }
 
     public function createList(){
-      $view = new ListView();
-
-      // Vérifie les données envoyées
-      if ( !AccountController::isConnected())
+        $view = new ListView();
+        $user = AccountController::getCurrentUser();
+        // Vérifie les données envoyées
+        if ( !AccountController::isConnected())
         $view->notConnectedError();
 
-      // Transcrit la date reçue
-      $expiration = date('Y-m-d', strtotime($_POST['list_expiration']));
-      if ($expiration == null)
+        // Transcrit la date reçue
+        $expiration = date('Y-m-d', strtotime($_POST['list_expiration']));
+        if ($expiration == null)
         $view->error("date incorrecte");
 
-      // Crée la nouvelle liste
-      $user = Account::where('login','=',$_SESSION['user_login'])->first();
-      $wishlist = new WishList();
-      $wishlist->user_id = $user->id_account;
-      $wishlist->titre =  filter_var($_POST['list_title'],FILTER_SANITIZE_STRING);
-      $wishlist->description = filter_var($_POST['list_descr'],FILTER_SANITIZE_STRING);
-      $wishlist->expiration = $expiration;
-      $wishlist->public = isset($_POST['list_public']) ? 1 : 0 ;
-      $wishlist->token = stripslashes (crypt(
-        $_POST['list_title'] . $_POST['list_descr'] . $_POST['list_expiration'],
-        $_SESSION['user_login'] . "sel de mer"
+        // Crée la nouvelle liste
+        $wishlist = new WishList();
+        $wishlist->user_id = $user->id_account;
+        $wishlist->titre =  filter_var($_POST['list_title'],FILTER_SANITIZE_STRING);
+        $wishlist->description = filter_var($_POST['list_descr'],FILTER_SANITIZE_STRING);
+        $wishlist->expiration = $expiration;
+        $wishlist->public = isset($_POST['list_public']) ? 1 : 0 ;
+        $wishlist->token = stripslashes (crypt(
+            $_POST['list_title'] . $_POST['list_descr'] . $_POST['list_expiration'],
+            $_SESSION['user_login'] . "sel de mer"
         ));
-      echo $wishlist->token;
+        echo $wishlist->token;
 
-      if($wishlist->save()){
-        $view->addHeadMessage("Votre liste a bien été créée", 'good');
-        $view->renderList($wishlist);
-      }
-      else{
-        $view->addHeadMessage("Votre liste n'a pu être créée", 'bad');
-        $this->getFormList(null);
-      }
+        if($wishlist->save()){
+            $view->addHeadMessage("Votre liste a bien été créée", 'good');
+            $view->renderList($wishlist,$user);
+        }
+        else{
+            $view->addHeadMessage("Votre liste n'a pu être créée", 'bad');
+            $this->getFormList(null);
+        }
     }
 
 
     //Editer la liste par les données passées en post
     public function editList($id, $token) {
-      $view = new ListView();
-
-      // Vérifie les données envoyées
-      if ( !AccountController::isConnected() )
+        $view = new ListView();
+        $user = AccountController::getCurrentUser();
+        // Vérifie les données envoyées
+        if ( !AccountController::isConnected() )
         $view->notConnectedError();
 
-      // Transcrit la date reçue
-      $expiration = date('Y-m-d', strtotime($_POST['list_expiration']));
-      if ($expiration == null)
-        $view->error("date incorrecte");
+        $wishlist = WishList::where('no','=',$id)->where('token','=',$token)->first();
+        if ($wishlist->user_id != $user->id_account || $user->admin == 1){
+            $view->addHeadMessage("Vous ne pouvez pas modifier cette liste", 'bad');
+            $view->renderList($wishlist,$user);
+            return;
+        }
 
-      // Crée la nouvelle liste
-      $user = Account::where('login','=',$_SESSION['user_login'])->first();
-      $wishlist = WishList::where('no','=',$id)->where('token','=',$token)->first();
+        // Transcrit la date reçue
+        $expiration = date('Y-m-d', strtotime($_POST['list_expiration']));
+        if ($expiration == null) $view->error("date incorrecte");
 
-      if ($wishlist == null)
-        $view->error('cette liste n\'existe pas');
+        // Crée la nouvelle liste
 
-      $wishlist->titre =  filter_var($_POST['list_title'],FILTER_SANITIZE_STRING);
-      $wishlist->description = filter_var($_POST['list_descr'],FILTER_SANITIZE_STRING);
-      $wishlist->expiration = $expiration;
-      $wishlist->public = isset($_POST['list_public']) ? 1 : 0;
-      if($wishlist->save()){
-        $view->addHeadMessage("Votre liste a bien été modifiée", 'good');
-        $view->renderList($wishlist);
-      }
-      else{
-        $view->addHeadMessage("Votre liste n'a pu être modifiée", 'bad');
-        $this->getFormList(null);
-      }
+        if ($wishlist == null) $view->error('cette liste n\'existe pas');
+
+        $wishlist->titre =  filter_var($_POST['list_title'],FILTER_SANITIZE_STRING);
+        $wishlist->description = filter_var($_POST['list_descr'],FILTER_SANITIZE_STRING);
+        $wishlist->expiration = $expiration;
+        $wishlist->public = isset($_POST['list_public']) ? 1 : 0;
+        if($wishlist->save()){
+            $view->addHeadMessage("Votre liste a bien été modifiée", 'good');
+            $view->renderList($wishlist,$user);
+        }
+        else{
+            $view->addHeadMessage("Votre liste n'a pu être modifiée", 'bad');
+            $this->getFormList(null);
+        }
     }
 
     public function deleteList($id, $token) {
         $view = new ListView();
         $wishlist = Wishlist::where('no','=',$id)->where('token','=',$token)->first();
+        $user = AccountController::getCurrentUser();
+        if ($wishlist == null) $view->error("la liste n'existe pas");
 
-        if ($wishlist == null)
-          $view->error("la liste n'existe pas");
-
+        $user = AccountController::getCurrentUser();
+        if ($wishlist->user_id != $user->id_account || $user->admin == 1){
+            $view->addHeadMessage("Vous ne pouvez pas supprimer cette liste", 'bad');
+            $view->renderList($wishlist,$user);
+        }
         if ($wishlist->delete()) {
-          $view->addHeadMessage("Votre liste a bien été supprimée", 'good');
-          $this->dispAllList();
+            $view->addHeadMessage("Votre liste a bien été supprimée", 'good');
+            $this->dispAllList();
         }
         else {
-          $view->error('impossible de supprimer la liste');
+            $view->error('impossible de supprimer la liste');
         }
     }
 
@@ -132,13 +138,13 @@
 
 
     public function dispPublicCreators() {
-      $vue = new ListView();
-      $creators = Account::whereIn(
-        'id_account', WishList::select('user_id')->where('public','=',true)->get()->toArray()
-        //WishList::select('no')->where('public','=',true)->get();
-      )->get();
+        $vue = new ListView();
+        $creators = Account::whereIn(
+            'id_account', WishList::select('user_id')->where('public','=',true)->get()->toArray()
+            //WishList::select('no')->where('public','=',true)->get();
+            )->get();
 
 
-      $vue->renderCreators($creators);
+            $vue->renderCreators($creators);
+        }
     }
-  }
