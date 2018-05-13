@@ -208,9 +208,11 @@ namespace mywishlist\controller;
           $view= new ItemView();
 
           if (!isset($item)) $view->error('Item inexistant');
-          if (!isset($_POST['booking_user']) || strlen($_POST['booking_user']) < 0)
-            $view->addHeadMessage('Vous devez entrer votre nom','bad');
-            $view->renderBookItemForm($item);
+          if (!isset($_POST['booking_user']) || strlen($_POST['booking_user']) < 1){
+              $view->addHeadMessage('Vous devez entrer votre nom','bad');
+              $view->renderBookItemForm($item);
+              return;
+          }
 
           $name =  filter_var($_POST['booking_user'],FILTER_SANITIZE_STRING);
           $message =  filter_var($_POST['booking_message'],FILTER_SANITIZE_STRING);
