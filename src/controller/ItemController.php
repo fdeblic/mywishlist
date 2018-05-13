@@ -5,6 +5,8 @@ namespace mywishlist\controller;
   use \mywishlist\models\WishList as WishList;
   use \mywishlist\view\ItemView as ItemView;
   use \mywishlist\view\ListView as ListView;
+  use \mywishlist\models\Account as Account;
+  use \mywishlist\controller\AccountController as AccountController;
 
   class ItemController{
 
@@ -124,9 +126,18 @@ namespace mywishlist\controller;
       function editItem($id, $token){
           //Affiche l'item via la vue
           $view = new ItemView();
-          $item = Item::where('id','=',$id)->where('token','=',$token)->first();
 
+          $item = Item::where('id','=',$id)->where('token','=',$token)->first();
           if (!isset($item)) $view->error("item non trouvé");
+
+
+          $user = AccountController::getCurrentUser();
+          $wishlist = $item->liste;
+          if ($wishlist->user_id != $user->id_account || $user->admin == 1){
+              $view->addHeadMessage("Vous ne pouvez pas modifier cet item", 'bad');
+              $view->renderItem($item);
+          }
+
           if (!isset($_POST['item_nom'])) $view->error("veuillez entrer un nom");
           if (!isset($_POST['item_descr'])) $view->error("veuillez entrer une description");
           if (!filter_var($_POST['item_tarif'], FILTER_VALIDATE_FLOAT)) $view->error("Votre tarif est invalide.");
@@ -229,6 +240,7 @@ namespace mywishlist\controller;
       function delItem($idItem, $tokenItem) {
         $view = new ListView();
         $item = Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
+        $user = AccountController::getCurrentUser();
 
         if (!isset($item))
           $view->error('Item inexistant');
@@ -237,7 +249,7 @@ namespace mywishlist\controller;
 
         if (isset($item) && $item->delete()) {
           $view->addHeadMessage('Votre item a bien été supprimé', 'good');
-          $view->renderList($list);
+          $view->renderList($list,$user);
         } else {
           $view = new ItemView();
           $view->addHeadMessage("Votre item n'a pas pu être supprimé", 'bad');
