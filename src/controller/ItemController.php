@@ -72,7 +72,7 @@ namespace mywishlist\controller;
         $item->tarif = $_POST['item_tarif'];
         if(isset($_POST['url_item'])) $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
         $item->cagnotte = $pot;
-        $item->user_booking = NULL;
+        $item->booking_user = NULL;
         $item->message_booking = '';
 
 
@@ -207,19 +207,21 @@ namespace mywishlist\controller;
           $item = Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
           $view= new ItemView();
 
-          if (!isset($item))
-          $view->error('Item inexistant');
+          if (!isset($item)) $view->error('Item inexistant');
+          if (!isset($_POST['booking_user']) || strlen($_POST['booking_user']) < 0)
+            $view->addHeadMessage('Vous devez entrer votre nom','bad');
+            $view->renderBookItemForm($item);
 
-          $name =  filter_var($_POST['user_booking'],FILTER_SANITIZE_STRING);
+          $name =  filter_var($_POST['booking_user'],FILTER_SANITIZE_STRING);
           $message =  filter_var($_POST['booking_message'],FILTER_SANITIZE_STRING);
 
-          if(isset($item->user_booking)){
+          if(isset($item->booking_user)){
               $view->addHeadMessage("L'item est déjà réservé", 'bad');
               $view->renderItem($item);
               return;
           }
 
-          $item->user_booking =  $name ;
+          $item->booking_user =  $name ;
           $item->message_booking = $message;
 
           if($item->save()){
