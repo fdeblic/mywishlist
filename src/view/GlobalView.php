@@ -63,7 +63,7 @@ class GlobalView {
   /*
     Ajoute un message à afficher juste au-dessus du contenu
   */
-  public function addHeadMessage($text, $type) {
+  public static function addHeadMessage($text, $type) {
     switch ($type) {
       case 'bad':
       $_SESSION['messages'] .= "<p class='headMsg_bad'> $text </p>";
@@ -90,8 +90,12 @@ class GlobalView {
   */
   public function error($errorMessage) {
     $this->addHeadMessage("Erreur : $errorMessage", "bad");
-    $_SESSION['globalViewContent'] = "";
-    $this->render();
-    die();
+    if (isset($_SERVER['HTTP_REFERER'])) {
+      \Slim\Slim::getInstance()->redirect($_SERVER['HTTP_REFERER'], 303);
+    } else {
+      $_SESSION['globalViewContent'] = "";
+      $this->render();
+      die();
+    }
   }
 }

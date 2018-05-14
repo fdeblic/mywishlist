@@ -1,6 +1,5 @@
 <?php
 namespace mywishlist\controller;
-require_once 'vendor/autoload.php';
 
 use \mywishlist\models\Account as Account;
 use \mywishlist\view\AccountView as AccountView;
@@ -12,11 +11,11 @@ class AccountController {
 
   // Verifies if the user is connected
   public static function isConnected() {
-    if (!isset($_SESSION['user_connected']) || $_SESSION['user_connected'] == false) {
-      return false;
-    } else {
-      return true;
-    }
+    return isset($_SESSION['user_connected']) && $_SESSION['user_connected'] == true;
+  }
+
+  private function setConnected($bool) {
+    $_SESSION['user_connected'] = $bool ? true : false;
   }
 
   public function insertNewAccount() {
@@ -90,8 +89,17 @@ class AccountController {
     $_SESSION['user_connected'] = true;
     $_SESSION['user_login'] = $acc->login;
     $_SESSION['user_id'] = $acc->id_account;
-    $vue->addHeadMessage("Vous êtes connecté !", 'good');
-    $vue->render();
+
+    GlobalView::addHeadMessage("Vous êtes connecté !", 'good');
+
+    if (isset($_SERVER['HTTP_REFERER'])) {
+      // Retourne à la page précédente
+      \Slim\Slim::getInstance()->redirect($_SERVER['HTTP_REFERER'], 303);
+    }
+    else {
+      $vue = new GlobalView();
+      $vue->render();
+    }
   }
 
   public function disconnect() {
@@ -99,9 +107,16 @@ class AccountController {
     $_SESSION['user_login'] = "";
     $_SESSION['user_id'] = 0;
 
-    $vue = new GlobalView();
-    $vue->addHeadMessage("Vous êtes à présent déconnecté(e)", "good");
-    $vue->render();
+    GlobalView::addHeadMessage("Vous êtes à présent déconnecté(e)", "good");
+
+    if (isset($_SERVER['HTTP_REFERER'])) {
+      // Retourne à la page précédente
+      \Slim\Slim::getInstance()->redirect($_SERVER['HTTP_REFERER'], 303);
+    }
+    else {
+      $vue = new GlobalView();
+      $vue->render();
+    }
   }
 
   public function edit($method) {
