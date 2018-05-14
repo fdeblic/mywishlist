@@ -9,8 +9,10 @@ require_once 'vendor/autoload.php';
       parent::__construct();
     }
 
-    /* Génère le contenu HTML pour afficher une
-    liste des listes passées en paramètre */
+    /**
+     *Génère le contenu HTML pour afficher une liste des listes passées en paramètre
+     *@param $lists les listes à afficher
+     */
     function renderLists($lists) {
       $content  = "<h1> Listes : </h1>";
       $content .= "<ol>";
@@ -33,8 +35,11 @@ require_once 'vendor/autoload.php';
       parent::render();
     }
 
-    /* Génère le contenu HTML pour afficher une
-    liste passée en paramètre */
+    /**
+     *Génère le contenu HTML pour afficher une liste en paramètre
+     *@param $lists la liste à afficher
+     *@param $user l'utilisateur demandant l'action
+     */
     function renderList($list,$user) {
       $app = \Slim\Slim::getInstance();
         if ($list == null){
@@ -131,8 +136,10 @@ require_once 'vendor/autoload.php';
     }
 
 
-    /* Génère le contenu HTML pour afficher une
-    liste passée en paramètre */
+    /**
+     *Génère le contenu HTML pour afficher une liste passée en paramètre
+     *@param $list la liste à afficher
+     */
     function renderFormList($list) {
         $url = '';
         if (isset($list->no)){
@@ -172,6 +179,9 @@ require_once 'vendor/autoload.php';
         parent::render();
     }
 
+    /**
+     *Génère le contenu HTML pour afficher les créateurs de listes publiques
+     */
     public function renderCreators($creators) {
       $content = '<p> Créateurs de listes publiques </p>';
       foreach ($creators as $key => $creator) {

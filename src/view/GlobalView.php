@@ -5,31 +5,31 @@ use \mywishlist\controller\AccountController as AccountController;
 
 class GlobalView {
 
-  /*
-    Constructeur
-  */
+  /**
+   *Constructeur
+   */
   function __construct() {
     if (!isset($_SESSION['messages']))
-      $_SESSION['messages'] = '';
+    $_SESSION['messages'] = '';
     if (!isset($_SESSION['globalViewContent']))
-      $_SESSION['globalViewContent'] = '';
+    $_SESSION['globalViewContent'] = '';
   }
 
-  /*
-    Renvoie le code d'un bouton vers une url en POST ou GET uniquement
-  */
+  /**
+   *Renvoie le code d'un bouton vers une url en POST ou GET uniquement
+   */
   public function genererBouton($nom, $url, $methode, $className) {
     $methode = strtoupper($methode);
     if ($methode != 'GET' && $methode != 'POST')
-      return '[methode incorrecte]';
+    return '[methode incorrecte]';
     return "<form action='$url' method='$methode'>
-      <input type='submit' value='$nom' class='$className'>
+    <input type='submit' value='$nom' class='$className'>
     </form>";
   }
 
-  /*
-    Envoie la page générée au visiteur
-  */
+  /**
+   *Envoie la page générée au visiteur
+   */
   public function render() {
     // Génère les parties variables
     AccountController::generateAccountHeader();
@@ -43,26 +43,26 @@ class GlobalView {
     $_SESSION['messages'] = "";
   }
 
-  /*
-    Ajoute du contenu à la page (dans la section associée)
-  */
+  /**
+   *Ajoute du contenu à la page (dans la section associée)
+   */
   public function addContent($content) {
     $_SESSION['globalViewContent'] .= $content . "\r\n";
   }
 
-  /*
-    Récupère le contenu de la page
-  */
+  /**
+   *Récupère le contenu de la page
+   */
   public static function getContent() {
     if (isset($_SESSION['globalViewContent']))
-      return $_SESSION['globalViewContent'];
+    return $_SESSION['globalViewContent'];
     else
-      return "(pas de contenu généré)";
+    return "(pas de contenu généré)";
   }
 
-  /*
-    Ajoute un message à afficher juste au-dessus du contenu
-  */
+  /**
+   *Ajoute un message à afficher juste au-dessus du contenu
+   */
   public function addHeadMessage($text, $type) {
     switch ($type) {
       case 'bad':
@@ -78,16 +78,16 @@ class GlobalView {
     }
   }
 
-  /*
-    Crée une erreur de connexion
-  */
+  /**
+   *Crée une erreur de connexion
+   */
   public function notConnectedError() {
     $this->error("veuillez vous connecter...");
   }
 
-  /*
-    Erreur : stoppe la génération de la page
-  */
+  /**
+   *Erreur : stoppe la génération de la page
+   */
   public function error($errorMessage) {
     $this->addHeadMessage("Erreur : $errorMessage", "bad");
     $_SESSION['globalViewContent'] = "";

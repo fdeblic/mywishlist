@@ -5,10 +5,11 @@ use \mywishlist\models\Item as Item;
 use \mywishlist\models\PotParticipation as PotParticipation;
 
 class PotController {
-  public function createPot() {
-    echo "createPot";
-  }
 
+  /**
+   *Participer à une cagnotte
+   *@param $id id de l'item
+   */
   public function participatePot($id) {
     $vue = new ItemView();
     $participation = new PotParticipation();
@@ -23,7 +24,7 @@ class PotController {
 
     if ($_POST['amount'] + $somme > $item->tarif)
       $vue->error('prix max atteint');
-      
+
     $participation->pot_id = $id;
     $participation->name = filter_var($_POST['name'],FILTER_SANITIZE_STRING);;
     $participation->amount = filter_var($_POST['amount'],FILTER_SANITIZE_NUMBER_INT);

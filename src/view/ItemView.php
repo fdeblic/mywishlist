@@ -96,8 +96,8 @@ use \mywishlist\controller\AccountController as AccountController;
 
 
     /**
-    * Génère le contenu HTML pour afficher un
-    * item créé
+     * Génère le contenu HTML pour afficher un
+     * item créé
      * @param $item l'item créé à afficher
      */
     function renderItemCreated($item) {
@@ -116,10 +116,10 @@ use \mywishlist\controller\AccountController as AccountController;
     }
 
     /**
-    * Génère le contenu HTML pour éditer un
-    * item passé en paramètre
-    * @param $item l'item à éditer
-    */
+     * Génère le contenu HTML pour éditer un
+     * item passé en paramètre
+     * @param $item l'item à éditer
+     */
     function renderEditItem($item) {
         $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
         if ($item == null)
@@ -135,11 +135,11 @@ use \mywishlist\controller\AccountController as AccountController;
     }
 
     /**
-    * Génère le formulaire HTML pour éditer un
-    * item passé en paramètre
-    * @param $item l'item à éditer
-    * @param @list la liste qui va recevoir l'item
-    */
+     * Génère le formulaire HTML pour éditer un
+     * item passé en paramètre
+     * @param $item l'item à éditer
+     * @param @list la liste qui va recevoir l'item
+     */
     function renderFormItem($item, $list){
         $user = AccountController::getCurrentUser();
         if ($user == null || $list->user_id != $user->id_account || $user->admin == 1){
@@ -147,7 +147,7 @@ use \mywishlist\controller\AccountController as AccountController;
           $this->renderItem($item);
           return;
         }
-        
+
         $form = "";
         $nom = '';
         $descr = '';
@@ -194,10 +194,10 @@ use \mywishlist\controller\AccountController as AccountController;
     }
 
     /**
-    * Génère le contenu HTML pour réserver un
-    * item passé en paramètre
-    * @param $item l'item à réserver
-    */
+     * Génère le contenu HTML pour réserver un
+     * item passé en paramètre
+     * @param $item l'item à réserver
+     */
     function renderBookItemForm($item){
         $form = '';
         $name = '';
