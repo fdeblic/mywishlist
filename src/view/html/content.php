@@ -1,7 +1,7 @@
 
 <!-- Content -->
-<content>
+<section>
 <?php
   echo \mywishlist\view\GlobalView::getContent();
 ?>
-</content>
+</section>

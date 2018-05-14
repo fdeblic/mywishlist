@@ -188,10 +188,11 @@ require_once 'vendor/autoload.php';
      *Génère le contenu HTML pour afficher les créateurs de listes publiques
      */
     public function renderCreators($creators) {
-      $content = '<p> Créateurs de listes publiques </p>';
+      $content = '<p> Créateurs de listes publiques </p><ul>';
       foreach ($creators as $key => $creator) {
         $content.= '<li>' . $creator->prenom . "</li><br>\n";
       }
+      $content .= '</ul>';
       $content = str_replace("\n", "\n\t", $content)."\n";
       $this->addContent($content);
       parent::render();
