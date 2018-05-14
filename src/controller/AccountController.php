@@ -10,7 +10,7 @@ use \mywishlist\view\MainView as MainView;
 class AccountController {
   private $errorMessage = "";
 
-  // Verify if the user is connected
+  // Vérifie si l'utilisateur est connecté
   static function isConnected() {
     if (!isset($_SESSION['user_connected']) || $_SESSION['user_connected'] == false) {
       return false;
@@ -19,6 +19,10 @@ class AccountController {
     }
   }
 
+
+  /**
+   *Créer un noueau compte
+   */
   function insertNewAccount() {
     $acc = new Account();
     $vue = new AccountView();
@@ -50,31 +54,43 @@ class AccountController {
     }
   }
 
+  /**
+   * Génère le header affichant l'utilisateur connecté
+   */
   static function generateAccountHeader() {
     $content = "";
     AccountView::generateAccountHeader(AccountController::isConnected(), AccountController::getLogin());
   }
 
+  /**
+   *Créer un formulaire de compte
+   */
   function createAccountForm() {
     $view = new AccountView();
     $view->renderAccountEditor(null);
   }
 
+  /**
+   *Récupérer le login de la personne qui est connectée
+   */
   static function getLogin() {
     if (isset($_SESSION['user_login']))
-      return $_SESSION['user_login'];
+    return $_SESSION['user_login'];
     else
-      return "";
+    return "";
   }
 
-    function connect() {
+  /**
+   *Permet de se connecter
+   */
+  function connect() {
     $vue = new GlobalView();
 
     if (!isset($_POST['acc_login']))
-      $vue->error("entrez un login");
+    $vue->error("entrez un login");
 
     if (!isset($_POST['acc_password']))
-      $vue->error("entrez votre mot de passe");
+    $vue->error("entrez votre mot de passe");
 
     $login = $_POST['acc_login'];
     $password = $_POST['acc_password'];
@@ -82,10 +98,10 @@ class AccountController {
     $acc = Account::where('login', '=', strtolower($login))->first();
 
     if ($acc == null)
-      $vue->error("login inconnu");
+    $vue->error("login inconnu");
 
     if (crypt($password, 'sel de mer') != $acc->password)
-      $vue->error("mauvais mot de passe !");
+    $vue->error("mauvais mot de passe !");
 
     $_SESSION['user_connected'] = true;
     $_SESSION['user_login'] = $acc->login;
@@ -94,7 +110,10 @@ class AccountController {
     $vue->render();
   }
 
-    function disconnect() {
+  /**
+   * Permet de se déconnecter
+   */
+  function disconnect() {
     $_SESSION['user_connected'] = false;
     $_SESSION['user_login'] = "";
     $_SESSION['user_id'] = 0;
@@ -104,11 +123,15 @@ class AccountController {
     $vue->render();
   }
 
-    function edit($method) {
+  /**
+   * Permet d'éditer un compte
+   *@param $method si la méthode est post ou get
+   */
+  function edit($method) {
     $vue = new AccountView();
 
     if ($this->isConnected() == false)
-      $vue->notConnectedError();
+    $vue->notConnectedError();
 
     // Si méthode post
     if (strtolower($method) == 'post') {
@@ -147,7 +170,10 @@ class AccountController {
     }
   }
 
-    function delete() {
+  /**
+   *Permet de supprimer un compte
+   */
+  function delete() {
     $vue = new AccountView();
     $acc = Account::where('id_account','=',$_SESSION['user_id'])->first();
     $acc->delete();
@@ -159,15 +185,15 @@ class AccountController {
     $vue->render();
   }
 
-    /**
-     * Get the current user
-     * @return $user the user
-     */
-    static function getCurrentUser(){
-        if (!isset($_SESSION['user_id'])) return null;
-        $user = Account::where('id_account','=',$_SESSION['user_id'])->first();
-        return $user;
-    }
+  /**
+  * Retourne l'utilisateur
+  * @return $user l'utilisateur
+  */
+  static function getCurrentUser(){
+    if (!isset($_SESSION['user_id'])) return null;
+    $user = Account::where('id_account','=',$_SESSION['user_id'])->first();
+    return $user;
+  }
 }
 
- ?>
+?>
