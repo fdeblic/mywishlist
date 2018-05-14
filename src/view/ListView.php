@@ -51,7 +51,11 @@ require_once 'vendor/autoload.php';
         $content .= "<ol>";
         foreach($list->items as $item){
             $url_rendItem = $app->urlFor('item_aff',['id'=>$item->id, 'token'=>$item->token]);
-            $url_delItem = $app->urlFor('item_del',['id'=>$item->id, 'token'=>$item->token]);
+            if (isset($user)){
+                if ($list->user_id == $user->id_account || $user->admin == 1) {
+                    $url_delItem = $app->urlFor('item_del',['id'=>$item->id, 'token'=>$item->token]);
+                }
+            }
             $book_status="(Non réservé)";
             if(isset($item->booking_user))
                 if(strtotime($item->liste->expiration)> strtotime('now')){
@@ -66,13 +70,17 @@ require_once 'vendor/autoload.php';
                     $item->nom\t
                 </a>
                 <span>$book_status</span>
-                <ul>
-                  <li>
+                <ul>";
+            if (isset($user)){
+                if ($list->user_id == $user->id_account || $user->admin == 1) {
+                  $content .="<li>
                     <a href='$url_delItem'>
                       Supprimer
-                      </a>
-                  </li>
-                </ul>
+                    </a>
+                </li>";
+                }
+            }
+             $content .= "</ul>
             </li>";
         }
         $content .= "</ol>";
