@@ -113,7 +113,8 @@ require_once 'vendor/autoload.php';
                 $content .= "<p><a href=\"$url_deleteList\">Supprimer la liste</a></p>";
             }
         }
-        $content .= "<p> Partager la liste : copier et envoyer le lien suivant : <i><u>http://".$_SERVER['SERVER_NAME'].$url_share."</u></i></p>";
+        $url_share = 'https://www.facebook.com/sharer/sharer.php?u=' . $_SERVER['SERVER_NAME'] . $url_share;
+        $content .= "<p> Partager la liste : <a title='$url_share' href='$url_share'>Facebook</a></p>";
 
         $messages = $list->messages()->get();
 
