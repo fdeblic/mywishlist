@@ -77,7 +77,7 @@ namespace mywishlist\controller;
 
 
         if ($item->save()) {
-            $item->token = crypt($item->id, 'sel de mer');
+            $item->token = stripslashes(crypt($item->id, 'sel de mer'));
             $item->save();
             $view->addHeadMessage("L'item a bien été enregistré", 'good');
             $view->renderItem($item);
@@ -128,15 +128,17 @@ namespace mywishlist\controller;
           $view = new ItemView();
 
           $item = Item::where('id','=',$id)->where('token','=',$token)->first();
+          $user = AccountController::getCurrentUser();
+          $wishlist = $item->liste;
+          if ($user == null || $wishlist->user_id != $user->id_account || $user->admin == 1){
+              $view->addHeadMessage("Vous ne pouvez pas modifier cet item", 'bad');
+              $view->renderItem($item);
+              return;
+          }
+
           if (!isset($item)) $view->error("item non trouvé");
 
 
-          $user = AccountController::getCurrentUser();
-          $wishlist = $item->liste;
-          if ($wishlist->user_id != $user->id_account || $user->admin == 1){
-              $view->addHeadMessage("Vous ne pouvez pas modifier cet item", 'bad');
-              $view->renderItem($item);
-          }
 
           if (!isset($_POST['item_nom'])) $view->error("veuillez entrer un nom");
           if (!isset($_POST['item_descr'])) $view->error("veuillez entrer une description");
@@ -243,11 +245,18 @@ namespace mywishlist\controller;
        */
       function delItem($idItem, $tokenItem) {
         $view = new ListView();
-        $item = Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
         $user = AccountController::getCurrentUser();
+        $item = Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
+        $wishlist = $item->liste;
+        if($user == null || $wishlist->user_id != $user->id_account || $user->admin ==1){
+            $view->addHeadMessage("Vous ne pouvez pas supprimer cet item", 'bad');
+            $view->renderItem($item);
+            return;
+        }
 
         if (!isset($item))
           $view->error('Item inexistant');
+
 
         $list = Wishlist::where('no','=',$item->liste_id)->first();
 
