@@ -123,9 +123,9 @@
   })->name('list_addItemPost');
 
   // Supprimer un item
-  $app->get('/item/del/:id/:token', function($id, $tokenItem){
+  $app->get('/item/del/:id/:token', function($idItem, $tokenItem){
     $ctrl = new ItemController();
-    $ctrl->delItem($id, $tokenItem);
+    $ctrl->delItem($idItem, $tokenItem);
   })->name('item_del');
 
   // Page : éditer un item
