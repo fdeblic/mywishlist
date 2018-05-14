@@ -113,8 +113,12 @@ require_once 'vendor/autoload.php';
                 $content .= "<p><a href=\"$url_deleteList\">Supprimer la liste</a></p>";
             }
         }
-        $url_share = 'https://www.facebook.com/sharer/sharer.php?u=' . $_SERVER['SERVER_NAME'] . $url_share;
-        $content .= "<p> Partager la liste : <a title='$url_share' href='$url_share'>Facebook</a></p>";
+        $urlFb = 'https://www.facebook.com/sharer/sharer.php?u=' . $_SERVER['SERVER_NAME'] . $url_share;
+        $urlTw = 'https://twitter.com/home?status=' . $_SERVER['SERVER_NAME'] . $url_share;
+        $urlGgPlus = 'https://plus.google.com/share?url=' . $_SERVER['SERVER_NAME'] . $url_share;
+        $content .= "<p> Partager la liste : <a title='$urlFb' href='$urlFb'>Facebook</a>
+        <a title='$urlTw' href='$urlTw'>Twitter</a>
+        <a title='$urlGgPlus' href='$urlGgPlus'>Google+</a> </p>";
 
         $messages = $list->messages()->get();
 
