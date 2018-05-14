@@ -1,7 +1,7 @@
 <?php
 namespace mywishlist\view;
 require_once 'vendor/autoload.php';
-use \mywishlist\models\Message as Message;
+
 
   class ListView extends GlobalView {
 
@@ -9,8 +9,10 @@ use \mywishlist\models\Message as Message;
       parent::__construct();
     }
 
-    /* Génère le contenu HTML pour afficher une
-    liste des listes passées en paramètre */
+    /**
+     *Génère le contenu HTML pour afficher une liste des listes passées en paramètre
+     *@param $lists les listes à afficher
+     */
     function renderLists($lists) {
       $content  = "<h1> Listes : </h1>";
       $content .= "<ol>";
@@ -33,9 +35,12 @@ use \mywishlist\models\Message as Message;
       parent::render();
     }
 
-    /* Génère le contenu HTML pour afficher une
-    liste passée en paramètre */
-    function renderList($list) {
+    /**
+     *Génère le contenu HTML pour afficher une liste en paramètre
+     *@param $lists la liste à afficher
+     *@param $user l'utilisateur demandant l'action
+     */
+    function renderList($list,$user) {
       $app = \Slim\Slim::getInstance();
         if ($list == null){
             $content = "<h3>Oups !</h3>";
@@ -51,14 +56,18 @@ use \mywishlist\models\Message as Message;
         $content .= "<ol>";
         foreach($list->items as $item){
             $url_rendItem = $app->urlFor('item_aff',['id'=>$item->id, 'token'=>$item->token]);
-            $url_delItem = $app->urlFor('item_del',['id'=>$item->id, 'token'=>$item->token]);
+            if (isset($user)){
+                if ($list->user_id == $user->id_account || $user->admin == 1) {
+                    $url_delItem = $app->urlFor('item_del',['id'=>$item->id, 'token'=>$item->token]);
+                }
+            }
             $book_status="(Non réservé)";
-            if(isset($item->user_booking))
+            if(isset($item->booking_user))
                 if(strtotime($item->liste->expiration)> strtotime('now')){
                     $book_status="(Réservé)";
                 }
                 else {
-                        $book_status="(Réservé par " . $item->user_booking . ": " . $item->message_booking . ")";
+                        $book_status="(Réservé par " . $item->booking_user . ": " . $item->message_booking . ")";
                 }
             $content .= "
             <li>
@@ -66,13 +75,17 @@ use \mywishlist\models\Message as Message;
                     $item->nom\t
                 </a>
                 <span>$book_status</span>
-                <ul>
-                  <li>
+                <ul>";
+            if (isset($user)){
+                if ($list->user_id == $user->id_account || $user->admin == 1) {
+                  $content .="<li>
                     <a href='$url_delItem'>
                       Supprimer
-                      </a>
-                  </li>
-                </ul>
+                    </a>
+                </li>";
+                }
+            }
+             $content .= "</ul>
             </li>";
         }
         $content .= "</ol>";
@@ -90,11 +103,19 @@ use \mywishlist\models\Message as Message;
         </p>
         ";
         $url_modifyList = $app->urlFor('list_editGet',['id'=>$list->no, 'token'=>$list->token]);
-        $content .= "<p><a href=\"$url_modifyList\">Modifier la liste</a></p>";
+        /* Si l'utilisateur est le créateur
+        * ou s'il est admin
+        * Alors il peut modifier l'item (ou le supprimer)
+        */
+        if (isset($user)){
+            if ($list->user_id == $user->id_account || $user->admin == 1) {
+                $content .= "<p><a href=\"$url_modifyList\">Modifier la liste</a></p>";
+                $content .= "<p><a href=\"$url_deleteList\">Supprimer la liste</a></p>";
+            }
+        }
         $content .= "<p> Partager la liste : copier et envoyer le lien suivant : <i><u>http://".$_SERVER['SERVER_NAME'].$url_share."</u></i></p>";
-        $content .= "<p><a href=\"$url_deleteList\">Supprimer la liste</a></p>";
 
-        $messages = Message::where('list_id','=',$list->no)->get();
+        $messages = $list->messages()->get();
 
         foreach($messages as $message){
             $creator = $message->creator;
@@ -115,8 +136,10 @@ use \mywishlist\models\Message as Message;
     }
 
 
-    /* Génère le contenu HTML pour afficher une
-    liste passée en paramètre */
+    /**
+     *Génère le contenu HTML pour afficher une liste passée en paramètre
+     *@param $list la liste à afficher
+     */
     function renderFormList($list) {
         $url = '';
         if (isset($list->no)){
@@ -156,6 +179,9 @@ use \mywishlist\models\Message as Message;
         parent::render();
     }
 
+    /**
+     *Génère le contenu HTML pour afficher les créateurs de listes publiques
+     */
     public function renderCreators($creators) {
       $content = '<p> Créateurs de listes publiques </p>';
       foreach ($creators as $key => $creator) {

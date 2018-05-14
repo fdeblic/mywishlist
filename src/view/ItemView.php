@@ -1,6 +1,6 @@
 <?php
 namespace mywishlist\view;
-use \mywishlist\models\WishList as WishList;
+use \mywishlist\controller\AccountController as AccountController;
 
   class ItemView extends GlobalView{
     function __construct() {
@@ -53,15 +53,17 @@ use \mywishlist\models\WishList as WishList;
         if (isset($_SESSION['user_login']))
           $login = $_SESSION['user_login'];
 
+
         $content .= "
         <form action='$urlPot' method='POST'>
           <p>Participer à la cagnotte :</p>
           <p>Pseudo : <input type='text' name='name' placeholder='Votre nom' value='$login' required></p>
+          <p>Montant restant : $max </p>
           <p>Montant : <input type='number' name='amount' placeholder='Montant (1 à $max €)' min='1' max='$max' required></p>
           <input type='submit' value='Participer'>
         </form>";
       } else {
-        $content .= isset($item->user_booking) ?
+        $content .= isset($item->booking_user) ?
         "<p> Cet item a déjà été réservé.</p>"
         :
         "<p>
@@ -69,7 +71,19 @@ use \mywishlist\models\WishList as WishList;
         </a>
         </p>";
       }
-      $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
+
+      $user = AccountController::getCurrentUser();
+      $wishlist = $item->liste;
+
+      /* Si l'utilisateur existe et est le créateur
+      * ou s'il est admin
+      * Alors il peut modifier l'item (ou le supprimer)
+      */
+     if(isset($user)){
+         if ($wishlist->user_id == $user->id_account || $user->admin == 1){
+             $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
+         }
+     }
       $content .= "<p><a href='$urlDelete'>Supprimer l'item </a></p>";
       $content .= "<p><a href='$url'>Retour à la liste</a></p>";
       $content .= "<div class='clear'></div>";
@@ -82,8 +96,8 @@ use \mywishlist\models\WishList as WishList;
 
 
     /**
-    * Génère le contenu HTML pour afficher un
-    * item créé
+     * Génère le contenu HTML pour afficher un
+     * item créé
      * @param $item l'item créé à afficher
      */
     function renderItemCreated($item) {
@@ -102,10 +116,10 @@ use \mywishlist\models\WishList as WishList;
     }
 
     /**
-    * Génère le contenu HTML pour éditer un
-    * item passé en paramètre
-    * @param $item l'item à éditer
-    */
+     * Génère le contenu HTML pour éditer un
+     * item passé en paramètre
+     * @param $item l'item à éditer
+     */
     function renderEditItem($item) {
         $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
         if ($item == null)
@@ -121,12 +135,19 @@ use \mywishlist\models\WishList as WishList;
     }
 
     /**
-    * Génère le formulaire HTML pour éditer un
-    * item passé en paramètre
-    * @param $item l'item à éditer
-    * @param @list la liste qui va recevoir l'item
-    */
+     * Génère le formulaire HTML pour éditer un
+     * item passé en paramètre
+     * @param $item l'item à éditer
+     * @param @list la liste qui va recevoir l'item
+     */
     function renderFormItem($item, $list){
+        $user = AccountController::getCurrentUser();
+        if ($user == null || $list->user_id != $user->id_account || $user->admin == 1){
+          $this->addHeadMessage("Vous ne pouvez pas modifier cet item", 'bad');
+          $this->renderItem($item);
+          return;
+        }
+
         $form = "";
         $nom = '';
         $descr = '';
@@ -135,7 +156,6 @@ use \mywishlist\models\WishList as WishList;
         $url_item = '';
         $img = '';
         $img_del = '';
-
         if (isset($item)) {
             $nom = $item->nom;
             $descr = $item->descr;
@@ -174,10 +194,10 @@ use \mywishlist\models\WishList as WishList;
     }
 
     /**
-    * Génère le contenu HTML pour réserver un
-    * item passé en paramètre
-    * @param $item l'item à réserver
-    */
+     * Génère le contenu HTML pour réserver un
+     * item passé en paramètre
+     * @param $item l'item à réserver
+     */
     function renderBookItemForm($item){
         $form = '';
         $name = '';
@@ -188,7 +208,7 @@ use \mywishlist\models\WishList as WishList;
           'token' => $item->token]);
         $form =
         "<form action='$urlBookController' method='POST' enctype='multipart/form-data'>
-            <input id='user_booking' name='user_booking' type='text' placeholder='Votre nom' required/>
+            <input id='booking_user' name='booking_user' type='text' placeholder='Votre nom' required/>
             <textarea id='booking_message' name='booking_message' rows='10' cols='50' placeholder='Votre message'></textarea>
             <input type='submit' value='Réserver' />
         </form>";

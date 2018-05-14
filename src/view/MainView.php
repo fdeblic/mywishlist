@@ -7,8 +7,9 @@ namespace mywishlist\view;
       parent::__construct();
     }
 
-    /* Génère le contenu HTML pour afficher une
-    liste des listes passées en paramètre */
+    /**
+     *Génère le contenu HTML pour afficher la page d'accueil
+     */
     function render() {
         $content = "<h1>Bienvenue en terre sainte.</h1>";
         $content .= "<p>

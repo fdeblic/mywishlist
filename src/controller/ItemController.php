@@ -5,6 +5,8 @@ namespace mywishlist\controller;
   use \mywishlist\models\WishList as WishList;
   use \mywishlist\view\ItemView as ItemView;
   use \mywishlist\view\ListView as ListView;
+  use \mywishlist\models\Account as Account;
+  use \mywishlist\controller\AccountController as AccountController;
 
   class ItemController{
 
@@ -70,12 +72,12 @@ namespace mywishlist\controller;
         $item->tarif = $_POST['item_tarif'];
         if(isset($_POST['url_item'])) $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
         $item->cagnotte = $pot;
-        $item->user_booking = NULL;
+        $item->booking_user = NULL;
         $item->message_booking = '';
 
 
         if ($item->save()) {
-            $item->token = crypt($item->id, 'sel de mer');
+            $item->token = stripslashes(crypt($item->id, 'sel de mer'));
             $item->save();
             $view->addHeadMessage("L'item a bien été enregistré", 'good');
             $view->renderItem($item);
@@ -125,6 +127,14 @@ namespace mywishlist\controller;
           //Affiche l'item via la vue
           $view = new ItemView();
           $item = Item::where('id','=',$id)->where('token','=',$token)->first();
+
+          $user = AccountController::getCurrentUser();
+          $wishlist = $item->liste;
+          if ($user == null || $wishlist->user_id != $user->id_account || $user->admin == 1){
+            $view->addHeadMessage("Vous ne pouvez pas modifier cet item", 'bad');
+            $view->renderItem($item);
+            return;
+          }
 
           if (!isset($item)) $view->error("item non trouvé");
           if (!isset($_POST['item_nom'])) $view->error("veuillez entrer un nom");
@@ -196,19 +206,23 @@ namespace mywishlist\controller;
           $item = Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
           $view= new ItemView();
 
-          if (!isset($item))
-          $view->error('Item inexistant');
+          if (!isset($item)) $view->error('Item inexistant');
+          if (!isset($_POST['booking_user']) || strlen($_POST['booking_user']) < 1){
+              $view->addHeadMessage('Vous devez entrer votre nom','bad');
+              $view->renderBookItemForm($item);
+              return;
+          }
 
-          $name =  filter_var($_POST['user_booking'],FILTER_SANITIZE_STRING);
+          $name =  filter_var($_POST['booking_user'],FILTER_SANITIZE_STRING);
           $message =  filter_var($_POST['booking_message'],FILTER_SANITIZE_STRING);
 
-          if(isset($item->user_booking)){
+          if(isset($item->booking_user)){
               $view->addHeadMessage("L'item est déjà réservé", 'bad');
               $view->renderItem($item);
               return;
           }
 
-          $item->user_booking =  $name ;
+          $item->booking_user =  $name ;
           $item->message_booking = $message;
 
           if($item->save()){
@@ -228,7 +242,15 @@ namespace mywishlist\controller;
        */
       function delItem($idItem, $tokenItem) {
         $view = new ListView();
+        $user = AccountController::getCurrentUser();
         $item = Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
+        $wishlist = $item->liste;
+        if ($user == null || $wishlist->user_id != $user->id_account || $user->admin ==1) {
+            $view = new ItemView();
+            $view->addHeadMessage("Vous ne pouvez pas supprimer cet item", 'bad');
+            $view->renderItem($item);
+            return;
+        }
 
         if (!isset($item))
           $view->error('Item inexistant');
@@ -237,7 +259,7 @@ namespace mywishlist\controller;
 
         if (isset($item) && $item->delete()) {
           $view->addHeadMessage('Votre item a bien été supprimé', 'good');
-          $view->renderList($list);
+          $view->renderList($list,$user);
         } else {
           $view = new ItemView();
           $view->addHeadMessage("Votre item n'a pas pu être supprimé", 'bad');
@@ -254,6 +276,15 @@ namespace mywishlist\controller;
         $view = new ItemView();
 
         $item =  Item::where(['id' => $idItem , 'token' => $tokenItem])->first();
+
+        $user = AccountController::getCurrentUser();
+        $wishlist = $item->liste;
+        if ($user == null || $wishlist->user_id != $user->id_account || $user->admin ==1) {
+            $view->addHeadMessage("Vous ne pouvez pas supprimer l'image de cet item", 'bad');
+            $view->renderItem($item);
+            return;
+        }
+
         $item->img = NULL;
         if ($item->save()){
             $view->addHeadMessage("Votre image a bien été supprimée.","good");

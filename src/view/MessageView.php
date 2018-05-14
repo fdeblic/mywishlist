@@ -8,8 +8,10 @@ namespace mywishlist\view;
     }
 
 
-    /* Génère le contenu HTML pour afficher une
-    liste passée en paramètre */
+    /**
+     *Génère le contenu HTML pour confirmer la création du message
+     *@param $message le message créé
+     */
     function renderMessageCreated($message) {
         if ($message == null)
           error("Votre message n'a pas pu être créé");
@@ -21,8 +23,11 @@ namespace mywishlist\view;
         parent::render();
     }
 
-    /* Génère le contenu HTML pour afficher une
-    liste passée en paramètre */
+    /**
+     *Génère le formulaire de création de message
+     *@param $id l'id de la liste
+     *@param $token le token de la liste
+     */
     function renderFormMessage($id, $token) {
         $url = \Slim\Slim::getInstance()->urlFor('list_addMsgPost',['id'=>$id, 'token'=>$token]);
         $form =

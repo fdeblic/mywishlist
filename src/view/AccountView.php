@@ -2,14 +2,18 @@
   namespace mywishlist\view;
 
   class AccountView extends GlobalView {
+
+    /**
+     *Constructeur
+     */
     function __construct() {
       parent::__construct();
     }
 
-    function printConnectionForm() {
-      echo "[connection form]";
-    }
-
+    /**
+     *Render de l'éditeur de compte
+     *@param $account le compte à éditer
+     */
     function renderAccountEditor($account) {
       $id_account = '';
       $nom = '';
@@ -55,7 +59,9 @@
       parent::render();
     }
 
-    // Génère le formulaire mis en haut ou le message "Bonjour [nom]"
+    /**
+     *Génère le formulaire mis en haut ou le message "Bonjour [nom]"
+     */
     public static function generateAccountHeader($connected, $name) {
       $content = "";
       $app = \Slim\Slim::getInstance();
@@ -74,6 +80,9 @@
       $_SESSION['acc_content'] = $content;
     }
 
+    /**
+     *Confirme la création du compte
+     */
     public function renderAccountCreated($acc) {
       $this->addHeadMessage("Le compte '$acc->login' a bien été créé", 'good');
       parent::render();

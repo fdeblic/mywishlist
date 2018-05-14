@@ -9,6 +9,11 @@
 
   class MessageController {
 
+    /**
+     *Ajouter un message à une liste
+     *@param $list_id id de la liste où ajouter le message
+     *@param $token le token de la liste
+     */
     public static function createMessage($list_id, $token){
       $view = new MessageView();
       $list = Wishlist::where('no','=',$list_id)->where('token','=',$token)->first();
@@ -31,8 +36,13 @@
       $view->renderMessageCreated($message);
     }
 
+    /**
+     *Affiche la liste via la vue 
+     *@param $list_id id de la liste où ajouter le message
+     *@param $token le token de la liste
+     */
     public static function getFormMessage($id, $token){
-        //Affiche la liste via la vue
+
         $vue = new MessageView();
 
         if (!AccountController::isConnected())

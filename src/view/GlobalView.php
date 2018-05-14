@@ -5,9 +5,9 @@ use \mywishlist\controller\AccountController as AccountController;
 
 class GlobalView {
 
-  /*
-    Constructeur
-  */
+  /**
+   *Constructeur
+   */
   function __construct() {
     if (!isset($_SESSION['messages']))
       $_SESSION['messages'] = '';
@@ -15,9 +15,9 @@ class GlobalView {
       $_SESSION['globalViewContent'] = '';
   }
 
-  /*
-    Renvoie le code d'un bouton vers une url en POST ou GET uniquement
-  */
+  /**
+   *Renvoie le code d'un bouton vers une url en POST ou GET uniquement
+   */
   public function genererBouton($nom, $url, $methode, $className) {
     $methode = strtoupper($methode);
     if ($methode != 'GET' && $methode != 'POST')
@@ -27,9 +27,9 @@ class GlobalView {
     </form>";
   }
 
-  /*
-    Envoie la page générée au visiteur
-  */
+  /**
+   *Envoie la page générée au visiteur
+   */
   public function render() {
     // Génère les parties variables
     AccountController::generateAccountHeader();
@@ -43,16 +43,16 @@ class GlobalView {
     $_SESSION['messages'] = "";
   }
 
-  /*
-    Ajoute du contenu à la page (dans la section associée)
-  */
+  /**
+   *Ajoute du contenu à la page (dans la section associée)
+   */
   public function addContent($content) {
     $_SESSION['globalViewContent'] .= $content . "\r\n";
   }
 
-  /*
-    Récupère le contenu de la page
-  */
+  /**
+   *Récupère le contenu de la page
+   */
   public static function getContent() {
     if (isset($_SESSION['globalViewContent']))
       return $_SESSION['globalViewContent'];
@@ -60,9 +60,9 @@ class GlobalView {
       return "(pas de contenu généré)";
   }
 
-  /*
-    Ajoute un message à afficher juste au-dessus du contenu
-  */
+  /**
+   *Ajoute un message à afficher juste au-dessus du contenu
+   */
   public static function addHeadMessage($text, $type) {
     switch ($type) {
       case 'bad':
@@ -78,16 +78,16 @@ class GlobalView {
     }
   }
 
-  /*
-    Crée une erreur de connexion
-  */
+  /**
+   *Crée une erreur de connexion
+   */
   public function notConnectedError() {
     $this->error("veuillez vous connecter...");
   }
 
-  /*
-    Erreur : stoppe la génération de la page
-  */
+  /**
+   *Erreur : stoppe la génération de la page
+   */
   public function error($errorMessage) {
     $this->addHeadMessage("Erreur : $errorMessage", "bad");
     if (isset($_SERVER['HTTP_REFERER'])) {
