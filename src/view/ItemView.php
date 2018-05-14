@@ -139,6 +139,13 @@ use \mywishlist\controller\AccountController as AccountController;
     * @param @list la liste qui va recevoir l'item
     */
     function renderFormItem($item, $list){
+        $user = AccountController::getCurrentUser();
+        if ($user == null || $list->user_id != $user->id_account || $user->admin == 1){
+          $this->addHeadMessage("Vous ne pouvez pas modifier cet item", 'bad');
+          $this->renderItem($item);
+          return;
+        }
+        
         $form = "";
         $nom = '';
         $descr = '';
@@ -147,7 +154,6 @@ use \mywishlist\controller\AccountController as AccountController;
         $url_item = '';
         $img = '';
         $img_del = '';
-
         if (isset($item)) {
             $nom = $item->nom;
             $descr = $item->descr;
