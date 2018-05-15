@@ -51,17 +51,23 @@ body {
   list-style-type: none;
 }
 
-#menu-navig li {
-  display: inline-block;
-  text-align: center;
-  width: 100px;
-  padding: 5px 10px;
-  border-bottom: 1px solid grey;
-  transition: 0.1s;
+#menu-navig li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px 30px;
   color: darkslategray;
+  text-decoration: none;
 }
 
-#menu-navig li:hover {
+#menu-navig li {
+  display: inline-flex;
+  text-align: center;
+  border-bottom: 1px solid grey;
+  transition: 0.1s;
+}
+
+#menu-navig li a:hover {
   color: white;
   background-color: darkslategray;
 }

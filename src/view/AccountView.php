@@ -39,23 +39,25 @@
         $participant = $account->participant;
       }
 
-      $this->addContent("
-      <form method='post' action='".$url."'>
-        <input required type='text' placeholder='Login' name='acc_login' value='$login' ". ($connected ? 'disabled':'') .">
-        <input required type='hidden' name='acc_id_account' value='$id_account'>
-        <input required type='text' placeholder='Nom' name='acc_nom' value='$nom'>
-        <input required type='text' placeholder='Prénom' name='acc_prenom' value='$prenom'>
-        <input type='password' minlength='8' placeholder='Mot de passe' name='acc_password' ". (!$connected ? 'required':'') .">
-        <input type='password' minlength='8' placeholder='Confirmation mot de passe' name='acc_password_confirmation'". (!$connected ? 'required':'') .">
-        <input type='submit' value='Enregistrer'>
-      </form>");
+      $content  = "  <!-- Account editor -->\n";
+      $content .= "<form method='post' action='".$url."'>\n";
+      $content .= "  <input required type='text' placeholder='Login' name='acc_login' value='$login' ". ($connected ? 'disabled':'') .">\n";
+      $content .= "  <input required type='hidden' name='acc_id_account' value='$id_account'>\n";
+      $content .= "  <input required type='text' placeholder='Nom' name='acc_nom' value='$nom'>\n";
+      $content .= "  <input required type='text' placeholder='Prénom' name='acc_prenom' value='$prenom'>\n";
+      $content .= "  <input type='password' minlength='8' placeholder='Mot de passe' name='acc_password' ". (!$connected ? 'required':'') .">\n";
+      $content .= "  <input type='password' minlength='8' placeholder='Confirmation mot de passe' name='acc_password_confirmation'". (!$connected ? 'required':'') .">\n";
+      $content .= "  <input type='submit' value='Enregistrer'>\n";
+      $content .= "</form>\n";
 
       if ($connected) {
-        $this->addContent("<form method='post' action='".$app->urlFor('acc_delete')."'>
-          <input type='submit' value='Supprimer mon compte'>
-        </form>");
+        $content .= "\n<!-- Delete account button -->\n";
+        $content .= "<form method='post' action='".$app->urlFor('acc_delete')."'>\n";
+        $content .= "  <input type='submit' value='Supprimer mon compte'>\n";
+        $content .= "</form>\n";
       }
 
+      $this->addContent(str_replace ("\n", "\n  ", $content));
       parent::render();
     }
 
@@ -66,15 +68,20 @@
       $content = "";
       $app = \Slim\Slim::getInstance();
       if ($connected) {
-        $content = "<p id='connectionMsg'> Bonjour " . $name . "<br>
-          <a id='disconnectLink' href='" . $app->urlFor('acc_disconnect') . "'>Déconnexion</a></p>";
+        $content  = "\n  <!-- Account -->\n";
+        $content .= "  <p id='connectionMsg'>\n";
+        $content .= "    Bonjour $name <br>\n";
+        $content .= "    <a id='disconnectLink' href='" . $app->urlFor('acc_disconnect') . "'>Déconnexion</a>\n";
+        $content .= "  </p>\n";
       } else {
-        $content = "<form id='connectionForm' method='post' action='" . $app->urlFor("acc_auth") . "'>
-          <input required placeholder='Login' type='text' name='acc_login'>
-          <input required placeholder='******' type='password' name='acc_password'>
-          <input type='submit' value='Connexion'>
-          <a id='inscriptionLink' href='".$app->urlFor('acc_create_get')."'>Inscription</a>
-        </form>";
+        $content = "\n";
+        $content .= "  <!-- Connection form -->\n";
+        $content .= "  <form id='connectionForm' method='post' action='" . $app->urlFor("acc_auth") . "'>\n";
+        $content .= "    <input required placeholder='Login' type='text' name='acc_login'>\n";
+        $content .= "    <input required placeholder='******' type='password' name='acc_password'>\n";
+        $content .= "    <input type='submit' value='Connexion'>\n";
+        $content .= "    <a id='inscriptionLink' href='".$app->urlFor('acc_create_get')."'>Inscription</a>\n";
+        $content .= "  </form>\n";
       }
 
       $_SESSION['acc_content'] = $content;

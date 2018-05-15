@@ -54,7 +54,7 @@ class PhpStringTokenParser
         '$' => '$',
         'n' => "\n",
         'r' => "\r",
-        't' => "\t",
+        't' => "  ",
         'f' => "\f",
         'v' => "\v",
         'e' => "\x1B",

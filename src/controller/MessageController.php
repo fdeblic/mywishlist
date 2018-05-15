@@ -32,12 +32,17 @@
       $message->id_creator = $user->id_account;
       $message->body = filter_var($_POST['message_body'],FILTER_SANITIZE_STRING);
       $message->list_id = $list_id;
-      $message->save();
-      $view->renderMessageCreated($message);
+      if ($message->save()) {
+        $view->renderMessageCreated($message);
+      } else {
+        $view->addHeadMessage('Erreur : la sauvegarde a échoué', 'bad');
+        $view->renderFormMessage($list_id, $token);
+      }
+
     }
 
     /**
-     *Affiche la liste via la vue 
+     *Affiche la liste via la vue
      *@param $list_id id de la liste où ajouter le message
      *@param $token le token de la liste
      */

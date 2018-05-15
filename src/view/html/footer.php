@@ -1,5 +1,5 @@
 
-<!-- Footer -->
+<!-- FOOTER -->
 <footer>
   <hr>
   <p> Conditions générales d'utilisation </p>

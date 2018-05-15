@@ -22,7 +22,7 @@
       ob_end_clean();
 
       // Mise en place des tabulations pour un code HTML lisible
-      print str_replace("\n", "\n\t", $content) . "\r";
+      print str_replace("\n", "\n    ", $content) . "\r\n";
     ?>
   </body>
 </html>

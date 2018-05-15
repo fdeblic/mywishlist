@@ -16,80 +16,79 @@ use \mywishlist\controller\AccountController as AccountController;
       $app = \Slim\Slim::getInstance();
       $content = "";
 
+      // Item null
       if (!isset($item)){
           $content .= "<h3> Oups ! </h3>";
           $content .= "<p> L'objet sélectionné n'existe pas !</p>";
-          $content = str_replace ("\n", "\n\t", $content)."\n";
+          $content = str_replace ("\n", "\n  ", $content)."\n";
           $this->addContent($content);
           parent::render();
           return;
       }
 
-      $url = $app->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
+      // Droit de modification si créateur ou admin
+      $user = AccountController::getCurrentUser();
+      $canEdit = isset($user) && ($item->liste->user_id == $user->id_account || $user->admin == true);
+
+      // Les URL utilisées
+      $urlList = $app->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
       $urlDelete = $app->urlFor('item_del',['id'=>$item->id, 'token'=>$item->token]);
       $urlEdit = $app->urlFor('item_editGet',['id'=>$item->id, 'token'=>$item->token]);
       $urlDelImg = $app->urlFor('item_delImg',['id'=>$item->id, 'token'=>$item->token]);
       $urlPot = $app->urlFor('item_participate_post',['id'=>$item->id]);
       $urlReserv = $app->urlFor('item_reserv_get',['id'=>$item->id, 'token'=>$item->token]);
 
+      // Affichage de l'item
+      $content .= "\n<!-- Item -->\n";
+      if (isset($item->img)) $content .= "<img src='./img/$item->img' alt='$item->nom'>\n";
+      $content .= "<h1> $item->nom </h1>\n";
+      $content .= "<p class='description-item'> $item->descr </p>\n";
+      $content .= "<p> Tarif : $item->tarif € </p>\n";
+      if (isset($item->url)) $content .= "<p> Plus d'infos : <a href='$item->url' target=_blank> $item->url </a></p>\n";
 
+      $content .= "\n<!-- Actions -->\n";
 
-      if (isset($item->img)){
-          $content .= "<img src=\"./img/$item->img\" alt=\"$item->nom\" >";
-      }
-      $content .= "<h1> $item->nom </h1>";
-      $content .= "<p class=\"description-item\">$item->descr</p>";
-      $content .= "<p>Tarif : $item->tarif</p>";
-      if (isset($item->url)) $content .= "
-      <p>Lien :
-         <a href='$item->url' target=_blank>
-          $item->url
-         </a>
-      </p>";
-      if (isset($item->img)) $content .= "<p><a href='$urlDelImg'>Supprimer l'image</a></p>";
+      // Cagnotte ou réservation
       if ($item->cagnotte) {
-        $login = '';
-        $max = $item->maxParticipation();
-        if (isset($_SESSION['user_login']))
-          $login = $_SESSION['user_login'];
-
-
-        $content .= "
-        <form action='$urlPot' method='POST'>
-          <p>Participer à la cagnotte :</p>
-          <p>Pseudo : <input type='text' name='name' placeholder='Votre nom' value='$login' required></p>
-          <p>Montant restant : $max </p>
-          <p>Montant : <input type='number' name='amount' placeholder='Montant (1 à $max €)' min='1' max='$max' required></p>
-          <input type='submit' value='Participer'>
-        </form>";
-      } else {
-        $content .= isset($item->booking_user) ?
-        "<p> Cet item a déjà été réservé.</p>"
-        :
-        "<p>
-        <a href='$urlReserv'>Réserver l'item
-        </a>
-        </p>";
+        // Cagnotte
+        $max = $item->maxPotParticipation();
+        if ($max != 0) {
+          $login = '';
+          if (AccountController::isConnected()) $login = AccountController::getLogin();
+          $content .= "\n<!-- Cagnotte -->\n";
+          $content .= "<form action='$urlPot' method='POST'>\n";
+          $content .= "  <p>Participer à la cagnotte :</p>\n";
+          $content .= "  <p>Pseudo : <input type='text' name='name' placeholder='Votre nom' value='$login' required></p>\n";
+          $content .= "  <p>Montant restant : $max € </p>\n";
+          $content .= "  <p>Montant : <input type='number' name='amount' step='0.01' placeholder='Montant (1 à $max €)' min='1' max='$max' required></p>\n";
+          $content .= "  <input type='submit' value='Participer'>\n";
+          $content .= "</form>\n";
+        } else {
+          $content .= "<p> Cagnotte : complétée avec succès ! </p>\n";
+        }
+      }
+      else {
+        // Reservation
+        if (isset($item->booking_user))
+          $content .= "<p> Cet item est réservé </p>\n";
+        else
+          $content .= "<a href='$urlReserv'>Réserver l'item </a> <br>\n";
       }
 
-      $user = AccountController::getCurrentUser();
-      $wishlist = $item->liste;
+      // Bouton de retour
+      $content .= "<a href='$urlList'>Retour à la liste</a><br>\n";
 
-      /* Si l'utilisateur existe et est le créateur
-      * ou s'il est admin
-      * Alors il peut modifier l'item (ou le supprimer)
-      */
-     if(isset($user)){
-         if ($wishlist->user_id == $user->id_account || $user->admin == 1){
-             $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
-         }
-     }
-      $content .= "<p><a href='$urlDelete'>Supprimer l'item </a></p>";
-      $content .= "<p><a href='$url'>Retour à la liste</a></p>";
-      $content .= "<div class='clear'></div>";
+      // Actions d'édition
+      if ($canEdit) {
+        $content .= "\n<!-- Edition -->\n";
+        $content .= "<p> - Edition - </p>\n";
+        $content .= "<a href='$urlEdit'>Modifier l'item</a><br>\n";
+        $content .= "<a href='$urlDelete'>Supprimer l'item </a><br>\n";
+        if (isset($item->img))
+          $content .= "<a href='$urlDelImg'>Supprimer l'image</a><br>\n";
+      }
 
-
-      $content = str_replace ("\n", "\n\t", $content)."\n";
+      $content = str_replace ("\n", "\n  ", $content);
       $this->addContent($content);
       parent::render();
     }
@@ -100,8 +99,8 @@ use \mywishlist\controller\AccountController as AccountController;
      * item créé
      * @param $item l'item créé à afficher
      */
-    function renderItemCreated($item) {
-        $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
+    /*function renderItemCreated($item) {
+        $url = \Slim\Slim::getInstance()->urlFor('list_aff', ['id'=>$item->liste_id, 'token'=>$item->liste->token]);
         if ($item == null)
           error("Votre item n'a pas pu être créé");
 
@@ -113,14 +112,14 @@ use \mywishlist\controller\AccountController as AccountController;
             </a>
         </p>");
         parent::render();
-    }
+    }*/
 
     /**
      * Génère le contenu HTML pour éditer un
      * item passé en paramètre
      * @param $item l'item à éditer
      */
-    function renderEditItem($item) {
+    /*function renderEditItem($item) {
         $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
         if ($item == null)
           error("Votre item n'a pas pu être modifié");
@@ -132,7 +131,7 @@ use \mywishlist\controller\AccountController as AccountController;
             </a>
         </p>");
         parent::render();
-    }
+    }*/
 
     /**
      * Génère le formulaire HTML pour éditer un
@@ -142,20 +141,13 @@ use \mywishlist\controller\AccountController as AccountController;
      */
     function renderFormItem($item, $list){
         $user = AccountController::getCurrentUser();
-        if ($user == null || $list->user_id != $user->id_account || $user->admin == 1){
+        if (!isset($user) || $list->user_id != $user->id_account && $user->admin == false){
           $this->addHeadMessage("Vous ne pouvez pas modifier cet item", 'bad');
           $this->renderItem($item);
           return;
         }
 
-        $form = "";
-        $nom = '';
-        $descr = '';
-        $tarif = '';
-        $pot = false;
-        $url_item = '';
-        $img = '';
-        $img_del = '';
+        $form = ''; $nom = ''; $descr = ''; $tarif = ''; $pot = false; $url_item = ''; $img = ''; $itemDelete = '';
         if (isset($item)) {
             $nom = $item->nom;
             $descr = $item->descr;
@@ -163,33 +155,31 @@ use \mywishlist\controller\AccountController as AccountController;
             $pot = $item->cagnotte;
             $url_item = $item->url;
             $img = $item->img;
-            $url = \Slim\Slim::getInstance()->urlFor("item_editPost",[
-              'id' => $item->id,
-              'token' => $item->token]);
+            $url = \Slim\Slim::getInstance()->urlFor("item_editPost",['id' => $item->id, 'token' => $item->token]);
         } else {
-            $url = \Slim\Slim::getInstance()->urlFor('list_addItemPost', [
-              'id' => $list->no,
-              'token' => $list->token]);
+            $url = \Slim\Slim::getInstance()->urlFor('list_addItemPost', ['id' => $list->no, 'token' => $list->token]);
         }
 
 
         $valueSubmit = isset($item->id) ? "Modifier l'item" : "Créer l'item";
 
-        $form =
-        "<form action='$url' method='POST' enctype='multipart/form-data'>
-          <input id='item_nom' name='item_nom' type='text' value='$nom' placeholder=\"Nom de l'item\">
-          <textarea id='item_descr' name='item_descr' rows='10' cols='50' placeholder='Description'>$descr</textarea>
-          <input id='item_tarif' name='item_tarif' type='text' value='$tarif' placeholder='Tarif'>
-          <input type='text' name='url_item' value='$url_item' placeholder='Lien'\>
-          <p><input id='item_pot' name='item_pot' type='radio' value='reserv' ".($pot?'':'checked').">Item à réserver
-          <input id='item_pot' name='item_pot' type='radio' value='pot' ".($pot?'checked ':'').">Cagnotte sur l'item</p>
-          <input id='item_img' name='item_img' type='file' value='$img' placeholder='Image'>";
-        if (isset($item->img)){ $form .="<p> Supprimer l'image
-          <input id='img_del' name='img_del' type='checkbox' value='del' ".($img_del?'':'')."> </p>";}
-        $form .="<input type='submit' value='$valueSubmit'>
-        </form>";
+        $form  = "<form action='$url' method='POST' enctype='multipart/form-data'>\n";
+        $form .= "  <input id='imgName' name='imgName' type='text' value='$nom' placeholder=\"Nom de l'item\">\n";
+        $form .= "  <textarea id='imgDescr' name='imgDescr' rows='10' cols='50' placeholder='Description'>$descr</textarea>\n";
+        $form .= "  <input id='itemTarif' name='itemTarif' type='text' value='$tarif' placeholder='Tarif'>\n";
+        $form .= "  <input type='text' name='url_item' value='$url_item' placeholder='Lien'>\n";
+        $form .= "  <p>\n";
+        $form .= "    <input id='itemPotOrReserv' name='itemPotOrReserv' type='radio' value='reserv' ".($pot?'':'checked').">Item à réserver\n";
+        $form .= "    <input id='itemPotOrReserv' name='itemPotOrReserv' type='radio' value='pot' ".($pot?'checked ':'').">Cagnotte sur l'item\n";
+        $form .= "  </p>\n";
+        $form .= "  <input id='itemImgFile' name='itemImgFile' type='file' value='$img' placeholder='Image'>\n";
+        if (isset($item->img)) {
+          $form .= "  <p> Supprimer l'image <input id='itemDelete' name='itemDelete' type='checkbox'> </p>\n";
+        }
+        $form .= "  <input type='submit' value=\"$valueSubmit\">\n";
+        $form .= "</form>\n";
 
-        $this->addContent($form);
+        $this->addContent(str_replace ("\n", "\n  ", $form));
         parent::render();
     }
 

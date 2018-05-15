@@ -27,7 +27,7 @@ class PotController {
 
     $participation->pot_id = $id;
     $participation->name = filter_var($_POST['name'],FILTER_SANITIZE_STRING);;
-    $participation->amount = filter_var($_POST['amount'],FILTER_SANITIZE_NUMBER_INT);
+    $participation->amount = filter_var($_POST['amount'],FILTER_SANITIZE_NUMBER_FLOAT);
 
     if ($participation->save() != null) {
       $vue->addHeadMessage("Votre participation de <b></b> a bien été enregistrée", "good");

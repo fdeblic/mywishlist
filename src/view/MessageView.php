@@ -30,14 +30,13 @@ namespace mywishlist\view;
      */
     function renderFormMessage($id, $token) {
         $url = \Slim\Slim::getInstance()->urlFor('list_addMsgPost',['id'=>$id, 'token'=>$token]);
-        $form =
-        "<form action='$url' method='POST'>
-          <p>Entrez une news pour votre liste</p>
-          <textarea id='message_body' name='message_body' rows='10' cols='50' placeholder='Entrez votre message'></textarea>
-          <input type='submit' value='Envoyer le message'>
-        </form>";
-
-        $this->addContent($form);
+        $form  = "  <!-- Message form -->\n";
+        $form .= "<form action='$url' method='POST'>\n";
+        $form .= "  <p>Entrez une news pour votre liste</p>\n";
+        $form .= "  <textarea id='message_body' name='message_body' rows='10' cols='50' placeholder='Entrez votre message'></textarea>\n";
+        $form .= "  <input type='submit' value='Envoyer le message'>\n";
+        $form .= "</form>";
+        $this->addContent(str_replace("\n", "\n  ", $form));
         parent::render();
     }
   }

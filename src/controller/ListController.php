@@ -11,16 +11,15 @@ class ListController {
    *Affiche les listes existantes
    */
   public function dispAllList() {
-    // Récupère toutes les listes existantes dans la base de données
-    $lists = WishList::where('public','=', 1);
+    $view = new ListView();
+    $publicLists = WishList::where('public','=', 1)->get();
     if (AccountController::isConnected()){
       $user = AccountController::getCurrentUser();
-      $lists = $lists->orWhere('user_id','=', $user->id_account);
+      $ownLists = WishList::where('user_id','=', $user->id_account)->get();
+      $view->renderLists($publicLists, $ownLists);
+    } else {
+      $view->renderLists($publicLists, null);
     }
-    $lists = $lists->get();
-    // Affiche les listes via la vue
-    $view = new ListView();
-    $view->renderLists($lists);
   }
 
   /**
@@ -87,7 +86,7 @@ class ListController {
     $view->notConnectedError();
 
     $wishlist = WishList::where('no','=',$id)->where('token','=',$token)->first();
-    if ($wishlist->user_id != $user->id_account || $user->admin == 1){
+    if ($wishlist->user_id != $user->id_account || $user->admin == false){
       $view->addHeadMessage("Vous ne pouvez pas modifier cette liste", 'bad');
       $view->renderList($wishlist,$user);
       return;

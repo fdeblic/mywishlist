@@ -309,7 +309,7 @@ class Inflector
      *
      * @return string The string with all delimeter-separated words capitalized.
      */
-    public static function ucwords($string, $delimiters = " \n\t\r\0\x0B-")
+    public static function ucwords($string, $delimiters = " \n  \r\0\x0B-")
     {
         return preg_replace_callback(
             '/[^' . preg_quote($delimiters, '/') . ']+/',
