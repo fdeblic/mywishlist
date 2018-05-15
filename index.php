@@ -225,4 +225,15 @@
    $ctrl->disconnect();
   })->name('acc_disconnect');
 
+  // Se déconnecter
+  $app->get('/reset', function() {
+    try {
+      DB::statement('CALL reset()');
+      \mywishlist\view\GlobalView::addHeadMessage('Base de données remise à l\'origine', 'good');
+    } catch (Exception $e) {
+      \mywishlist\view\GlobalView::addHeadMessage('La base de données n\'a pas pu être remise à zéro', 'bad');
+    }
+   MainController::displayHome();
+ })->name('reset');
+
   $app->run();

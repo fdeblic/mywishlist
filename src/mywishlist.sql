@@ -1,3 +1,7 @@
+DROP PROCEDURE IF EXISTS reset;
+DELIMITER |
+CREATE PROCEDURE reset()
+BEGIN
 SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
@@ -61,7 +65,8 @@ INSERT INTO `item` (`id`, `nom`, `descr`, `img`, `tarif`, `token`, `url`, `cagno
 (26, 'Planètes Laser', 'Laser game : Gilet électronique et pistolet laser comme matériel, vous voilà équipé.', 'laser.jpg', '15.00', 'tokItem', 'www.uneurl.com', 0, NULL, '', 1);
 
 
-CREATE TABLE IF NOT EXISTS `account` (
+DROP TABLE IF EXISTS `account`;
+CREATE TABLE `account` (
   `id_account` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(70) NOT NULL,
   `prenom` varchar(70) NOT NULL,
@@ -79,7 +84,8 @@ INSERT INTO `account` (`id_account`, `nom`, `prenom`, `login`, `password`, `admi
 
 
 
-CREATE TABLE IF NOT EXISTS `message_list` (
+DROP TABLE IF EXISTS `message_list`;
+CREATE TABLE `message_list` (
   `id_message` int(11) NOT NULL AUTO_INCREMENT,
   `list_id` int(11) NOT NULL,
   `body` text COLLATE utf8_unicode_ci NOT NULL,
@@ -122,3 +128,6 @@ ALTER TABLE `pot_participation`
 --
 ALTER TABLE `pot_participation`
   MODIFY `id_pot_participation` int(11) NOT NULL AUTO_INCREMENT;
+
+END|
+DELIMITER ;
