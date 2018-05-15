@@ -16,8 +16,8 @@ liste.
 
 ##Installation##
 * Cloner le dépôt bitbucket
-`<addr>` git clone *lien de clonage*
-* Importer le fichier mywishlist.sql à votre base de donnée
+`<git clone *lien de clonage*>` 
+* Importer le fichier mywishlist.sql à votre base de données
 
 ##Données de test##
 
