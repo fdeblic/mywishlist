@@ -77,7 +77,7 @@ require_once 'vendor/autoload.php';
                 <span>$book_status</span>
                 <ul>";
             if (isset($user)){
-                if ($list->user_id == $user->id_account || $user->admin == 1) {
+                if ($list->user_id == $user->id_account || $user->admin == true) {
                   $content .="<li>
                     <a href='$url_delItem'>
                       Supprimer
@@ -90,25 +90,32 @@ require_once 'vendor/autoload.php';
         }
         $content .= "</ol>";
 
-        $content .= "
-        <p>
-            <a href='$url_addItem'>Créer un item</a>
-        </p>";
-
+        if (isset($user)){
+            if ($list->user_id == $user->id_account || $user->admin == true) {
+              $content .= "
+                <p>
+                  <a href='$url_addItem'>Créer un item</a>
+                </p>";
+            }
+        }
         $url_addMessage = $app->urlFor('list_addMsgPost',['id'=>$list->no, 'token'=>$list->token]);
         $url_deleteList = $app->urlFor('list_delete',['id'=>$list->no, 'token'=>$list->token]);
-        $content .= "
-        <p>
-            <a href='$url_addMessage'>Ajouter un message</a>
-        </p>
-        ";
+
+        if (isset($user)){
+            if ($list->user_id == $user->id_account || $user->admin == true) {
+              $content .= "
+              <p>
+                <a href='$url_addMessage'>Ajouter un message</a>
+              </p>";
+            }
+          }
         $url_modifyList = $app->urlFor('list_editGet',['id'=>$list->no, 'token'=>$list->token]);
         /* Si l'utilisateur est le créateur
         * ou s'il est admin
         * Alors il peut modifier l'item (ou le supprimer)
         */
         if (isset($user)){
-            if ($list->user_id == $user->id_account || $user->admin == 1) {
+            if ($list->user_id == $user->id_account || $user->admin == true) {
                 $content .= "<p><a href=\"$url_modifyList\">Modifier la liste</a></p>";
                 $content .= "<p><a href=\"$url_deleteList\">Supprimer la liste</a></p>";
             }
