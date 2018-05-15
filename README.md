@@ -15,24 +15,28 @@ liste.
 * Spacher Loïc
 
 ##Installation##
-* Cloner le dépôt bitbucket
-`<git clone *lien de clonage*>` 
+* Cloner le dépôt bitbucket :
+``` git clone git@bitbucket.org:depinfoens/php-mywishlist.git
+```
 * Importer le fichier mywishlist.sql se trouvant dans src à votre base de données
 * Créer un dossier conf dans src
-    *Créer le fichier db.conf.ini dans ce dossier
-    *Modifier le pour qu'il corresponde aux informations de votre base de données :
-	driver=mysql
-	host=*localhost*
-	database=*db_name*
-	username=*db_user*
-	password=*db_password*
+    * Créer le fichier *db.conf.ini* dans ce dossier
+    * Modifier le pour qu'il corresponde aux informations de votre base de données :
+	```
+  driver=mysql
+	host=localhost
+	database=db_name
+	username=db_user
+	password=db_password
 	charset=utf8
 	collation=utf8_unicode_ci
-	prefix=
+	prefix=  
+  ```
+
 * Télécharger le fichier .htaccess et le placer à la racine du projet:
 [.htaccess](https://drive.google.com/file/d/1FyX5qk8CnRWy90kXeUxuqFNHbE_b_SUI/view?usp=sharing)
 * Le site est prêt, vous pouvez l'utiliser
-	
+
 ##Descriptif des fonctionnalités réalisées##
 * Gestion des comptes :
     * Créer un compte,
@@ -63,12 +67,8 @@ liste.
     * Ajouter un message avec sa réservation,
     * Ajouter un message sur une liste,
     * Consulter les réservations et messages d'une de ses listes après échéance.
-* Gestion des images : 
+* Gestion des images :
     * Rajouter une image à un item,
     * Modifier une image d'un item,
     * Supprimer une image d'un item,
     * Uploader une image.
-
- 
-
-
