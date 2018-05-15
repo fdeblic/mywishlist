@@ -20,7 +20,6 @@
       $prenom = '';
       $login = '';
       $admin = '';
-      $participant = '';
 
       $url = '';
       $app = \Slim\Slim::getInstance();
@@ -36,7 +35,6 @@
         $prenom = $account->prenom;
         $login = 'Login : '.$account->login;
         $admin = $account->admin;
-        $participant = $account->participant;
       }
 
       $content  = "  <!-- Account editor -->\n";

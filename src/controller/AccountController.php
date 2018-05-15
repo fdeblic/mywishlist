@@ -40,7 +40,6 @@ class AccountController {
     $acc->login = strtolower($_POST['acc_login']);
     $acc->password = crypt($_POST['acc_password'], "sel de mer");
     $acc->admin = false;
-    $acc->participant = true;
 
     // Enregistre le nouveau compte
     if ($acc->save()) {
