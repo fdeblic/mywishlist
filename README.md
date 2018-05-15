@@ -1,3 +1,5 @@
-# php-mywhislist
+#Projet My-Wishlist
 
-Projet WishList AS
+##Descriptif du projet##
+
+L'objectif du projet est de proposer un site de wishlist participative.
