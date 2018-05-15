@@ -231,7 +231,7 @@
       DB::statement('CALL reset()');
       \mywishlist\view\GlobalView::addHeadMessage('Base de données remise à l\'origine', 'good');
     } catch (Exception $e) {
-      \mywishlist\view\GlobalView::addHeadMessage('La base de données n\'a pas pu être remise à zéro', 'bad');
+      \mywishlist\view\GlobalView::addHeadMessage('La base de données n\'a pas pu être remise à zéro<br>'.$e->getMessage(), 'bad');
     }
    MainController::displayHome();
  })->name('reset');
