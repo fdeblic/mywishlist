@@ -46,7 +46,10 @@ use \mywishlist\controller\AccountController as AccountController;
           $item->url
          </a>
       </p>";
-      if (isset($item->img)) $content .= "<p><a href='$urlDelImg'>Supprimer l'image</a></p>";
+      $user = AccountController::getCurrentUser();
+      if (isset($user))
+          if ($list->user_id == $user->id_account || $user->admin == true)
+            if (isset($item->img)) $content .= "<p><a href='$urlDelImg'>Supprimer l'image</a></p>";
       if ($item->cagnotte) {
         $login = '';
         $max = $item->maxParticipation();
@@ -72,7 +75,7 @@ use \mywishlist\controller\AccountController as AccountController;
         </p>";
       }
 
-      $user = AccountController::getCurrentUser();
+
       $wishlist = $item->liste;
 
       /* Si l'utilisateur existe et est le créateur
@@ -80,11 +83,11 @@ use \mywishlist\controller\AccountController as AccountController;
       * Alors il peut modifier l'item (ou le supprimer)
       */
      if(isset($user)){
-         if ($wishlist->user_id == $user->id_account || $user->admin == 1){
+         if ($wishlist->user_id == $user->id_account || $user->admin == true){
              $content .= "<p><a href='$urlEdit'>Modifier l'item</a></p>";
+             $content .= "<p><a href='$urlDelete'>Supprimer l'item </a></p>";
          }
      }
-      $content .= "<p><a href='$urlDelete'>Supprimer l'item </a></p>";
       $content .= "<p><a href='$url'>Retour à la liste</a></p>";
       $content .= "<div class='clear'></div>";
 
@@ -142,7 +145,7 @@ use \mywishlist\controller\AccountController as AccountController;
      */
     function renderFormItem($item, $list){
         $user = AccountController::getCurrentUser();
-        if ($user == null || $list->user_id != $user->id_account || $user->admin == 1){
+        if ($user == null || $list->user_id != $user->id_account || $user->admin == false){
           $this->addHeadMessage("Vous ne pouvez pas modifier cet item", 'bad');
           $this->renderItem($item);
           return;
