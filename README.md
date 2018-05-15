@@ -17,10 +17,22 @@ liste.
 ##Installation##
 * Cloner le dépôt bitbucket
 `<git clone *lien de clonage*>` 
-* Importer le fichier mywishlist.sql à votre base de données
-
-##Données de test##
-
+* Importer le fichier mywishlist.sql se trouvant dans src à votre base de données
+* Créer un dossier conf dans src
+    *Créer le fichier db.conf.ini dans ce dossier
+    *Modifier le pour qu'il corresponde aux informations de votre base de données :
+	driver=mysql
+	host=*localhost*
+	database=*db_name*
+	username=*db_user*
+	password=*db_password*
+	charset=utf8
+	collation=utf8_unicode_ci
+	prefix=
+* Télécharger le fichier .htaccess et le placer à la racine du projet:
+[.htaccess](https://drive.google.com/file/d/1FyX5qk8CnRWy90kXeUxuqFNHbE_b_SUI/view?usp=sharing)
+* Le site est prêt, vous pouvez l'utiliser
+	
 ##Descriptif des fonctionnalités réalisées##
 * Gestion des comptes :
     * Créer un compte,
@@ -34,7 +46,7 @@ liste.
     * Modifier les informations générales d'une de ses listes,
     * Rendre une liste publique,
     * Afficher les listes de souhaits publiques,
-    * **Supprimer une liste. BONUS**
+    * **BONUS: Supprimer une liste.**
 * Gestion des items :
     * Ajouter un item,
     * Modifier un item,
