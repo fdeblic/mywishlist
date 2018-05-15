@@ -20,7 +20,7 @@ require_once 'vendor/autoload.php';
         $content = "  <h1> Listes : </h1>\n";
 
       if (isset($ownLists) && count($ownLists) != 0) {
-        $content .= "<h2> Vos listes : </h2>\n";
+        $content .= "<h2> Listes : </h2>\n";
         $content .= "<ul>\n";
         foreach ($ownLists as $list) {
           $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);

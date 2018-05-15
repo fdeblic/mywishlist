@@ -15,7 +15,10 @@ class ListController {
     $publicLists = WishList::where('public','=', 1)->get();
     if (AccountController::isConnected()){
       $user = AccountController::getCurrentUser();
-      $ownLists = WishList::where('user_id','=', $user->id_account)->get();
+      if ($user->admin)
+        $ownLists = WishList::select('*')->get();
+      else
+        $ownLists = WishList::where('user_id','=', $user->id_account)->get();
       $view->renderLists($publicLists, $ownLists);
     } else {
       $view->renderLists($publicLists, null);
