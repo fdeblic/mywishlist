@@ -22,7 +22,7 @@ liste.
 * Créer un dossier conf dans src
     * Créer le fichier *db.conf.ini* dans ce dossier
     * Modifier le pour qu'il corresponde aux informations de votre base de données :
-	```
+	```ini
   driver=mysql
 	host=localhost
 	database=db_name
