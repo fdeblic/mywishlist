@@ -15,6 +15,9 @@ liste.
 * Spacher Loïc
 
 ##Installation##
+* Cloner le dépôt bitbucket
+> git clone *lien de clonage*
+* Importer le fichier mywishlist.sql à votre base de donnée
 
 ##Données de test##
 
@@ -31,7 +34,7 @@ liste.
     * Modifier les informations générales d'une de ses listes,
     * Rendre une liste publique,
     * Afficher les listes de souhaits publiques,
--    * Supprimer une liste. BONUS
+    * **Supprimer une liste. BONUS**
 * Gestion des items :
     * Ajouter un item,
     * Modifier un item,
