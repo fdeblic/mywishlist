@@ -63,7 +63,7 @@ liste.
     * Ajouter un message avec sa réservation,
     * Ajouter un message sur une liste,
     * Consulter les réservations et messages d'une de ses listes après échéance.
-*Gestion des images : 
+* Gestion des images : 
     * Rajouter une image à un item,
     * Modifier une image d'un item,
     * Supprimer une image d'un item,
