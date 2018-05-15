@@ -107,7 +107,7 @@ require_once 'vendor/autoload.php';
               <p>
                 <a href='$url_addMessage'>Ajouter un message</a>
               </p>";
-            }
+              }
           }
         $url_modifyList = $app->urlFor('list_editGet',['id'=>$list->no, 'token'=>$list->token]);
         /* Si l'utilisateur est le créateur
