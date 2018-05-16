@@ -199,7 +199,7 @@ use \mywishlist\controller\AccountController as AccountController;
 
         $form  = "\n<!-- List editor -->\n";
         $form .= "<form action='$url' method='POST'>\n";
-        $form .= "  <input id='list_title' name='list_title' type='text' value='$titre' placeholder='Titre de la liste' required>\n";
+        $form .= "  <input id='list_title' name='list_title' type='text' value='$titre' placeholder='Titre de la liste' pattern=\".{5,50}\" maxlength='50' required >\n";
         $form .= "  <textarea id='list_descr' name='list_descr' rows='10' cols='50' placeholder='Description' required>$descr</textarea>\n";
         $form .= "  <div class='form-date'>\n";
         $form .= "    <p> Date d'expiration </p>\n";

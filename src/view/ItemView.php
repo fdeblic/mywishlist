@@ -131,7 +131,7 @@ use \mywishlist\controller\AccountController as AccountController;
         $valueSubmit = isset($item->id) ? "Modifier l'item" : "Créer l'item";
 
         $form  = "<form action='$url' method='POST' enctype='multipart/form-data'>\n";
-        $form .= "  <input id='imgName' name='imgName' type='text' value='$nom' placeholder=\"Nom de l'item\">\n";
+        $form .= "  <input id='name' name='name' type='text' value='$nom' placeholder=\"Nom de l'item\" pattern=\".{3,50}\" maxlength='50' required>\n";
         $form .= "  <textarea id='imgDescr' name='imgDescr' rows='10' cols='50' placeholder='Description'>$descr</textarea>\n";
         $form .= "  <input id='itemTarif' name='itemTarif' type='text' value='$tarif' placeholder='Tarif'>\n";
         $form .= "  <input type='url' name='url_item' value='$url_item' placeholder='Lien'>\n";
@@ -165,7 +165,7 @@ use \mywishlist\controller\AccountController as AccountController;
           'token' => $item->token]);
         $form =
         "<form action='$urlBookController' method='POST' enctype='multipart/form-data'>
-            <input id='booking_user' name='booking_user' type='text' placeholder='Votre nom' required/>
+            <input id='booking_user' name='booking_user' type='text' placeholder='Votre nom' pattern=\".{3,30}\" maxlength='30' required/>
             <textarea id='booking_message' name='booking_message' rows='10' cols='50' placeholder='Votre message'></textarea>
             <input type='submit' value='Réserver' />
         </form>";
