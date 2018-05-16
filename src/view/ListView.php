@@ -16,7 +16,7 @@ use \mywishlist\controller\AccountController as AccountController;
      */
     function renderLists($publicLists, $ownLists) {
       $urlCreateList = \Slim\Slim::getInstance()->urlFor('list_createGet');
-
+      setlocale(LC_TIME, "fr_FR");
       $content = "\n";
       if (count($ownLists) == 0 && count($publicLists) == 0)
         $content = "  <h1> Pas de listes publiques </h1>\n";
@@ -27,7 +27,8 @@ use \mywishlist\controller\AccountController as AccountController;
         foreach ($ownLists as $list) {
           if(strtotime($list->expiration) - time() >= 0){
             $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
-            $content .= "  <li> <a href='$url_list'> $list->titre </a> </li>\n";
+            $date = ucwords(utf8_encode(strftime('%d %B %Y', strtotime($list->expiration))));
+            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"expiration_date\"> Fin le : $date </span> </li>\n";
           }
         }
         $content .= "</ul>\n";
@@ -36,7 +37,8 @@ use \mywishlist\controller\AccountController as AccountController;
         foreach ($ownLists as $list) {
           if(time() - strtotime($list->expiration) >= 0){
             $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
-            $content .= "  <li> <a href='$url_list'> $list->titre </a> </li>\n";
+            $date = ucwords(utf8_encode(strftime('%d %B %Y', strtotime($list->expiration))));
+            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"expiration_date\"> Fin le : $date </span></li>\n";
           }
         }
         $content .= "</ul>\n";
@@ -50,7 +52,8 @@ use \mywishlist\controller\AccountController as AccountController;
         foreach ($publicLists as $list) {
           if(strtotime($list->expiration) - time() >= 0){
             $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
-            $content .= "  <li> <a href='$url_list'> $list->titre </a> </li>\n";
+            $date = ucwords(utf8_encode(strftime('%d %B %Y', strtotime($list->expiration))));
+            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"expiration_date\">Fin le : $date  </span> </li>\n";
           }
         }
         $content .= "</ul>\n";
