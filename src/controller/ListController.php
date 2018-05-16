@@ -51,7 +51,9 @@ class ListController {
     // Transcrit la date reçue
     $expiration = date('Y-m-d', strtotime($_POST['list_expiration']));
     if ($expiration == null)
-    $view->error("date incorrecte");
+      $view->error("date incorrecte");
+    if(time() - strtotime($expiration) >= 0)
+      $view->error("Vous ne pouvez sélectionner une date passée.");
 
     // Crée la nouvelle liste
     $wishlist = new WishList();
