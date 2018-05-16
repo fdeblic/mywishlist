@@ -17,9 +17,9 @@ class ListController {
     if (AccountController::isConnected()){
       $user = AccountController::getCurrentUser();
       if ($user->admin)
-        $ownLists = WishList::select('*')->get();
+        $ownLists = WishList::select('*')->orderBy('expiration','ASC')->get();
       else
-        $ownLists = WishList::where('user_id','=', $user->id_account)->get();
+        $ownLists = WishList::where('user_id','=', $user->id_account)->orderBy('expiration','ASC')->get();
       $view->renderLists($publicLists, $ownLists);
     } else {
       $view->renderLists($publicLists, null);
@@ -61,7 +61,7 @@ class ListController {
     $wishlist->titre =  filter_var($_POST['list_title'],FILTER_SANITIZE_STRING);
     $wishlist->description = filter_var($_POST['list_descr'],FILTER_SANITIZE_STRING);
     $wishlist->expiration = $expiration;
-    $wishlist->public = isset($_POST['list_public']) ? 1 : 0 ;
+    $wishlist->public =  false;
     $wishlist->token = stripslashes (crypt(
       $_POST['list_title'] . $_POST['list_descr'] . $_POST['list_expiration'],
       $_SESSION['user_login'] . "sel de mer"
@@ -112,7 +112,7 @@ class ListController {
     $wishlist->titre =  filter_var($_POST['list_title'],FILTER_SANITIZE_STRING);
     $wishlist->description = filter_var($_POST['list_descr'],FILTER_SANITIZE_STRING);
     $wishlist->expiration = $expiration;
-    $wishlist->public = isset($_POST['list_public']) ? 1 : 0;
+    $wishlist->public = isset($_POST['list_public']) ? true : false;
     try {
       if ($wishlist->save()) {
         $view->addHeadMessage("Votre liste a bien été modifiée", 'good');

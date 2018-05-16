@@ -61,7 +61,7 @@ use \mywishlist\controller\AccountController as AccountController;
           $content .= "  <p>Pseudo : <input type='text' name='name' placeholder='Votre nom' value='$login' required></p>\n";
           $content .= "  <p>Montant restant : $max € </p>\n";
           $content .= "  <p>Montant : <input type='number' name='amount' step='0.01' placeholder='Montant (1 à $max €)' min='1' max='$max' required></p>\n";
-          $content .= "  <input type='submit' value='Participer'>\n";
+          $content .= "  <input type='submit' value='Participer' onclick=\"return confirm('Vous ne pourrez pas annuler votre participation par la suite.');\">\n";
           $content .= "</form>\n";
         } else {
           $content .= "<p> Cagnotte : complétée avec succès ! </p>\n";
@@ -86,21 +86,19 @@ use \mywishlist\controller\AccountController as AccountController;
           $content .= "<br> Un item réservé ne peut être modifié ou réservé.</br>\n";
           if (isset($item->img))
             $content.= "<br> Une image d'un item réservé ne peut être supprimée.</br>\n";
-
         }
         else{
-
           $content .= "<a href='$urlEdit'>Modifier l'item</a><br>\n";
-          $content .= "<a href='$urlDelete'>Supprimer l'item </a><br>\n";
-        if (isset($item->img))
-          $content .= "<a href='$urlDelImg'>Supprimer l'image</a><br>\n";
-        }
+          $content .= "<a href='$urlDelete'  onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'item?');\">Supprimer l'item </a><br>\n";
+          if (isset($item->img))
+            $content .= "<a href='$urlDelImg'  onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'image de cet item?');\">Supprimer l'image</a><br>\n";
       }
 
       $content = str_replace ("\n", "\n  ", $content);
       $this->addContent($content);
       parent::render();
     }
+  }
 
     /**
      * Génère le formulaire HTML pour éditer un
@@ -133,10 +131,10 @@ use \mywishlist\controller\AccountController as AccountController;
         $valueSubmit = isset($item->id) ? "Modifier l'item" : "Créer l'item";
 
         $form  = "<form action='$url' method='POST' enctype='multipart/form-data'>\n";
-        $form .= "  <input id='imgName' name='imgName' type='text' value='$nom' placeholder=\"Nom de l'item\">\n";
+        $form .= "  <input id='name' name='name' type='text' value='$nom' placeholder=\"Nom de l'item\" pattern=\".{3,50}\" maxlength='50' required>\n";
         $form .= "  <textarea id='imgDescr' name='imgDescr' rows='10' cols='50' placeholder='Description'>$descr</textarea>\n";
         $form .= "  <input id='itemTarif' name='itemTarif' type='text' value='$tarif' placeholder='Tarif'>\n";
-        $form .= "  <input type='text' name='url_item' value='$url_item' placeholder='Lien'>\n";
+        $form .= "  <input type='url' name='url_item' value='$url_item' placeholder='Lien'>\n";
         $form .= "  <p>\n";
         $form .= "    <input id='itemPotOrReserv' name='itemPotOrReserv' type='radio' value='reserv' ".($pot?'':'checked').">Item à réserver\n";
         $form .= "    <input id='itemPotOrReserv' name='itemPotOrReserv' type='radio' value='pot' ".($pot?'checked ':'').">Cagnotte sur l'item\n";
@@ -167,9 +165,9 @@ use \mywishlist\controller\AccountController as AccountController;
           'token' => $item->token]);
         $form =
         "<form action='$urlBookController' method='POST' enctype='multipart/form-data'>
-            <input id='booking_user' name='booking_user' type='text' placeholder='Votre nom' required/>
+            <input id='booking_user' name='booking_user' type='text' placeholder='Votre nom' pattern=\".{3,30}\" maxlength='30' required/>
             <textarea id='booking_message' name='booking_message' rows='10' cols='50' placeholder='Votre message'></textarea>
-            <input type='submit' value='Réserver' />
+            <input type='submit' value='Réserver' onclick=\"return confirm('Une fois l\'item réservé, vous ne pourrez pas annuler votre réservation. Etes-vous sûr de vouloir réserver cet item ?');\"/>
         </form>";
         $this->addContent($form);
         parent::render();

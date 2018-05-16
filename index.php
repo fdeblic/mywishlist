@@ -169,6 +169,7 @@
       $ctrl = new ItemController();
       $ctrl->bookItem($idItem, $tokenItem);
   })->name('item_reserv_post');
+  
   /*
     IMAGES
   */

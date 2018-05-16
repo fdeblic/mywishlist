@@ -34,7 +34,7 @@ namespace mywishlist\controller;
         $item = new Item();
 
         // Vérifie les données envoyées
-        if (!isset($_POST['imgName'])) $view->error("veuillez entrer un nom");
+        if (!isset($_POST['name'])) $view->error("veuillez entrer un nom");
         if (!isset($_POST['imgDescr'])) $view->error("veuillez entrer une description");
         if (!filter_var($_POST['itemTarif'], FILTER_VALIDATE_FLOAT)) $view->error("Votre tarif est invalide.");
 
@@ -60,7 +60,7 @@ namespace mywishlist\controller;
         }
 
 
-        $nom = filter_var($_POST['imgName'],FILTER_SANITIZE_STRING);
+        $nom = filter_var($_POST['name'],FILTER_SANITIZE_STRING);
         $descr = filter_var($_POST['imgDescr'],FILTER_SANITIZE_STRING);
         if(isset($_POST['url_item']))  $url_item = filter_var($_POST['url_item'],FILTER_VALIDATE_URL);
         $pot = $_POST['itemPotOrReserv'] == 'pot' ? true : false;
@@ -149,7 +149,7 @@ namespace mywishlist\controller;
 
 
           if (!isset($item)) $view->error("item non trouvé");
-          if (!isset($_POST['imgName'])) $view->error("veuillez entrer un nom");
+          if (!isset($_POST['name'])) $view->error("veuillez entrer un nom");
           if (!isset($_POST['imgDescr'])) $view->error("veuillez entrer une description");
           if (!filter_var($_POST['itemTarif'], FILTER_VALIDATE_FLOAT)) $view->error("Votre tarif est invalide.");
 
@@ -176,7 +176,7 @@ namespace mywishlist\controller;
 
           if(isset($_POST['itemDelete'])) $item->img = NULL;
 
-          $nom = filter_var($_POST['imgName'],FILTER_SANITIZE_STRING);
+          $nom = filter_var($_POST['name'],FILTER_SANITIZE_STRING);
           $descr = filter_var($_POST['imgDescr'],FILTER_SANITIZE_STRING);
           if(isset($_POST['url_item']))  $url_item = filter_var($_POST['url_item'],FILTER_VALIDATE_URL);
           $pot = $_POST['itemPotOrReserv'] == 'pot' ? true : false;
@@ -185,7 +185,7 @@ namespace mywishlist\controller;
           if (strlen($nom)> 0) $item->nom = $nom;
           if (strlen($descr) > 0) $item->descr = $descr;
           $item->tarif = $_POST['itemTarif'];
-          if(isset($_POST['url_item'])) $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
+          $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
           $item->cagnotte = $pot;
           try {
             $item->save();
@@ -267,6 +267,7 @@ namespace mywishlist\controller;
         }
 
         if(isset($item->booking_user)){
+          $view = new ItemView();
           $view->addHeadMessage("Vous ne pouvez pas modifier un item déjà réservé.", 'bad');
           $view->renderItem($item);
           return;
