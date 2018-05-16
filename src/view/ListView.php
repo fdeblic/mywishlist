@@ -23,8 +23,19 @@ require_once 'vendor/autoload.php';
         $content .= "<h2> Listes : </h2>\n";
         $content .= "<ul>\n";
         foreach ($ownLists as $list) {
-          $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
-          $content .= "  <li> <a href='$url_list'> $list->titre </a> </li>\n";
+          if(strtotime($list->expiration) - time() >= 0){
+            $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
+            $content .= "  <li> <a href='$url_list'> $list->titre </a> </li>\n";
+          }
+        }
+        $content .= "</ul>\n";
+        $content .= "<h2> Listes publiques : </h2>\n";
+        $content .= "<ul>\n";
+        foreach ($ownLists as $list) {
+          if(time() - strtotime($list->expiration) >= 0){
+            $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
+            $content .= "  <li> <a href='$url_list'> $list->titre </a> </li>\n";
+          }
         }
         $content .= "</ul>\n";
       }
@@ -35,8 +46,10 @@ require_once 'vendor/autoload.php';
         $content .= "<h2> Listes publiques : </h2>\n";
         $content .= "<ul>\n";
         foreach ($publicLists as $list) {
-          $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
-          $content .= "  <li> <a href='$url_list'> $list->titre </a> </li>\n";
+          if(strtotime($list->expiration) - time() >= 0){
+            $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
+            $content .= "  <li> <a href='$url_list'> $list->titre </a> </li>\n";
+          }
         }
         $content .= "</ul>\n";
       }
@@ -105,7 +118,8 @@ require_once 'vendor/autoload.php';
         $content .= "    <a href='$url_rendItem'>$item->nom</a>\n";
         $content .= "    <span> $etatItem </span>\n";
         if ($userCanEdit)
-          $content .="    <ul><li><a href='$url_delItem'>Supprimer</a> </li></ul>\n";
+          if(!isset($item->booking_user))
+            $content .="    <ul><li><a href='$url_delItem'>Supprimer</a> </li></ul>\n";
         $content .= "  </li>\n";
       }
 
@@ -117,6 +131,7 @@ require_once 'vendor/autoload.php';
         $content .= "<a href='$url_addMessage'> Ajouter un message </a><br>\n";
         $content .= "<a href='$url_modifyList'> Modifier la liste </a><br>\n";
         $content .= "<a href='$url_deleteList'> Supprimer la liste </a><br>\n";
+
       }
 
       // Liens de partage
