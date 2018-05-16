@@ -62,13 +62,13 @@
     /**
      *Génère le formulaire mis en haut ou le message "Bonjour [nom]"
      */
-    public static function generateAccountHeader($connected, $name) {
+    public static function generateAccountHeader($connected, $user) {
       $content = "";
       $app = \Slim\Slim::getInstance();
       if ($connected) {
         $content  = "\n  <!-- Account -->\n";
         $content .= "  <p id='connectionMsg'>\n";
-        $content .= "    Bonjour $name <br>\n";
+        $content .= "    Bonjour $user->prenom <br>\n";
         $content .= "    <a id='disconnectLink' href='" . $app->urlFor('acc_disconnect') . "'>Déconnexion</a>\n";
         $content .= "  </p>\n";
       } else {

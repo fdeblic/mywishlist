@@ -57,7 +57,7 @@ class AccountController {
    */
   static function generateAccountHeader() {
     $content = "";
-    AccountView::generateAccountHeader(AccountController::isConnected(), AccountController::getLogin());
+    AccountView::generateAccountHeader(AccountController::isConnected(), AccountController::getCurrentUser());
   }
 
   /**
