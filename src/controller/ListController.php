@@ -181,4 +181,20 @@ class ListController {
 
       $vue->renderCreators($creators);
     }
+
+  public function setListPublic($id, $token) {
+    $vue = new ListView();
+    $list = WishList::where('no','=',$id)->where('token','=',$token)->first();
+    $user = AccountController::getCurrentUser();
+
+    if($list->public == false){
+      $list->public=true;
+      $vue->addHeadMessage(" Votre liste est devenue publique.", 'good');
+    }
+    else if($list->public==true)
+    $vue->addHeadMessage(" Votre liste est déjà publique.", 'bad');
+
+    $list->save();
+    $vue->renderList($list, $user);
+    }
   }
