@@ -23,6 +23,16 @@
   $app = new \Slim\Slim();
   $app->config(['routes.case_sensitive' => false]);
 
+  if (AccountController::isConnected()) {
+    $user = AccountController::getCurrentUser();
+    $app->setCookie('user', $user->login, '12 months');
+    $app->setCookie('pass', crypt($user->login, $user->password), '12 months');
+  }
+
+  if ($app->getCookie('user') && $app->getCookie('pass')) {
+    AccountController::connectFromCookie($app->getCookie('user'), $app->getCookie('pass'));
+  }
+
   /* --------
     ROUTES
   -------- */

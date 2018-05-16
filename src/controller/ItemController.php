@@ -34,48 +34,53 @@ namespace mywishlist\controller;
         $item = new Item();
 
         // Vérifie les données envoyées
-        if (!isset($_POST['imgName'])) $view->error("veuillez entrer un nom");
-        if (!isset($_POST['imgDescr'])) $view->error("veuillez entrer une description");
-        if (!filter_var($_POST['itemTarif'], FILTER_VALIDATE_FLOAT)) $view->error("Votre tarif est invalide.");
+        if (!isset($_POST['itemName'])) $view->error("veuillez entrer un nom");
+        if (!isset($_POST['itemDescr'])) $view->error("veuillez entrer une description");
+        if (!isset($_POST['itemTarif'])) $view->error("Le tarif est manquant");
+        if (!isset($_POST['itemPotOrReserv'])) $view->error("Le champ réservation ou cagnotte est manquant");
+        if (!filter_var($_POST['itemTarif'], FILTER_VALIDATE_FLOAT)) $view->error("Votre tarif est invalide");
+        if (strlen($_POST['itemName']) < 3) $view->error("Le nom doit faire au minimum trois lettres");
+        if (strlen($_POST['itemDescr']) < 10) $view->error("Décrivez un minimum l'item...");
 
-        $img = $_FILES['itemImgFile'];
+        // Récupère les données
+        $nom = filter_var($_POST['itemName'], FILTER_SANITIZE_STRING);
+        $descr = filter_var($_POST['itemDescr'], FILTER_SANITIZE_STRING);
+        $tarif = filter_var($_POST['itemTarif'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $url = isset($_POST['itemUrl']) ? filter_var($_POST['itemUrl'], FILTER_SANITIZE_URL) : '';
+        $cagnotte = $_POST['itemPotOrReserv'] == 'pot' ? true : false;
+        $img = NULL;
 
-        if(is_uploaded_file($img['tmp_name'])){
-            if($img['error']!=0)
+        // Ajoute le http:// si besoin
+        if (strlen($url) != 0 && strpos($url,'http://') === false)
+            $url = 'http://' . $url;
+
+        // Récupère l'image
+        $imgFile = $_FILES['itemImgFile'];
+        if(is_uploaded_file($imgFile['tmp_name'])){
+            if($imgFile['error']!=0)
                 $view->error("Erreur dans l'envoi de l'image");
-
-            if($img['size']>1E6) // 1Mo
+            if($imgFile['size']>1E6) // 1Mo
                 $view->error("Fichier trop lourd");
-
             $allowedTypes = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
-            $detectedType = exif_imagetype($img['tmp_name']);
+            $detectedType = exif_imagetype($imgFile['tmp_name']);
             if(!in_array($detectedType, $allowedTypes))
                 $view->error("Le fichier n'est pas une image");
-
-            if(!move_uploaded_file($img['tmp_name'],"./img/item/".$img['name']))
+            if(!move_uploaded_file($imgFile['tmp_name'],"./img/item/".$imgFile['name']))
                 $view->error("Echec de l'upload");
-
-            $item->img = $img['name'];
-
+            $img = $imgFile['name'];
         }
 
-
-        $nom = filter_var($_POST['imgName'],FILTER_SANITIZE_STRING);
-        $descr = filter_var($_POST['imgDescr'],FILTER_SANITIZE_STRING);
-        if(isset($_POST['url_item']))  $url_item = filter_var($_POST['url_item'],FILTER_VALIDATE_URL);
-        $pot = $_POST['itemPotOrReserv'] == 'pot' ? true : false;
-
-
-        $item->liste_id = $list_id;
-        if (strlen($nom)> 0) $item->nom = $nom;
-        if (strlen($descr) > 0) $item->descr = $descr;
-
-        $item->tarif = $_POST['itemTarif'];
-        if(isset($_POST['url_item'])) $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
-        $item->cagnotte = $pot;
+        // Sauvegarde les données
+        $item->nom = $nom;
+        $item->descr = $descr;
+        $item->tarif = $tarif;
+        $item->url = $url;
+        $item->cagnotte = $cagnotte;
+        $item->img = $img;
         $item->booking_user = NULL;
         $item->message_booking = NULL;
         $item->token = stripslashes(crypt($item->nom . $item->liste_id, 'sel de mer'));
+        $item->liste_id = $list_id;
 
         try {
             if ($item->save()) {
@@ -152,26 +157,26 @@ namespace mywishlist\controller;
 
 
           if (!isset($item)) $view->error("item non trouvé");
-          if (!isset($_POST['imgName'])) $view->error("veuillez entrer un nom");
-          if (!isset($_POST['imgDescr'])) $view->error("veuillez entrer une description");
+          if (!isset($_POST['itemName'])) $view->error("veuillez entrer un nom");
+          if (!isset($_POST['itemDescr'])) $view->error("veuillez entrer une description");
           if (!filter_var($_POST['itemTarif'], FILTER_VALIDATE_FLOAT)) $view->error("Votre tarif est invalide.");
 
-          $img = $_FILES['itemImgFile'];
+          $imgFile = $_FILES['itemImgFile'];
 
-          if(is_uploaded_file($img['tmp_name'])){
-              if($img['error']!=0)
+          if(is_uploaded_file($imgFile['tmp_name'])){
+              if($imgFile['error']!=0)
                   $view->error("Erreur dans l'envoi de l'image");
 
-              if($img['size']>1E6) // 1Mo
+              if($imgFile['size']>1E6) // 1Mo
                   $view->error("Fichier trop lourd");
 
               $allowedTypes = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
-              $detectedType = exif_imagetype($img['tmp_name']);
+              $detectedType = exif_imagetype($imgFile['tmp_name']);
               if(!in_array($detectedType, $allowedTypes))
                   $view->error("Le fichier n'est pas une image");
 
               $newfilename = $id.".".$token;
-              if(!move_uploaded_file($img['tmp_name'],"./img/item/".$newfilename))
+              if(!move_uploaded_file($imgFile['tmp_name'],"./img/item/".$newfilename))
                   $view->error("Echec de l'upload");
 
               $item->img = $newfilename;
@@ -179,16 +184,16 @@ namespace mywishlist\controller;
 
           if(isset($_POST['itemDelete'])) $item->img = NULL;
 
-          $nom = filter_var($_POST['imgName'],FILTER_SANITIZE_STRING);
-          $descr = filter_var($_POST['imgDescr'],FILTER_SANITIZE_STRING);
-          if(isset($_POST['url_item']))  $url_item = filter_var($_POST['url_item'],FILTER_VALIDATE_URL);
+          $nom = filter_var($_POST['itemName'],FILTER_SANITIZE_STRING);
+          $descr = filter_var($_POST['itemDescr'],FILTER_SANITIZE_STRING);
+          if(isset($_POST['itemUrl']))  $itemUrl = filter_var($_POST['itemUrl'],FILTER_VALIDATE_URL);
           $pot = $_POST['itemPotOrReserv'] == 'pot' ? true : false;
 
 
           if (strlen($nom)> 0) $item->nom = $nom;
           if (strlen($descr) > 0) $item->descr = $descr;
           $item->tarif = $_POST['itemTarif'];
-          if(isset($_POST['url_item'])) $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
+          if(isset($_POST['itemUrl']) && filter_var($_POST['itemUrl'],FILTER_VALIDATE_URL)) $item->url = filter_var($itemUrl,FILTER_SANITIZE_URL);
           $item->cagnotte = $pot;
           try {
             if ($item->save()) {

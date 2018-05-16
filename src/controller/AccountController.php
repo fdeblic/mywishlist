@@ -15,7 +15,7 @@ class AccountController {
     return isset($_SESSION['user_connected']) && $_SESSION['user_connected'] == true;
   }
 
-  private function setConnected($bool) {
+  private static function setConnected($bool) {
     $_SESSION['user_connected'] = $bool ? true : false;
   }
 
@@ -130,6 +130,8 @@ class AccountController {
       GlobalView::addHeadMessage("Vous êtes à présent déconnecté(e)", "good");
     }
     $app = \Slim\Slim::getInstance();
+    $app->deleteCookie('user');
+    $app->deleteCookie('pass');
     $app->redirect($app->urlFor('home'), 303);
   }
 
@@ -207,6 +209,19 @@ class AccountController {
     if (!isset($_SESSION['user_id'])) return null;
     $user = Account::where('id_account','=',$_SESSION['user_id'])->first();
     return $user;
+  }
+
+  /**
+  * Se connecte à partir des cookies si possible
+  */
+  static function connectFromCookie($c_user, $c_pass){
+    if (!isset($c_user) || !isset($c_pass)) return;
+    $user = Account::where('login','=',$c_user)->first();
+    if ($c_pass == crypt($user->login, $user->password)) {
+      AccountController::setConnected(true);
+      $_SESSION['user_login'] = $user->login;
+      $_SESSION['user_id'] = $user->id_account;
+    }
   }
 }
 

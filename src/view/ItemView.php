@@ -153,27 +153,27 @@ use \mywishlist\controller\AccountController as AccountController;
           return;
         }
 
-        $form = ''; $nom = ''; $descr = ''; $tarif = ''; $pot = false; $url_item = ''; $img = ''; $itemDelete = '';
+        $form = ''; $nom = ''; $descr = ''; $tarif = ''; $pot = false; $itemUrl = ''; $img = ''; $itemDelete = '';
         if (isset($item)) {
             $nom = $item->nom;
             $descr = $item->descr;
             $tarif = $item->tarif;
             $pot = $item->cagnotte;
-            $url_item = $item->url;
+            $itemUrl = $item->url;
             $img = $item->img;
             $url = \Slim\Slim::getInstance()->urlFor("item_editPost",['id' => $item->id, 'token' => $item->token]);
         } else {
             $url = \Slim\Slim::getInstance()->urlFor('list_addItemPost', ['id' => $list->no, 'token' => $list->token]);
         }
 
-
+        
         $valueSubmit = isset($item->id) ? "Modifier l'item" : "Créer l'item";
 
         $form  = "<form action='$url' method='POST' enctype='multipart/form-data'>\n";
-        $form .= "  <input id='imgName' name='imgName' type='text' value='$nom' placeholder=\"Nom de l'item\">\n";
-        $form .= "  <textarea id='imgDescr' name='imgDescr' rows='10' cols='50' placeholder='Description'>$descr</textarea>\n";
+        $form .= "  <input id='itemName' name='itemName' type='text' value='$nom' placeholder=\"Nom de l'item\">\n";
+        $form .= "  <textarea id='itemDescr' name='itemDescr' rows='10' cols='50' placeholder='Description'>$descr</textarea>\n";
         $form .= "  <input id='itemTarif' name='itemTarif' type='text' value='$tarif' placeholder='Tarif'>\n";
-        $form .= "  <input type='text' name='url_item' value='$url_item' placeholder='Lien'>\n";
+        $form .= "  <input type='text' name='itemUrl' value='$itemUrl' placeholder='Lien'>\n";
         $form .= "  <p>\n";
         $form .= "    <input id='itemPotOrReserv' name='itemPotOrReserv' type='radio' value='reserv' ".($pot?'':'checked').">Item à réserver\n";
         $form .= "    <input id='itemPotOrReserv' name='itemPotOrReserv' type='radio' value='pot' ".($pot?'checked ':'').">Cagnotte sur l'item\n";
