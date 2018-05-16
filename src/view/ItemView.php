@@ -61,7 +61,7 @@ use \mywishlist\controller\AccountController as AccountController;
           $content .= "  <p>Pseudo : <input type='text' name='name' placeholder='Votre nom' value='$login' required></p>\n";
           $content .= "  <p>Montant restant : $max € </p>\n";
           $content .= "  <p>Montant : <input type='number' name='amount' step='0.01' placeholder='Montant (1 à $max €)' min='1' max='$max' required></p>\n";
-          $content .= "  <input type='submit' value='Participer'>\n";
+          $content .= "  <input type='submit' value='Participer' onclick=\"return confirm('Vous ne pourrez pas annuler votre participation par la suite.');\">\n";
           $content .= "</form>\n";
         } else {
           $content .= "<p> Cagnotte : complétée avec succès ! </p>\n";
@@ -89,9 +89,9 @@ use \mywishlist\controller\AccountController as AccountController;
         if(isset($item->booking_user))
           $content .= "<p> Un item réservé ne peut être supprimé.</p>\n";
         else
-          $content .= "<a href='$urlDelete'>Supprimer l'item </a><br>\n";
+          $content .= "<a href='$urlDelete'  onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'item?');\">Supprimer l'item </a><br>\n";
         if (isset($item->img))
-          $content .= "<a href='$urlDelImg'>Supprimer l'image</a><br>\n";
+          $content .= "<a href='$urlDelImg'  onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'image de cet item?');\">Supprimer l'image</a><br>\n";
       }
 
       $content = str_replace ("\n", "\n  ", $content);
@@ -167,7 +167,7 @@ use \mywishlist\controller\AccountController as AccountController;
         "<form action='$urlBookController' method='POST' enctype='multipart/form-data'>
             <input id='booking_user' name='booking_user' type='text' placeholder='Votre nom' pattern=\".{3,30}\" maxlength='30' required/>
             <textarea id='booking_message' name='booking_message' rows='10' cols='50' placeholder='Votre message'></textarea>
-            <input type='submit' value='Réserver' />
+            <input type='submit' value='Réserver' onclick=\"return confirm('Une fois l\'item réservé, vous ne pourrez pas annuler votre réservation. Etes-vous sûr de vouloir réserver cet item ?');\"/>
         </form>";
         $this->addContent($form);
         parent::render();

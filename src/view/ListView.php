@@ -126,7 +126,7 @@ use \mywishlist\controller\AccountController as AccountController;
         $content .= "    <span> $etatItem </span>\n";
         if ($userCanEdit)
           if(!isset($item->booking_user))
-            $content .="    <ul><li><a href='$url_delItem'>Supprimer</a> </li></ul>\n";
+            $content .="    <ul><li><a href='$url_delItem' onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'item?');\">Supprimer</a> </li></ul>\n";
         $content .= "  </li>\n";
       }
 
@@ -137,7 +137,7 @@ use \mywishlist\controller\AccountController as AccountController;
         $content .= "<a href='$url_addItem'> Créer un item </a><br>\n";
         $content .= "<a href='$url_addMessage'> Ajouter un message </a><br>\n";
         $content .= "<a href='$url_modifyList'> Modifier la liste </a><br>\n";
-        $content .= "<a href='$url_deleteList'> Supprimer la liste </a><br>\n";
+        $content .= "<a href='$url_deleteList'  onclick=\"return confirm('Etes-vous sûr de vouloir supprimer cette liste ?');\"> Supprimer la liste </a><br>\n";
 
       }
 
