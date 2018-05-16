@@ -42,7 +42,7 @@ liste.
     * Créer un compte,
     * S'authentifier,
     * Modifier son compte,
-    * Créer un compte participant,
+    * Créer un compte participant : il n'y a pas nécessité d'être connecté pour participer à une cagnotte ou pour réserver un item. Il suffit de fournir un pseudo et éventuellement un message,
     * Afficher la liste des créateurs,
     * Supprimer son compte.
 * Gestion des listes :
@@ -64,8 +64,8 @@ liste.
     * Créer une cagnotte sur un item,
     * Participer à une cagnotte.
 * Gestion des messages :
-    * Ajouter un message avec sa réservation,
-    * Ajouter un message sur une liste,
+    * Ajouter un message avec sa réservation : le message ne peut être ajouter qu'au moment de la réservation, pas après. Il ne peut être modifié,
+    * Ajouter un message sur une liste : un message ne peut être modifié ni supprimé,
     * Consulter les réservations et messages d'une de ses listes après échéance.
 * Gestion des images :
     * Rajouter une image à un item,
