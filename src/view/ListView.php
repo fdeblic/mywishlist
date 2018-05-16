@@ -1,6 +1,7 @@
 <?php
 namespace mywishlist\view;
 require_once 'vendor/autoload.php';
+use \mywishlist\controller\AccountController as AccountController;
 
 
   class ListView extends GlobalView {
@@ -15,6 +16,7 @@ require_once 'vendor/autoload.php';
      */
     function renderLists($publicLists, $ownLists) {
       $urlCreateList = \Slim\Slim::getInstance()->urlFor('list_createGet');
+      setlocale(LC_TIME, "fr_FR");
       $content = "\n";
       if (count($ownLists) == 0 && count($publicLists) == 0)
         $content = "  <h1> Pas de listes publiques </h1>\n";
@@ -25,16 +27,18 @@ require_once 'vendor/autoload.php';
         foreach ($ownLists as $list) {
           if(strtotime($list->expiration) - time() >= 0){
             $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
-            $content .= "  <li> <a href='$url_list'> $list->titre </a> </li>\n";
+            $date = ucwords(utf8_encode(strftime('%d %B %Y', strtotime($list->expiration))));
+            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"expiration_date\"> Fin le : $date </span> </li>\n";
           }
         }
         $content .= "</ul>\n";
-        $content .= "<h2> Listes publiques : </h2>\n";
+        $content .= "<h2> Listes terminées : </h2>\n";
         $content .= "<ul>\n";
         foreach ($ownLists as $list) {
           if(time() - strtotime($list->expiration) >= 0){
             $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
-            $content .= "  <li> <a href='$url_list'> $list->titre </a> </li>\n";
+            $date = ucwords(utf8_encode(strftime('%d %B %Y', strtotime($list->expiration))));
+            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"expiration_date\"> Fin le : $date </span></li>\n";
           }
         }
         $content .= "</ul>\n";
@@ -48,13 +52,15 @@ require_once 'vendor/autoload.php';
         foreach ($publicLists as $list) {
           if(strtotime($list->expiration) - time() >= 0){
             $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
-            $content .= "  <li> <a href='$url_list'> $list->titre </a> </li>\n";
+            $date = ucwords(utf8_encode(strftime('%d %B %Y', strtotime($list->expiration))));
+            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"expiration_date\">Fin le : $date  </span> </li>\n";
           }
         }
         $content .= "</ul>\n";
       }
-
-      $content .= "<a href='$urlCreateList'> Créer une liste </a>";
+      if (AccountController::isConnected()){
+        $content .= "<a href='$urlCreateList'> Créer une liste </a>";
+      }
       $content = str_replace("\n", "\n  ", $content);
       $this->addContent($content);
       parent::render();
@@ -84,11 +90,13 @@ require_once 'vendor/autoload.php';
       $url_addMessage = $app->urlFor('list_addMsgPost',['id'=>$list->no, 'token'=>$list->token]);
       $url_deleteList = $app->urlFor('list_delete',['id'=>$list->no, 'token'=>$list->token]);
       $url_modifyList = $app->urlFor('list_editGet',['id'=>$list->no, 'token'=>$list->token]);
+      $url_liste_set_public = $app->urlFor('list_set_public',['id'=>$list->no, 'token'=>$list->token]);
       $urlFb = 'https://www.facebook.com/sharer/sharer.php?u=' . $_SERVER['SERVER_NAME'] . $url_share;
       $urlTw = 'https://twitter.com/home?status=' . $_SERVER['SERVER_NAME'] . $url_share;
       $urlGgPlus = 'https://plus.google.com/share?url=' . $_SERVER['SERVER_NAME'] . $url_share;
 
       $content  = "<h1> $list->titre </h1>\n";
+      $content .= "<p> $list->description</p>\n";
       $content .= "<!-- Items -->\n";
       $content .= "<ol>\n";
 
@@ -119,7 +127,7 @@ require_once 'vendor/autoload.php';
         $content .= "    <span> $etatItem </span>\n";
         if ($userCanEdit)
           if(!isset($item->booking_user))
-            $content .="    <ul><li><a href='$url_delItem'>Supprimer</a> </li></ul>\n";
+            $content .="    <ul><li><a href='$url_delItem' onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'item?');\">Supprimer</a> </li></ul>\n";
         $content .= "  </li>\n";
       }
 
@@ -130,8 +138,10 @@ require_once 'vendor/autoload.php';
         $content .= "<a href='$url_addItem'> Créer un item </a><br>\n";
         $content .= "<a href='$url_addMessage'> Ajouter un message </a><br>\n";
         $content .= "<a href='$url_modifyList'> Modifier la liste </a><br>\n";
-        $content .= "<a href='$url_deleteList'> Supprimer la liste </a><br>\n";
 
+        if($list->public ==0)
+          $content .= "<a href='$url_liste_set_public'> Rendre la liste publique </a><br>\n";
+        $content .= "<a href='$url_deleteList'  onclick=\"return confirm('Etes-vous sûr de vouloir supprimer cette liste ?');\"> Supprimer la liste </a><br>\n";
       }
 
       // Liens de partage
@@ -143,9 +153,10 @@ require_once 'vendor/autoload.php';
       $content .= "</p>\n";
 
       // Affiche les messages de la liste
-      $messages = $list->messages()->get();
+      $messages = $list->messages()->orderBy('created_at','DESC')->get();
       $content .= "\n<!-- News feed -->\n";
       $content .= "<div>";
+
       foreach($messages as $message){
           $creator = $message->creator;
           $date_string = date("d/m/y", strtotime($message->created_at));
@@ -191,13 +202,15 @@ require_once 'vendor/autoload.php';
 
         $form  = "\n<!-- List editor -->\n";
         $form .= "<form action='$url' method='POST'>\n";
-        $form .= "  <input id='list_title' name='list_title' type='text' value='$titre' placeholder='Titre de la liste' required>\n";
+        $form .= "  <input id='list_title' name='list_title' type='text' value='$titre' placeholder='Titre de la liste' pattern=\".{5,50}\" maxlength='50' required >\n";
         $form .= "  <textarea id='list_descr' name='list_descr' rows='10' cols='50' placeholder='Description' required>$descr</textarea>\n";
         $form .= "  <div class='form-date'>\n";
         $form .= "    <p> Date d'expiration </p>\n";
         $form .= "    <input id='list_expiration' name='list_expiration' type='date' value='$expiration' required>\n";
         $form .= "  </div>\n";
-        $form .= "  <label><input type='checkbox' name='list_public' $checked>Liste publique</label>\n";
+        if ($editing) {
+          $form .= "  <label><input type='checkbox' name='list_public' $checked>Liste publique</label>\n";
+        }
         $form .= "  <input type='submit' value='$submit'>\n";
         $form .= "</form>";
 

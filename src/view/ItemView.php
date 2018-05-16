@@ -61,7 +61,7 @@ use \mywishlist\controller\AccountController as AccountController;
           $content .= "  <p>Pseudo : <input type='text' name='name' placeholder='Votre nom' value='$login' required></p>\n";
           $content .= "  <p>Montant restant : $max € </p>\n";
           $content .= "  <p>Montant : <input type='number' name='amount' step='0.01' placeholder='Montant (1 à $max €)' min='1' max='$max' required></p>\n";
-          $content .= "  <input type='submit' value='Participer'>\n";
+          $content .= "  <input type='submit' value='Participer' onclick=\"return confirm('Vous ne pourrez pas annuler votre participation par la suite.');\">\n";
           $content .= "</form>\n";
         } else {
           $content .= "<p> Cagnotte : complétée avec succès ! </p>\n";
@@ -82,62 +82,23 @@ use \mywishlist\controller\AccountController as AccountController;
       if ($canEdit) {
         $content .= "\n<!-- Edition -->\n";
         $content .= "<p> - Edition - </p>\n";
-        if(isset($item->booking_user))
-          $content .= "<p> Un item réservé ne peut être modifié.</p>\n";
-        else
+        if(isset($item->booking_user)){
+          $content .= "<br> Un item réservé ne peut être modifié ou réservé.</br>\n";
+          if (isset($item->img))
+            $content.= "<br> Une image d'un item réservé ne peut être supprimée.</br>\n";
+        }
+        else{
           $content .= "<a href='$urlEdit'>Modifier l'item</a><br>\n";
-        if(isset($item->booking_user))
-          $content .= "<p> Un item réservé ne peut être supprimé.</p>\n";
-        else
-          $content .= "<a href='$urlDelete'>Supprimer l'item </a><br>\n";
-        if (isset($item->img))
-          $content .= "<a href='$urlDelImg'>Supprimer l'image</a><br>\n";
+          $content .= "<a href='$urlDelete'  onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'item?');\">Supprimer l'item </a><br>\n";
+          if (isset($item->img))
+            $content .= "<a href='$urlDelImg'  onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'image de cet item?');\">Supprimer l'image</a><br>\n";
       }
 
       $content = str_replace ("\n", "\n  ", $content);
       $this->addContent($content);
       parent::render();
     }
-
-
-    /**
-     * Génère le contenu HTML pour afficher un
-     * item créé
-     * @param $item l'item créé à afficher
-     */
-    /*function renderItemCreated($item) {
-        $url = \Slim\Slim::getInstance()->urlFor('list_aff', ['id'=>$item->liste_id, 'token'=>$item->liste->token]);
-        if ($item == null)
-          error("Votre item n'a pas pu être créé");
-
-        $this->addContent("<h1> L'item <i>$item->nom</i> a bien été créé ! </h1>");
-        $this->addContent("
-        <p>
-            <a href='$url'>
-                Retour à la liste.
-            </a>
-        </p>");
-        parent::render();
-    }*/
-
-    /**
-     * Génère le contenu HTML pour éditer un
-     * item passé en paramètre
-     * @param $item l'item à éditer
-     */
-    /*function renderEditItem($item) {
-        $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
-        if ($item == null)
-          error("Votre item n'a pas pu être modifié");
-        $this->addContent("<h1> L'item <i>$item->nom</i> a bien été modifié ! </h1>");
-        $this->addContent("
-        <p>
-            <a href='$url'>
-                Retour à la liste.
-            </a>
-        </p>");
-        parent::render();
-    }*/
+  }
 
     /**
      * Génère le formulaire HTML pour éditer un
@@ -166,11 +127,11 @@ use \mywishlist\controller\AccountController as AccountController;
             $url = \Slim\Slim::getInstance()->urlFor('list_addItemPost', ['id' => $list->no, 'token' => $list->token]);
         }
 
-        
+
         $valueSubmit = isset($item->id) ? "Modifier l'item" : "Créer l'item";
 
         $form  = "<form action='$url' method='POST' enctype='multipart/form-data'>\n";
-        $form .= "  <input id='itemName' name='itemName' type='text' value='$nom' placeholder=\"Nom de l'item\">\n";
+        $form .= "  <input id='itemName' name='itemName' type='text' value='$nom' placeholder=\"Nom de l'item\" pattern='.{3,50}' maxlength='50'>\n";
         $form .= "  <textarea id='itemDescr' name='itemDescr' rows='10' cols='50' placeholder='Description'>$descr</textarea>\n";
         $form .= "  <input id='itemTarif' name='itemTarif' type='text' value='$tarif' placeholder='Tarif'>\n";
         $form .= "  <input type='text' name='itemUrl' value='$itemUrl' placeholder='Lien'>\n";
@@ -204,9 +165,9 @@ use \mywishlist\controller\AccountController as AccountController;
           'token' => $item->token]);
         $form =
         "<form action='$urlBookController' method='POST' enctype='multipart/form-data'>
-            <input id='booking_user' name='booking_user' type='text' placeholder='Votre nom' required/>
+            <input id='booking_user' name='booking_user' type='text' placeholder='Votre nom' pattern=\".{3,30}\" maxlength='30' required/>
             <textarea id='booking_message' name='booking_message' rows='10' cols='50' placeholder='Votre message'></textarea>
-            <input type='submit' value='Réserver' />
+            <input type='submit' value='Réserver' onclick=\"return confirm('Une fois l\'item réservé, vous ne pourrez pas annuler votre réservation. Etes-vous sûr de vouloir réserver cet item ?');\"/>
         </form>";
         $this->addContent($form);
         parent::render();

@@ -94,6 +94,12 @@
     $ctrl->deleteList($id, $token);
   })->name('list_delete');
 
+  // Rend une liste publique
+  $app->get('/list/public/:id/:token', function($id, $token){
+   $ctrl = new ListController();
+   $ctrl->setListPublic($id, $token);
+ })->name('list_set_public');
+
   /*
     MESSAGES DE LISTE
   */
@@ -173,6 +179,7 @@
       $ctrl = new ItemController();
       $ctrl->bookItem($idItem, $tokenItem);
   })->name('item_reserv_post');
+  
   /*
     IMAGES
   */
