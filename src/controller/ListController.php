@@ -5,6 +5,7 @@ require_once 'vendor/autoload.php';
 use \mywishlist\models\WishList as WishList;
 use \mywishlist\models\Account as Account;
 use \mywishlist\view\ListView as ListView;
+use Illuminate\Database\QueryException;
 
 class ListController {
   /**
@@ -64,11 +65,12 @@ class ListController {
       $_SESSION['user_login'] . "sel de mer"
     ));
 
-    if($wishlist->save()){
+    try {
+      $wishlist->save();
       $view->addHeadMessage("Votre liste a bien été créée", 'good');
       $view->renderList($wishlist,$user);
     }
-    else{
+    catch (QueryException $e) {
       $view->addHeadMessage("Votre liste n'a pu être créée", 'bad');
       $this->getFormList(null);
     }
@@ -106,11 +108,12 @@ class ListController {
     $wishlist->description = filter_var($_POST['list_descr'],FILTER_SANITIZE_STRING);
     $wishlist->expiration = $expiration;
     $wishlist->public = isset($_POST['list_public']) ? 1 : 0;
-    if($wishlist->save()){
+    try {
+      $wishlist->save();
       $view->addHeadMessage("Votre liste a bien été modifiée", 'good');
       $view->renderList($wishlist,$user);
     }
-    else{
+    catch (QueryException $e) {
       $view->addHeadMessage("Votre liste n'a pu être modifiée", 'bad');
       $this->getFormList(null);
     }

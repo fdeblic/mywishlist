@@ -29,10 +29,12 @@ class PotController {
     $participation->name = filter_var($_POST['name'],FILTER_SANITIZE_STRING);;
     $participation->amount = filter_var($_POST['amount'],FILTER_SANITIZE_NUMBER_FLOAT);
 
-    if ($participation->save() != null) {
-      $vue->addHeadMessage("Votre participation de <b></b> a bien été enregistrée", "good");
+    try {
+      if ($participation->save())
+        $vue->addHeadMessage("Votre participation de <b>$participation->amount €</b> a bien été enregistrée", "good");
     }
-
+    catch (QueryException $e) {
+    }
 
     $vue->renderItem($item);
   }

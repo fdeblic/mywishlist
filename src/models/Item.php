@@ -1,12 +1,15 @@
 <?php
 
 namespace mywishlist\models;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Item extends \Illuminate\Database\Eloquent\Model {
 
+    use SoftDeletes;
     protected $table = 'item';
     protected $primaryKey = 'id';
     public $timestamps = false;
+    protected $dates = ['deleted_at'];
 
     /**
      *Permet de regrouper les items par liste

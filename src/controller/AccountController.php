@@ -5,6 +5,7 @@ use \mywishlist\models\Account as Account;
 use \mywishlist\view\AccountView as AccountView;
 use \mywishlist\view\GlobalView as GlobalView;
 use \mywishlist\view\MainView as MainView;
+use Illuminate\Database\QueryException;
 
 class AccountController {
   private $errorMessage = "";
@@ -29,8 +30,8 @@ class AccountController {
     // Vérifie les données reçues
     if (!isset($_POST['acc_nom'])) $vue->error("entrez un nom");
     if (!isset($_POST['acc_prenom'])) $vue->error("entrez un prénom");
-    if (Account::where('login','=', strtolower($_POST['acc_login']))->first() != null) $vue->error("Ce login est déjà pris");
-    if (!isset($_POST['acc_login']) || strlen($_POST['acc_login']) < 5) $vue->error("entrez un login suffisamment long");
+    if (Account::withTrashed()->where('login','=', strtolower($_POST['acc_login']))->first() != null) $vue->error("Ce login est déjà pris");
+    if (!isset($_POST['acc_login']) || strlen($_POST['acc_login']) < 3) $vue->error("entrez un login suffisamment long");
     if (!isset($_POST['acc_password']) || strlen($_POST['acc_password']) < 8) $vue->error("entrez un mot de passe suffisamment long");
     if (!isset($_POST['acc_password_confirmation']) || strlen($_POST['acc_password_confirmation']) < 8) $vue->error("vous devez confirmer votre mot de passe");
     if ($_POST['acc_password'] != $_POST['acc_password_confirmation']) $vue->error("les mots de passe entrés ne concordent pas");
@@ -42,11 +43,12 @@ class AccountController {
     $acc->admin = false;
 
     // Enregistre le nouveau compte
-    if ($acc->save()) {
+    try {
+      $acc->save();
       $vue = new MainView();
       $vue->addHeadMessage('Votre compte a bien été créé !', 'good');
       $vue->render($acc);
-    } else {
+    } catch (QueryException $e) {
       $vue->addHeadMessage('Impossible de créer le compte', 'bad');
       $vue->renderAccountEditor($acc);
     }
@@ -163,10 +165,11 @@ class AccountController {
       $acc->prenom = filter_var($_POST['acc_prenom'], FILTER_SANITIZE_STRING);
 
       // Enregistre le nouveau compte
-      if ($acc->save()) {
+      try {
+        $acc->save();
         $vue->addHeadMessage("modifications enregistrées", "good");
         $vue->renderAccountEditor($acc);
-      } else {
+      } catch (QueryException $e) {
         $vue->error("impossible d'enregistrer les modifications");
       }
     } else {

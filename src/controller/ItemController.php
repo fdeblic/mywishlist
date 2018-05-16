@@ -7,6 +7,7 @@ namespace mywishlist\controller;
   use \mywishlist\view\ListView as ListView;
   use \mywishlist\models\Account as Account;
   use \mywishlist\controller\AccountController as AccountController;
+  use Illuminate\Database\QueryException;
 
   class ItemController{
 
@@ -73,15 +74,14 @@ namespace mywishlist\controller;
         if(isset($_POST['url_item'])) $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
         $item->cagnotte = $pot;
         $item->booking_user = NULL;
-        $item->message_booking = '';
+        $item->message_booking = NULL;
+        $item->token = stripslashes(crypt($item->nom . $item->liste_id, 'sel de mer'));
 
-
-        if ($item->save()) {
-            $item->token = stripslashes(crypt($item->id, 'sel de mer'));
+        try {
             $item->save();
             $view->addHeadMessage("L'item a bien été enregistré", 'good');
             $view->renderItem($item);
-        } else {
+        } catch (QueryException $e) {
             $view->addHeadMessage("Erreur lors de l'enregistrement", 'bad');
             $view->renderFormItem($item, null);
         }
@@ -187,11 +187,12 @@ namespace mywishlist\controller;
           $item->tarif = $_POST['itemTarif'];
           if(isset($_POST['url_item'])) $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
           $item->cagnotte = $pot;
-          if($item->save()){
+          try {
+            $item->save();
             $view->addHeadMessage("Votre item a bien été modifié", 'good');
             $view->renderItem($item);
           }
-          else{
+          catch (QueryException $e) {
             $view->addHeadMessage("Votre item n'a pu être modifié", 'bad');
             $this->getFormItem($item);
           }
@@ -237,11 +238,12 @@ namespace mywishlist\controller;
           $item->booking_user =  $name ;
           $item->message_booking = $message;
 
-          if($item->save()){
+          try {
+              $item->save();
               $view->addHeadMessage("L'item a bien été réservé",'good');
               $view->renderItem($item);
           }
-          else {
+          catch (QueryException $e) {
               $view->addHeadMessage("L'item n'a pu être réservé", 'bad');
               $view->renderItem($item);
           }
@@ -304,11 +306,12 @@ namespace mywishlist\controller;
         }
 
         $item->img = NULL;
-        if ($item->save()){
+        try {
+            $item->save();
             $view->addHeadMessage("Votre image a bien été supprimée.","good");
             $view->renderItem($item);
         }
-        else{
+        catch (QueryException $e) {
             $view->addHeadMessage("Votre image n'a pas pu être supprimée.","bad");
             $view->renderItem($item);
         }
