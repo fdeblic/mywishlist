@@ -202,7 +202,9 @@ use \mywishlist\controller\AccountController as AccountController;
         $form .= "    <p> Date d'expiration </p>\n";
         $form .= "    <input id='list_expiration' name='list_expiration' type='date' value='$expiration' required>\n";
         $form .= "  </div>\n";
-        $form .= "  <label><input type='checkbox' name='list_public' $checked>Liste publique</label>\n";
+        if ($editing) {
+          $form .= "  <label><input type='checkbox' name='list_public' $checked>Liste publique</label>\n";
+        }
         $form .= "  <input type='submit' value='$submit'>\n";
         $form .= "</form>";
 
