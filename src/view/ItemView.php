@@ -70,7 +70,7 @@ use \mywishlist\controller\AccountController as AccountController;
       else {
         // Reservation
         if (isset($item->booking_user))
-          $content .= "<p> Cet item est réservé </p>\n";
+          $content .= "<p> Cet item est réservé par $item->booking_user </p>\n";
         else
           $content .= "<a href='$urlReserv'>Réserver l'item </a> <br>\n";
       }

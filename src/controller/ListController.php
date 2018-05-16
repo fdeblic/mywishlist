@@ -66,13 +66,16 @@ class ListController {
     ));
 
     try {
-      $wishlist->save();
-      $view->addHeadMessage("Votre liste a bien été créée", 'good');
-      $view->renderList($wishlist,$user);
+      if ($wishlist->save()) {
+        $view->addHeadMessage("Votre liste a bien été créée", 'good');
+        $view->renderList($wishlist,$user);
+      } else {
+        $view->addHeadMessage("Votre liste n'a pu être créée", 'bad');
+        $this->getFormList(null);
+      }
     }
     catch (QueryException $e) {
-      $view->addHeadMessage("Votre liste n'a pu être créée", 'bad');
-      $this->getFormList(null);
+      $vue->addHeadMessage("Une erreur est survenue à la sauvegarde...", "bad");
     }
   }
 
@@ -109,13 +112,16 @@ class ListController {
     $wishlist->expiration = $expiration;
     $wishlist->public = isset($_POST['list_public']) ? 1 : 0;
     try {
-      $wishlist->save();
-      $view->addHeadMessage("Votre liste a bien été modifiée", 'good');
-      $view->renderList($wishlist,$user);
+      if ($wishlist->save()) {
+        $view->addHeadMessage("Votre liste a bien été modifiée", 'good');
+        $view->renderList($wishlist,$user);
+      } else {
+        $view->addHeadMessage("Votre liste n'a pu être modifiée", 'bad');
+        $this->getFormList(null);
+      }
     }
     catch (QueryException $e) {
-      $view->addHeadMessage("Votre liste n'a pu être modifiée", 'bad');
-      $this->getFormList(null);
+      $vue->addHeadMessage("Une erreur est survenue à la sauvegarde...", "bad");
     }
   }
 

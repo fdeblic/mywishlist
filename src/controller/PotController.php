@@ -32,8 +32,11 @@ class PotController {
     try {
       if ($participation->save())
         $vue->addHeadMessage("Votre participation de <b>$participation->amount €</b> a bien été enregistrée", "good");
+      else
+        $vue->addHeadMessage("Votre participation n'a pas pu être enregistrée", "bad");
     }
     catch (QueryException $e) {
+      $vue->addHeadMessage("Une erreur est survenue à la sauvegarde...", "bad");
     }
 
     $vue->renderItem($item);

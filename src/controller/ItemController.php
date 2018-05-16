@@ -78,12 +78,15 @@ namespace mywishlist\controller;
         $item->token = stripslashes(crypt($item->nom . $item->liste_id, 'sel de mer'));
 
         try {
-            $item->save();
-            $view->addHeadMessage("L'item a bien été enregistré", 'good');
-            $view->renderItem($item);
+            if ($item->save()) {
+              $view->addHeadMessage("L'item a bien été enregistré", 'good');
+              $view->renderItem($item);
+            } else {
+              $view->addHeadMessage("Erreur lors de l'enregistrement", 'bad');
+              $view->renderFormItem($item, null);
+            }
         } catch (QueryException $e) {
-            $view->addHeadMessage("Erreur lors de l'enregistrement", 'bad');
-            $view->renderFormItem($item, null);
+            $vue->addHeadMessage("Une erreur est survenue à la sauvegarde...", "bad");
         }
       }
 
@@ -182,13 +185,16 @@ namespace mywishlist\controller;
           if(isset($_POST['url_item'])) $item->url = filter_var($url_item,FILTER_SANITIZE_URL);
           $item->cagnotte = $pot;
           try {
-            $item->save();
-            $view->addHeadMessage("Votre item a bien été modifié", 'good');
-            $view->renderItem($item);
+            if ($item->save()) {
+              $view->addHeadMessage("Votre item a bien été modifié", 'good');
+              $view->renderItem($item);
+            } else {
+              $view->addHeadMessage("Votre item n'a pu être modifié", 'bad');
+              $this->getFormItem($item);
+            }
           }
           catch (QueryException $e) {
-            $view->addHeadMessage("Votre item n'a pu être modifié", 'bad');
-            $this->getFormItem($item);
+            $vue->addHeadMessage("Une erreur est survenue à la sauvegarde...", "bad");
           }
       }
 
@@ -233,13 +239,16 @@ namespace mywishlist\controller;
           $item->message_booking = $message;
 
           try {
-              $item->save();
-              $view->addHeadMessage("L'item a bien été réservé",'good');
-              $view->renderItem($item);
+              if ($item->save()) {
+                $view->addHeadMessage("L'item a bien été réservé",'good');
+                $view->renderItem($item);
+              } else {
+                $view->addHeadMessage("L'item n'a pu être réservé", 'bad');
+                $view->renderItem($item);
+              }
           }
           catch (QueryException $e) {
-              $view->addHeadMessage("L'item n'a pu être réservé", 'bad');
-              $view->renderItem($item);
+            $vue->addHeadMessage("Une erreur est survenue à la sauvegarde...", "bad");
           }
       }
 
@@ -295,13 +304,16 @@ namespace mywishlist\controller;
 
         $item->img = NULL;
         try {
-            $item->save();
-            $view->addHeadMessage("Votre image a bien été supprimée.","good");
-            $view->renderItem($item);
+            if ($item->save()) {
+              $view->addHeadMessage("Votre image a bien été supprimée.","good");
+              $view->renderItem($item);
+            } else {
+              $view->addHeadMessage("Votre image n'a pas pu être supprimée.","bad");
+              $view->renderItem($item);
+            }
         }
         catch (QueryException $e) {
-            $view->addHeadMessage("Votre image n'a pas pu être supprimée.","bad");
-            $view->renderItem($item);
+          $vue->addHeadMessage("Une erreur est survenue à la sauvegarde...", "bad");
         }
       }
   }

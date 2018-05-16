@@ -34,11 +34,14 @@
       $message->body = filter_var($_POST['message_body'],FILTER_SANITIZE_STRING);
       $message->list_id = $list_id;
       try {
-        $message->save();
-        $view->renderMessageCreated($message);
+        if ($message->save())
+          $view->renderMessageCreated($message);
+        else {
+          $view->addHeadMessage('Erreur : la sauvegarde a échoué', 'bad');
+          $view->renderFormMessage($list_id, $token);
+        }
       } catch (QueryException $e) {
-        $view->addHeadMessage('Erreur : la sauvegarde a échoué', 'bad');
-        $view->renderFormMessage($list_id, $token);
+          $vue->addHeadMessage("Une erreur est survenue à la sauvegarde...", "bad");
       }
 
     }

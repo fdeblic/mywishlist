@@ -44,13 +44,16 @@ class AccountController {
 
     // Enregistre le nouveau compte
     try {
-      $acc->save();
-      $vue = new MainView();
-      $vue->addHeadMessage('Votre compte a bien été créé !', 'good');
-      $vue->render($acc);
+      if ($acc->save()) {
+        $vue = new MainView();
+        $vue->addHeadMessage('Votre compte a bien été créé !', 'good');
+        $vue->render($acc);
+      } else {
+        $vue->addHeadMessage('Impossible de créer le compte', 'bad');
+        $vue->renderAccountEditor($acc);
+      }
     } catch (QueryException $e) {
-      $vue->addHeadMessage('Impossible de créer le compte', 'bad');
-      $vue->renderAccountEditor($acc);
+      $vue->addHeadMessage("Une erreur est survenue à la sauvegarde...", "bad");
     }
   }
 
@@ -97,11 +100,8 @@ class AccountController {
 
     $acc = Account::where('login', '=', strtolower($login))->first();
 
-    if ($acc == null)
-      $vue->error("login inconnu");
-
-    if (crypt($password, 'sel de mer') != $acc->password)
-      $vue->error("mauvais mot de passe !");
+    if ($acc == null || crypt($password, 'sel de mer') != $acc->password )
+      $vue->error("Erreur d'identification");
 
     $_SESSION['user_connected'] = true;
     $_SESSION['user_login'] = $acc->login;
@@ -169,11 +169,14 @@ class AccountController {
 
       // Enregistre le nouveau compte
       try {
-        $acc->save();
-        $vue->addHeadMessage("modifications enregistrées", "good");
-        $vue->renderAccountEditor($acc);
+        if ($acc->save()) {
+          $vue->addHeadMessage("modifications enregistrées", "good");
+          $vue->renderAccountEditor($acc);
+        } else {
+          $vue->error("impossible d'enregistrer les modifications");
+        }
       } catch (QueryException $e) {
-        $vue->error("impossible d'enregistrer les modifications");
+        $vue->addHeadMessage("Une erreur est survenue à la sauvegarde...", "bad");
       }
     } else {
       // Envoi du formulaire d'édition du compte
