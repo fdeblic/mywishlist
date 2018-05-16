@@ -141,6 +141,12 @@ namespace mywishlist\controller;
             $view->renderItem($item);
             return;
           }
+          if(isset($item->booking_user)){
+            $view->addHeadMessage("Vous ne pouvez pas modifier un item déjà réservé.", 'bad');
+            $view->renderItem($item);
+            return;
+          }
+
 
           if (!isset($item)) $view->error("item non trouvé");
           if (!isset($_POST['imgName'])) $view->error("veuillez entrer un nom");
@@ -256,6 +262,12 @@ namespace mywishlist\controller;
             $view->addHeadMessage("Vous ne pouvez pas supprimer cet item", 'bad');
             $view->renderItem($item);
             return;
+        }
+
+        if(isset($item->booking_user)){
+          $view->addHeadMessage("Vous ne pouvez pas modifier un item déjà réservé.", 'bad');
+          $view->renderItem($item);
+          return;
         }
 
         if (!isset($item))
