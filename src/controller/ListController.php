@@ -61,7 +61,7 @@ class ListController {
     $wishlist->titre =  filter_var($_POST['list_title'],FILTER_SANITIZE_STRING);
     $wishlist->description = filter_var($_POST['list_descr'],FILTER_SANITIZE_STRING);
     $wishlist->expiration = $expiration;
-    $wishlist->public = isset($_POST['list_public']) ? 1 : 0 ;
+    $wishlist->public =  0 ;
     $wishlist->token = stripslashes (crypt(
       $_POST['list_title'] . $_POST['list_descr'] . $_POST['list_expiration'],
       $_SESSION['user_login'] . "sel de mer"
