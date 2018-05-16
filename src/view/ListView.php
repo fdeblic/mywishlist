@@ -84,6 +84,7 @@ require_once 'vendor/autoload.php';
       $url_addMessage = $app->urlFor('list_addMsgPost',['id'=>$list->no, 'token'=>$list->token]);
       $url_deleteList = $app->urlFor('list_delete',['id'=>$list->no, 'token'=>$list->token]);
       $url_modifyList = $app->urlFor('list_editGet',['id'=>$list->no, 'token'=>$list->token]);
+      $url_liste_set_public = $app->urlFor('list_set_public',['id'=>$list->no, 'token'=>$list->token]);
       $urlFb = 'https://www.facebook.com/sharer/sharer.php?u=' . $_SERVER['SERVER_NAME'] . $url_share;
       $urlTw = 'https://twitter.com/home?status=' . $_SERVER['SERVER_NAME'] . $url_share;
       $urlGgPlus = 'https://plus.google.com/share?url=' . $_SERVER['SERVER_NAME'] . $url_share;
@@ -131,8 +132,8 @@ require_once 'vendor/autoload.php';
         $content .= "<a href='$url_addItem'> Créer un item </a><br>\n";
         $content .= "<a href='$url_addMessage'> Ajouter un message </a><br>\n";
         $content .= "<a href='$url_modifyList'> Modifier la liste </a><br>\n";
-        $content .= "<a href='$url_deleteList'> Supprimer la liste </a><br>\n";
-
+        if($list->public ==0)
+          $content .= "<a href='$url_liste_set_public'> Rendre la liste publique </a><br>\n";
       }
 
       // Liens de partage
