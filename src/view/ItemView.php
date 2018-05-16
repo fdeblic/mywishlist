@@ -82,62 +82,25 @@ use \mywishlist\controller\AccountController as AccountController;
       if ($canEdit) {
         $content .= "\n<!-- Edition -->\n";
         $content .= "<p> - Edition - </p>\n";
-        if(isset($item->booking_user))
-          $content .= "<p> Un item réservé ne peut être modifié.</p>\n";
-        else
+        if(isset($item->booking_user)){
+          $content .= "<br> Un item réservé ne peut être modifié ou réservé.</br>\n";
+          if (isset($item->img))
+            $content.= "<br> Une image d'un item réservé ne peut être supprimée.</br>\n";
+
+        }
+        else{
+
           $content .= "<a href='$urlEdit'>Modifier l'item</a><br>\n";
-        if(isset($item->booking_user))
-          $content .= "<p> Un item réservé ne peut être supprimé.</p>\n";
-        else
           $content .= "<a href='$urlDelete'>Supprimer l'item </a><br>\n";
         if (isset($item->img))
           $content .= "<a href='$urlDelImg'>Supprimer l'image</a><br>\n";
+        }
       }
 
       $content = str_replace ("\n", "\n  ", $content);
       $this->addContent($content);
       parent::render();
     }
-
-
-    /**
-     * Génère le contenu HTML pour afficher un
-     * item créé
-     * @param $item l'item créé à afficher
-     */
-    /*function renderItemCreated($item) {
-        $url = \Slim\Slim::getInstance()->urlFor('list_aff', ['id'=>$item->liste_id, 'token'=>$item->liste->token]);
-        if ($item == null)
-          error("Votre item n'a pas pu être créé");
-
-        $this->addContent("<h1> L'item <i>$item->nom</i> a bien été créé ! </h1>");
-        $this->addContent("
-        <p>
-            <a href='$url'>
-                Retour à la liste.
-            </a>
-        </p>");
-        parent::render();
-    }*/
-
-    /**
-     * Génère le contenu HTML pour éditer un
-     * item passé en paramètre
-     * @param $item l'item à éditer
-     */
-    /*function renderEditItem($item) {
-        $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
-        if ($item == null)
-          error("Votre item n'a pas pu être modifié");
-        $this->addContent("<h1> L'item <i>$item->nom</i> a bien été modifié ! </h1>");
-        $this->addContent("
-        <p>
-            <a href='$url'>
-                Retour à la liste.
-            </a>
-        </p>");
-        parent::render();
-    }*/
 
     /**
      * Génère le formulaire HTML pour éditer un
