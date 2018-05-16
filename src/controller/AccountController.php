@@ -121,20 +121,14 @@ class AccountController {
    * Permet de se déconnecter
    */
   function disconnect() {
-    $_SESSION['user_connected'] = false;
-    $_SESSION['user_login'] = "";
-    $_SESSION['user_id'] = 0;
-
-    GlobalView::addHeadMessage("Vous êtes à présent déconnecté(e)", "good");
-
-    if (isset($_SERVER['HTTP_REFERER'])) {
-      // Retourne à la page précédente
-      \Slim\Slim::getInstance()->redirect($_SERVER['HTTP_REFERER'], 303);
+    if (AccountController::isConnected()) {
+      $_SESSION['user_connected'] = false;
+      $_SESSION['user_login'] = "";
+      $_SESSION['user_id'] = 0;
+      GlobalView::addHeadMessage("Vous êtes à présent déconnecté(e)", "good");
     }
-    else {
-      $vue = new GlobalView();
-      $vue->render();
-    }
+    $app = \Slim\Slim::getInstance();
+    $app->redirect($app->urlFor('home'), 303);
   }
 
   /**

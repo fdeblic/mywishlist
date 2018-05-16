@@ -88,7 +88,7 @@ class ListController {
     $view->notConnectedError();
 
     $wishlist = WishList::where('no','=',$id)->where('token','=',$token)->first();
-    if ($wishlist->user_id != $user->id_account || $user->admin == false){
+    if (!isset($wishlist) || $wishlist->user_id != $user->id_account && $user->admin == false){
       $view->addHeadMessage("Vous ne pouvez pas modifier cette liste", 'bad');
       $view->renderList($wishlist,$user);
       return;
@@ -124,7 +124,6 @@ class ListController {
   public function deleteList($id, $token) {
     $view = new ListView();
     $wishlist = Wishlist::where('no','=',$id)->where('token','=',$token)->first();
-    $user = AccountController::getCurrentUser();
     if ($wishlist == null) $view->error("la liste n'existe pas");
 
     $user = AccountController::getCurrentUser();
