@@ -19,6 +19,7 @@ CREATE TABLE `account` (
   `login` varchar(30) NOT NULL,
   `password` varchar(70) NOT NULL,
   `admin` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` date DEFAULT NULL,
   PRIMARY KEY (`id_account`),
   UNIQUE KEY `login` (`login`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
@@ -51,6 +52,7 @@ CREATE TABLE `item` (
   `booking_user` varchar(30) DEFAULT NULL,
   `message_booking` text,
   `liste_id` int(11) NOT NULL,
+  `deleted_at` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_liste_id` (`liste_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=83 ;
@@ -122,6 +124,7 @@ CREATE TABLE `liste` (
   `expiration` date NOT NULL,
   `token` varchar(70) COLLATE utf8_unicode_ci NOT NULL,
   `public` tinyint(1) NOT NULL DEFAULT '0',
+  `deleted_at` date DEFAULT NULL,
   PRIMARY KEY (`no`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
@@ -152,6 +155,7 @@ CREATE TABLE `message_list` (
   `id_creator` int(11) NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `deleted_at` date DEFAULT NULL,
   PRIMARY KEY (`id_message`),
   KEY `list_id` (`list_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
@@ -181,6 +185,7 @@ CREATE TABLE `pot_participation` (
   `pot_id` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
   `amount` decimal(5,2) NOT NULL,
+  `deleted_at` date DEFAULT NULL,
   PRIMARY KEY (`id_pot_participation`),
   KEY `pot_id` (`pot_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=41 ;

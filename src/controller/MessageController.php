@@ -6,6 +6,7 @@
   use \mywishlist\view\MessageView as MessageView;
   use \mywishlist\models\WishList as WishList;
   use \mywishlist\models\Account as Account;
+  use Illuminate\Database\QueryException;
 
   class MessageController {
 
@@ -32,9 +33,10 @@
       $message->id_creator = $user->id_account;
       $message->body = filter_var($_POST['message_body'],FILTER_SANITIZE_STRING);
       $message->list_id = $list_id;
-      if ($message->save()) {
+      try {
+        $message->save();
         $view->renderMessageCreated($message);
-      } else {
+      } catch (QueryException $e) {
         $view->addHeadMessage('Erreur : la sauvegarde a échoué', 'bad');
         $view->renderFormMessage($list_id, $token);
       }
