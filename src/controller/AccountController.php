@@ -97,11 +97,8 @@ class AccountController {
 
     $acc = Account::where('login', '=', strtolower($login))->first();
 
-    if ($acc == null)
-      $vue->error("login inconnu");
-
-    if (crypt($password, 'sel de mer') != $acc->password)
-      $vue->error("mauvais mot de passe !");
+    if ($acc == null || crypt($password, 'sel de mer') != $acc->password )
+      $vue->error("Erreur d'identification");
 
     $_SESSION['user_connected'] = true;
     $_SESSION['user_login'] = $acc->login;
