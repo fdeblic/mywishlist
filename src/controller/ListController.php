@@ -63,7 +63,6 @@ class ListController {
       $_POST['list_title'] . $_POST['list_descr'] . $_POST['list_expiration'],
       $_SESSION['user_login'] . "sel de mer"
     ));
-    echo $wishlist->token;
 
     if($wishlist->save()){
       $view->addHeadMessage("Votre liste a bien été créée", 'good');

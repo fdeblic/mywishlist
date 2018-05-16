@@ -40,7 +40,7 @@ use \mywishlist\controller\AccountController as AccountController;
 
       // Affichage de l'item
       $content .= "\n<!-- Item -->\n";
-      if (isset($item->img)) $content .= "<img src='./img/$item->img' alt='$item->nom'>\n";
+      if (isset($item->img)) $content .= "<img src='./img/item/$item->img' alt='$item->nom'>\n";
       $content .= "<h1> $item->nom </h1>\n";
       $content .= "<p class='description-item'> $item->descr </p>\n";
       $content .= "<p> Tarif : $item->tarif € </p>\n";

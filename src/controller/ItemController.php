@@ -51,7 +51,7 @@ namespace mywishlist\controller;
             if(!in_array($detectedType, $allowedTypes))
                 $view->error("Le fichier n'est pas une image");
 
-            if(!move_uploaded_file($img['tmp_name'],"./img/".$img['name']))
+            if(!move_uploaded_file($img['tmp_name'],"./img/item/".$img['name']))
                 $view->error("Echec de l'upload");
 
             $item->img = $img['name'];
@@ -161,8 +161,8 @@ namespace mywishlist\controller;
               if(!in_array($detectedType, $allowedTypes))
                   $view->error("Le fichier n'est pas une image");
 
-            $newfilename = $id.".".$token;
-              if(!move_uploaded_file($img['tmp_name'],"./img/".$newfilename))
+              $newfilename = $id.".".$token;
+              if(!move_uploaded_file($img['tmp_name'],"./img/item/".$newfilename))
                   $view->error("Echec de l'upload");
 
               $item->img = $newfilename;
