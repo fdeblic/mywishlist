@@ -16,8 +16,8 @@ require_once 'vendor/autoload.php';
     function renderLists($publicLists, $ownLists) {
       $urlCreateList = \Slim\Slim::getInstance()->urlFor('list_createGet');
       $content = "\n";
-      if (count($ownLists) != 0 && count($publicLists) != 0)
-        $content = "  <h1> Listes : </h1>\n";
+      if (count($ownLists) == 0 && count($publicLists) == 0)
+        $content = "  <h1> Pas de listes publiques </h1>\n";
 
       if (isset($ownLists) && count($ownLists) != 0) {
         $content .= "<h2> Listes : </h2>\n";
@@ -41,6 +41,7 @@ require_once 'vendor/autoload.php';
         $content .= "</ul>\n";
       }
 
+      $content .= "<a href='$urlCreateList'> Créer une liste </a>";
       $content = str_replace("\n", "\n  ", $content);
       $this->addContent($content);
       parent::render();
