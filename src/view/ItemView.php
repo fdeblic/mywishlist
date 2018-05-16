@@ -101,45 +101,6 @@ use \mywishlist\controller\AccountController as AccountController;
 
 
     /**
-     * Génère le contenu HTML pour afficher un
-     * item créé
-     * @param $item l'item créé à afficher
-     */
-    /*function renderItemCreated($item) {
-        $url = \Slim\Slim::getInstance()->urlFor('list_aff', ['id'=>$item->liste_id, 'token'=>$item->liste->token]);
-        if ($item == null)
-          error("Votre item n'a pas pu être créé");
-
-        $this->addContent("<h1> L'item <i>$item->nom</i> a bien été créé ! </h1>");
-        $this->addContent("
-        <p>
-            <a href='$url'>
-                Retour à la liste.
-            </a>
-        </p>");
-        parent::render();
-    }*/
-
-    /**
-     * Génère le contenu HTML pour éditer un
-     * item passé en paramètre
-     * @param $item l'item à éditer
-     */
-    /*function renderEditItem($item) {
-        $url = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$item->liste_id, 'token'=>$item->liste->token]);
-        if ($item == null)
-          error("Votre item n'a pas pu être modifié");
-        $this->addContent("<h1> L'item <i>$item->nom</i> a bien été modifié ! </h1>");
-        $this->addContent("
-        <p>
-            <a href='$url'>
-                Retour à la liste.
-            </a>
-        </p>");
-        parent::render();
-    }*/
-
-    /**
      * Génère le formulaire HTML pour éditer un
      * item passé en paramètre
      * @param $item l'item à éditer
@@ -173,7 +134,7 @@ use \mywishlist\controller\AccountController as AccountController;
         $form .= "  <input id='imgName' name='imgName' type='text' value='$nom' placeholder=\"Nom de l'item\">\n";
         $form .= "  <textarea id='imgDescr' name='imgDescr' rows='10' cols='50' placeholder='Description'>$descr</textarea>\n";
         $form .= "  <input id='itemTarif' name='itemTarif' type='text' value='$tarif' placeholder='Tarif'>\n";
-        $form .= "  <input type='text' name='url_item' value='$url_item' placeholder='Lien'>\n";
+        $form .= "  <input type='url' name='url_item' value='$url_item' placeholder='Lien'>\n";
         $form .= "  <p>\n";
         $form .= "    <input id='itemPotOrReserv' name='itemPotOrReserv' type='radio' value='reserv' ".($pot?'':'checked').">Item à réserver\n";
         $form .= "    <input id='itemPotOrReserv' name='itemPotOrReserv' type='radio' value='pot' ".($pot?'checked ':'').">Cagnotte sur l'item\n";
