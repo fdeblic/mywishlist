@@ -147,9 +147,10 @@ use \mywishlist\controller\AccountController as AccountController;
       $content .= "</p>\n";
 
       // Affiche les messages de la liste
-      $messages = $list->messages()->get();
+      $messages = $list->messages()->orderBy('created_at','DESC')->get();
       $content .= "\n<!-- News feed -->\n";
       $content .= "<div>";
+
       foreach($messages as $message){
           $creator = $message->creator;
           $date_string = date("d/m/y", strtotime($message->created_at));
