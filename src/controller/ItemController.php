@@ -276,6 +276,7 @@ namespace mywishlist\controller;
         }
 
         if(isset($item->booking_user)){
+          $view = new ItemView();
           $view->addHeadMessage("Vous ne pouvez pas modifier un item déjà réservé.", 'bad');
           $view->renderItem($item);
           return;
