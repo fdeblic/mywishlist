@@ -17,9 +17,9 @@ class ListController {
     if (AccountController::isConnected()){
       $user = AccountController::getCurrentUser();
       if ($user->admin)
-        $ownLists = WishList::select('*')->get();
+        $ownLists = WishList::select('*')->orderBy('expiration','ASC')->get();
       else
-        $ownLists = WishList::where('user_id','=', $user->id_account)->get();
+        $ownLists = WishList::where('user_id','=', $user->id_account)->orderBy('expiration','ASC')->get();
       $view->renderLists($publicLists, $ownLists);
     } else {
       $view->renderLists($publicLists, null);
