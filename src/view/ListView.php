@@ -29,7 +29,7 @@ require_once 'vendor/autoload.php';
           }
         }
         $content .= "</ul>\n";
-        $content .= "<h2> Listes publiques : </h2>\n";
+        $content .= "<h2> Listes terminées : </h2>\n";
         $content .= "<ul>\n";
         foreach ($ownLists as $list) {
           if(time() - strtotime($list->expiration) >= 0){
@@ -89,6 +89,7 @@ require_once 'vendor/autoload.php';
       $urlGgPlus = 'https://plus.google.com/share?url=' . $_SERVER['SERVER_NAME'] . $url_share;
 
       $content  = "<h1> $list->titre </h1>\n";
+      $content .= "<p> $list->description</p>\n";
       $content .= "<!-- Items -->\n";
       $content .= "<ol>\n";
 
