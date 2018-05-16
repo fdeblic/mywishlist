@@ -82,8 +82,14 @@ use \mywishlist\controller\AccountController as AccountController;
       if ($canEdit) {
         $content .= "\n<!-- Edition -->\n";
         $content .= "<p> - Edition - </p>\n";
-        $content .= "<a href='$urlEdit'>Modifier l'item</a><br>\n";
-        $content .= "<a href='$urlDelete'>Supprimer l'item </a><br>\n";
+        if(isset($item->booking_user))
+          $content .= "<p> Un item réservé ne peut être modifié.</p>\n";
+        else
+          $content .= "<a href='$urlEdit'>Modifier l'item</a><br>\n";
+        if(isset($item->booking_user))
+          $content .= "<p> Un item réservé ne peut être supprimé.</p>\n";
+        else
+          $content .= "<a href='$urlDelete'>Supprimer l'item </a><br>\n";
         if (isset($item->img))
           $content .= "<a href='$urlDelImg'>Supprimer l'image</a><br>\n";
       }
