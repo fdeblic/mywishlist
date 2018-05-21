@@ -2,6 +2,10 @@
 <!-- HEADER -->
 <header>
   <h1> MyWishList </h1>
+  <?php
+  if (isset($_SESSION['acc_content']))
+  echo $_SESSION['acc_content'];
+  ?>
   <!-- Menus -->
   <ul id="menu-navig">
     <li><a href="./"> Accueil </a></li>
@@ -11,8 +15,4 @@
       echo '<li><a href="' . \Slim\Slim::getInstance()->urlFor('acc_edit_get') . '"> Mon compte </a></li>';
     ?>
   </ul>
-  <?php
-    if (isset($_SESSION['acc_content']))
-      echo $_SESSION['acc_content'];
-?>
 </header>

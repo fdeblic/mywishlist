@@ -25,5 +25,6 @@
       // Mise en place des tabulations pour un code HTML lisible
       print str_replace("\n", "\n    ", $content) . "\r\n";
     ?>
+    <script> // setTimeout(function() { document.location.reload(); } , 2000); </script>
   </body>
 </html>
