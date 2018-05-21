@@ -10,6 +10,24 @@ a, a:visited, a:focus {
   color: green;
 }
 
+.icon {
+  width: 50px;
+  vertical-align: middle;
+  margin: 5px;
+}
+
+a.actionLink {
+  color: darkslategray;
+  font-weight: bold;
+}
+
+a.actionLink:hover,
+a.actionLink:hover.icon {
+  color: black;
+  text-decoration: none;
+  filter: brightness(0.8);
+}
+
 html {
     background-color: lightgrey;
 }
@@ -135,7 +153,7 @@ content h1 {
 /* ------
   ITEM RULES
 ------ */
-img {
+.img-item {
     max-width : 200px;
     max-height: 200px;
     margin-left: 5px;

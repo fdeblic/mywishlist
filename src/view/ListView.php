@@ -60,7 +60,7 @@ use \mywishlist\controller\AccountController as AccountController;
         $content .= "</ul>\n";
       }
       if (AccountController::isConnected()){
-        $content .= "<a href='$urlCreateList'> Créer une liste </a>";
+        $content .= "<a href='$urlCreateList' class='actionLink'> <img src='img/icon/new.png' class='icon' alt=''>Créer une liste</a>";
       }
       $content = str_replace("\n", "\n  ", $content);
       $this->addContent($content);
@@ -136,18 +136,19 @@ use \mywishlist\controller\AccountController as AccountController;
 
       $content .= "\n<!-- List modifiers -->\n";
       if ($userCanEdit) {
-        $content .= "<a href='$url_addItem'> Créer un item </a><br>\n";
-        $content .= "<a href='$url_addMessage'> Ajouter un message </a><br>\n";
-        $content .= "<a href='$url_modifyList'> Modifier la liste </a><br>\n";
+        $content .= "<a class='actionLink' href='$url_addItem'> <img src='img/icon/newItem.png' alt='' class='icon'> Créer un item </a><br>\n";
+        $content .= "<a class='actionLink' href='$url_addMessage'> <img src='img/icon/newMessage.png' alt='' class='icon'> Ajouter un message </a><br>\n";
+        $content .= "<a class='actionLink' href='$url_modifyList'> <img src='img/icon/edit.png' alt='' class='icon'> Modifier la liste </a><br>\n";
 
         if($list->public ==0)
-          $content .= "<a href='$url_liste_set_public'> Rendre la liste publique </a><br>\n";
-        $content .= "<a href='$url_deleteList'  onclick=\"return confirm('Etes-vous sûr de vouloir supprimer cette liste ?');\"> Supprimer la liste </a><br>\n";
+          $content .= "<a href='$url_liste_set_public' class='actionLink'> <img src='img/icon/share.png' alt='' class='icon'> Rendre la liste publique </a><br>\n";
+        $content .= "<a href='$url_deleteList' class='actionLink' onclick=\"return confirm('Etes-vous sûr de vouloir supprimer cette liste ?');\">  <img src='img/icon/delete.png' alt='' class='icon'> Supprimer la liste </a><br>\n";
       }
 
       // Liens de partage
       $content .= "\n<!-- Sharing links -->\n";
       $content .= "<p> Partager la liste :\n";
+      $content .= "  <img src='img/icon/link.png' alt='' class='icon'>\n";
       $content .= "  <a title='Partager sur Facebook' href='$urlFb'>Facebook</a>\n";
       $content .= "  <a title='Partager sur Twitter' href='$urlTw'>Twitter</a>\n";
       $content .= "  <a title='Partager sur Google+' href='$urlGgPlus'>Google+</a>\n";

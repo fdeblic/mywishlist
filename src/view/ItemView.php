@@ -40,7 +40,7 @@ use \mywishlist\controller\AccountController as AccountController;
 
       // Affichage de l'item
       $content .= "\n<!-- Item -->\n";
-      if (isset($item->img)) $content .= "<img src='./img/item/$item->img' alt='$item->nom'>\n";
+      if (isset($item->img)) $content .= "<img src='./img/item/$item->img' class='img-item' alt='Image : $item->nom'>\n";
       $content .= "<h1> $item->nom </h1>\n";
       $content .= "<p class='description-item'> $item->descr </p>\n";
       $content .= "<p> Tarif : $item->tarif € </p>\n";
@@ -72,11 +72,11 @@ use \mywishlist\controller\AccountController as AccountController;
         if (isset($item->booking_user))
           $content .= "<p> Cet item est réservé par $item->booking_user </p>\n";
         else
-          $content .= "<a href='$urlReserv'>Réserver l'item </a> <br>\n";
+          $content .= "<a href='$urlReserv' class='actionLink'> <img src='img/icon/basket.png' alt='' class='icon'> Réserver l'item </a> <br>\n";
       }
 
       // Bouton de retour
-      $content .= "<a href='$urlList'>Retour à la liste</a><br>\n";
+      $content .= "<a href='$urlList' class='actionLink'> <img src='img/icon/left_arrow.png' alt='' class='icon'> Retour à la liste</a><br>\n";
 
       // Actions d'édition
       if ($canEdit) {
@@ -88,10 +88,10 @@ use \mywishlist\controller\AccountController as AccountController;
             $content.= "<br> Une image d'un item réservé ne peut être supprimée.</br>\n";
         }
         else{
-          $content .= "<a href='$urlEdit'>Modifier l'item</a><br>\n";
-          $content .= "<a href='$urlDelete'  onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'item?');\">Supprimer l'item </a><br>\n";
+          $content .= "<a href='$urlEdit' class='actionLink'> <img src='img/icon/edit.png' alt='' class='icon'> Modifier l'item</a><br>\n";
+          $content .= "<a href='$urlDelete' class='actionLink' onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'item?');\"> <img src='img/icon/delete.png' alt='' class='icon'> Supprimer l'item </a><br>\n";
           if (isset($item->img))
-            $content .= "<a href='$urlDelImg'  onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'image de cet item?');\">Supprimer l'image</a><br>\n";
+            $content .= "<a href='$urlDelImg' class='actionLink' onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'image de cet item?');\"> <img src='img/icon/delete.png' alt='' class='icon'> Supprimer l'image</a><br>\n";
       }
 
       $content = str_replace ("\n", "\n  ", $content);
