@@ -34,8 +34,9 @@ html {
 
 body {
   position: relative;
-  min-width: 600px;
+  //min-width: 600px;
   max-width: 800px;
+  width: 90%;
   margin: auto;
   background-color: white;
   padding: 10px;
@@ -246,4 +247,28 @@ form > div > p {
     background-color: white;
     padding: 5px;
     border-radius: 4px;
+}
+
+/* Adaptations mobile */
+@media all and (max-width: 500px) {
+  body {
+      width: inherit;
+  }
+
+  #menu-navig {
+    padding: 0px;
+  }
+
+  #menu-navig li {
+    display: block;
+  }
+
+  #menu-navig li a {
+    width: auto;
+  }
+
+  #connectionMsg, #connectionForm {
+    //position: relative;
+  }
+
 }
