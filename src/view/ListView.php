@@ -18,7 +18,7 @@ use \mywishlist\controller\AccountController as AccountController;
       $urlCreateList = \Slim\Slim::getInstance()->urlFor('list_createGet');
       setlocale(LC_TIME, "fr_FR");
       $content = "\n";
-      if (count($ownLists) == 0 && count($publicLists) == 0)
+      if ((!isset($ownLists) || count($ownLists) == 0) && (!isset($publicLists) || count($publicLists) == 0))
         $content = "  <h1> Pas de listes publiques </h1>\n";
 
       if (isset($ownLists) && count($ownLists) != 0) {
