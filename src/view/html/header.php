@@ -1,7 +1,10 @@
 
 <!-- HEADER -->
 <header>
-  <h1> MyWishList </h1>
+  <div id='entete'>
+    <h1> MyWishList </h1>
+    <img src='img/icon/menu.png' alt='Menu' id='show-menu-link' class='icon'>
+  </div>
   <?php
   if (isset($_SESSION['acc_content']))
   echo $_SESSION['acc_content'];

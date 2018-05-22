@@ -26,5 +26,7 @@
       print str_replace("\n", "\n    ", $content) . "\r\n";
     ?>
     <script> //setTimeout(function() { document.location.reload(); } , 2000); </script>
+    <script src='script/jquery-3.3.1.js'></script>
+    <script src='script/wishlist.js'></script>
   </body>
 </html>
