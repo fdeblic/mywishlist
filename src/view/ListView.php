@@ -19,7 +19,7 @@ use \mywishlist\controller\AccountController as AccountController;
       setlocale(LC_TIME, "fr_FR");
       $content = "\n";
 
-      if ((!isset($ownLists) || count($ownLists) == 0) && (!isset($publicLists) || count($publicLists) == 0))
+      if ((isset($ownLists) && count($ownLists) == 0) && (isset($publicLists) && count($publicLists) == 0))
         $content = "  <h1> Pas de listes publiques </h1>\n";
 
       if (isset($ownLists) && count($ownLists) != 0) {
