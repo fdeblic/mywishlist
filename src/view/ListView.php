@@ -29,7 +29,7 @@ use \mywishlist\controller\AccountController as AccountController;
           if(strtotime($list->expiration) - time() >= 0){
             $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
             $date = ucwords(utf8_encode(strftime('%d %B %Y', strtotime($list->expiration))));
-            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"expiration_date\"> Fin le : $date </span> </li>\n";
+            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"listeDateExpiration\"> Fin le : $date </span> </li>\n";
           }
         }
         $content .= "</ul>\n";
@@ -39,7 +39,7 @@ use \mywishlist\controller\AccountController as AccountController;
           if(time() - strtotime($list->expiration) >= 0){
             $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
             $date = ucwords(utf8_encode(strftime('%d %B %Y', strtotime($list->expiration))));
-            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"expiration_date\"> Fin le : $date </span></li>\n";
+            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"listeDateExpiration\"> Fin le : $date </span></li>\n";
           }
         }
         $content .= "</ul>\n";
@@ -54,7 +54,7 @@ use \mywishlist\controller\AccountController as AccountController;
           if(strtotime($list->expiration) - time() >= 0){
             $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
             $date = ucwords(utf8_encode(strftime('%d %B %Y', strtotime($list->expiration))));
-            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"expiration_date\">Fin le : $date  </span> </li>\n";
+            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"listeDateExpiration\">Fin le : $date  </span> </li>\n";
           }
         }
         $content .= "</ul>\n";

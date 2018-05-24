@@ -34,7 +34,7 @@ html {
 
 body {
   position: relative;
-  //min-width: 600px;
+  min-width: 350px;
   max-width: 800px;
   width: 90%;
   margin: auto;
@@ -324,14 +324,21 @@ form > div > p {
   a.actionLink {
     background-color: gray;
     display: block;
-    text-align: center;
+    text-align: left;
     color: white;
     text-decoration: none;
+    //padding-left: 75px;
   }
 
   .icon {
-    position: relative;
+    /*position: relative;
     margin-left: -75px;
-    margin-right: 25px;
+    margin-right: 25px;*/
+  }
+
+  .listeDateExpiration {
+    display: block;
+    color: gray;
+    padding-left: 15px;
   }
 }
