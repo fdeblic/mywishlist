@@ -99,7 +99,7 @@ use \mywishlist\controller\AccountController as AccountController;
       $content  = "<h1> $list->titre </h1>\n";
       $content .= "<p> $list->description</p>\n";
       $content .= "<!-- Items -->\n";
-      $content .= "<ol>\n";
+      $content .= "<ol id='items'>\n";
 
       // Affiche les items
       foreach ($list->items as $item) {
@@ -123,12 +123,16 @@ use \mywishlist\controller\AccountController as AccountController;
             }
         }
         // Affiche l'item
-        $content .= "  <li>\n";
-        $content .= "    <a href='$url_rendItem'>$item->nom</a>\n";
-        $content .= "    <span> $etatItem </span>\n";
+        $content .= "  <li class='item'>\n";
+        if (isset($item->img))
+          $content .= "    <div class='itemImgContainer'><img src='img/item/$item->img' class='listItemImg' alt=''></div>\n";
+        else
+          $content .= "    <div class='itemImgContainer'><img src='img/item/no-item-img.jpg' class='listItemImg' alt=''></div>\n";
+        $content .= "    <a href='$url_rendItem' class='itemTitle'>$item->nom</a>\n";
+        $content .= "    <span class='itemState'> $etatItem </span>\n";
         if ($userCanEdit)
           if(!isset($item->booking_user))
-            $content .="    <ul><li><a href='$url_delItem' onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'item?');\">Supprimer</a> </li></ul>\n";
+            $content .="    <a class='deleteLink' href='$url_delItem' onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'item?');\"><img class='icon' src='img/icon/trash.png' alt='Supprimer' title=\"Supprimer l'item\"></a>\n";
         $content .= "  </li>\n";
       }
 
@@ -136,35 +140,35 @@ use \mywishlist\controller\AccountController as AccountController;
 
       $content .= "\n<!-- List modifiers -->\n";
       if ($userCanEdit) {
-        $content .= "<a class='actionLink' href='$url_addItem'> <img src='img/icon/newItem.png' alt='' class='icon'> Créer un item </a><br>\n";
-        $content .= "<a class='actionLink' href='$url_addMessage'> <img src='img/icon/newMessage.png' alt='' class='icon'> Ajouter un message </a><br>\n";
-        $content .= "<a class='actionLink' href='$url_modifyList'> <img src='img/icon/edit.png' alt='' class='icon'> Modifier la liste </a><br>\n";
+        $content .= "<a class='actionLink' href='$url_addItem'> <img src='img/icon/item.png' alt='' class='icon'>Créer un item</a><br>\n";
+        $content .= "<a class='actionLink' href='$url_addMessage'> <img src='img/icon/newMessage.png' alt='' class='icon'>Ajouter un message</a><br>\n";
+        $content .= "<a class='actionLink' href='$url_modifyList'> <img src='img/icon/edit.png' alt='' class='icon'>Modifier la liste</a><br>\n";
 
-        if($list->public ==0)
-          $content .= "<a href='$url_liste_set_public' class='actionLink'> <img src='img/icon/share.png' alt='' class='icon'> Rendre la liste publique </a><br>\n";
-        $content .= "<a href='$url_deleteList' class='actionLink' onclick=\"return confirm('Etes-vous sûr de vouloir supprimer cette liste ?');\">  <img src='img/icon/delete.png' alt='' class='icon'> Supprimer la liste </a><br>\n";
+        if($list->public == 0)
+          $content .= "<a href='$url_liste_set_public' class='actionLink'> <img src='img/icon/public.png' alt='' class='icon'>Rendre la liste publique</a><br>\n";
+        $content .= "<a href='$url_deleteList' class='actionLink' onclick=\"return confirm('Etes-vous sûr de vouloir supprimer cette liste ?');\"> <img src='img/icon/delete.png' alt='' class='icon'>Supprimer la liste</a><br>\n";
       }
 
       // Liens de partage
       $content .= "\n<!-- Sharing links -->\n";
       $content .= "<p> Partager la liste :\n";
-      $content .= "  <img src='img/icon/link.png' alt='' class='icon'>\n";
-      $content .= "  <a title='Partager sur Facebook' href='$urlFb'>Facebook</a>\n";
-      $content .= "  <a title='Partager sur Twitter' href='$urlTw'>Twitter</a>\n";
-      $content .= "  <a title='Partager sur Google+' href='$urlGgPlus'>Google+</a>\n";
+      //$content .= "  <img src='img/icon/share.png' alt='' class='icon'>\n";
+      $content .= "  <a title='Partager sur Facebook' href='$urlFb'><img class='icon' src='img/icon/facebook.png' alt='Facebook'></a>\n";
+      $content .= "  <a title='Partager sur Twitter' href='$urlTw'><img class='icon' src='img/icon/twitter.png' alt='Twitter'></a>\n";
+      $content .= "  <a title='Partager sur Google+' href='$urlGgPlus'><img class='icon' src='img/icon/googleplus.png' alt='Google+'></a>\n";
       $content .= "</p>\n";
 
       // Affiche les messages de la liste
       $messages = $list->messages()->orderBy('created_at','DESC')->get();
       $content .= "\n<!-- News feed -->\n";
-      $content .= "<div>";
+      $content .= "<div id='listMessages'>";
 
       foreach($messages as $message){
           $creator = $message->creator;
           $date_string = date("d/m/y", strtotime($message->created_at));
           $content .= "\n  <div class='message'>\n";
           $content .= "    <p class='mess-creator'>\n";
-          $content .= "      <span>$creator->nom $creator->prenom, $date_string</span>\n";
+          $content .= "      <span>$creator->prenom $creator->nom, $date_string</span>\n";
           $content .= "    </p>\n";
           $content .= "    <p class='mess-body'> $message->body </p>\n";
           $content .= "  </div>\n";

@@ -75,13 +75,9 @@ use \mywishlist\controller\AccountController as AccountController;
           $content .= "<a href='$urlReserv' class='actionLink'> <img src='img/icon/basket.png' alt='' class='icon'> Réserver l'item </a> <br>\n";
       }
 
-      // Bouton de retour
-      $content .= "<a href='$urlList' class='actionLink'> <img src='img/icon/left_arrow.png' alt='' class='icon'> Retour à la liste</a><br>\n";
-
       // Actions d'édition
       if ($canEdit) {
         $content .= "\n<!-- Edition -->\n";
-        $content .= "<p> - Edition - </p>\n";
         if(isset($item->booking_user)){
           $content .= "<br> Un item réservé ne peut être modifié ou réservé.</br>\n";
           if (isset($item->img))
@@ -89,15 +85,19 @@ use \mywishlist\controller\AccountController as AccountController;
         }
         else{
           $content .= "<a href='$urlEdit' class='actionLink'> <img src='img/icon/edit.png' alt='' class='icon'> Modifier l'item</a><br>\n";
-          $content .= "<a href='$urlDelete' class='actionLink' onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'item?');\"> <img src='img/icon/delete.png' alt='' class='icon'> Supprimer l'item </a><br>\n";
           if (isset($item->img))
             $content .= "<a href='$urlDelImg' class='actionLink' onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'image de cet item?');\"> <img src='img/icon/delete.png' alt='' class='icon'> Supprimer l'image</a><br>\n";
+          $content .= "<a href='$urlDelete' class='actionLink' onclick=\"return confirm('Etes-vous sûr de vouloir supprimer l\'item?');\"> <img src='img/icon/trash.png' alt='' class='icon'> Supprimer l'item </a><br>\n";
+        }
       }
+      
+
+      // Bouton de retour
+      $content .= "<a href='$urlList' class='actionLink'> <img src='img/icon/left_arrow.png' alt='' class='icon'> Retour à la liste</a><br>\n";
 
       $content = str_replace ("\n", "\n  ", $content);
       $this->addContent($content);
       parent::render();
-    }
   }
 
     /**
