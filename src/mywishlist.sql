@@ -111,7 +111,15 @@ INSERT INTO `item` (`id`, `nom`, `descr`, `img`, `tarif`, `token`, `url`, `cagno
 (83, 'Appart Hotel', 'Appart’hôtel Coeur de Ville, en plein centre-ville', 'apparthotel.jpg', '56.00', 'seoIqjHcSUrQE', 'http://www.booking.com/Share-nDqTfO', 0, NULL, NULL, 7),
 (84, 'Boite de nuit', 'Discothèque, Boîte tendance avec des soirées à thème & DJ invités', 'boitedenuit.jpg', '32.00', 'semqTohMovIGY', 'http://https://www.lechatnoir.fr/', 0, NULL, NULL, 7),
 (85, 'Planètes Laser', 'Laser game : Gilet électronique et pistolet laser comme matériel, vous voilà équipé.', 'laser.jpg', '15.00', 'seRKIABvW3DSo', 'http://https://www.planeteslaser.com/', 1, NULL, NULL, 7),
-(86, 'Fort Aventure', 'Découvrez Fort Aventure à Bainville-sur-Madon, un site Accropierre unique en Lorraine ! Des Parcours Acrobatiques pour petits et grands, Jeu Mission Aventure, Crypte de Crapahute, Tyrolienne, Saut à l&#39;élastique inversé, Toboggan géant... et bien plus encore.', NULL, '25.00', 'segEOQgs6si/U', 'http://www.fort-pelissier.com/', 1, NULL, NULL, 7);
+(86, 'Fort Aventure', 'Découvrez Fort Aventure à Bainville-sur-Madon, un site Accropierre unique en Lorraine ! Des Parcours Acrobatiques pour petits et grands, Jeu Mission Aventure, Crypte de Crapahute, Tyrolienne, Saut à l&#39;élastique inversé, Toboggan géant... et bien plus encore.', NULL, '25.00', 'segEOQgs6si/U', 'http://www.fort-pelissier.com/', 1, NULL, NULL, 7),
+(87, 'Champagne', 'Bouteille de champagne + flutes + jeux à gratter', 'champagne.jpg', '20.00', 'seZ4S67zeLUE.', '', 0, NULL, NULL, 8),
+(88, 'Musique', 'Partitions de piano à 4 mains', 'musique.jpg', '25.00', 'sexKjbOQSTL6k', '', 0, NULL, NULL, 8),
+(89, 'Exposition', 'Visite guidée à  l&#39;exposition &#34;Regarder&#34; à la galerie Poirel', 'poirelregarder.jpg', '14.00', 'sea8FwNEn.IJE', 'http://www.poirel.nancy.fr/accueil/', 0, NULL, NULL, 8),
+(90, 'Bouquet', 'Bouquet de roses et Mots de Marion Renaud', 'rose.jpg', '16.00', 'se8uiHfAzma2E', '', 0, NULL, NULL, 8),
+(91, 'Diner Stanislas', 'Diner à la Table du Bon Roi Stanislas (Apéritif /Entrée / Plat / Vin / Dessert / Café / Digestif)', 'bonroi.jpg', '60.00', 'seKWR8wSjp3TY', 'http://tablestan.free.fr/', 1, NULL, NULL, 8),
+(92, 'Diner  Grand Rue', 'Diner au Grand’Ru(e) (Apéritif / Entrée / Plat / Vin / Dessert / Café)', 'grandrue.jpg', '59.00', 'seDp3ls1f04Xw', 'http://https://www.tripadvisor.fr/Restaurant_Review-g187162-d5964222-Reviews-LE_GRAND_RUE_ex_RESTAURANT_BAGOT-Nancy_Meurthe_et_Moselle_Grand_Est.html?m=19905', 1, NULL, NULL, 8, '2018-05-27'),
+(93, 'Bijoux', 'Bijoux de manteau + Sous-verre pochette de disque  + Lait après-soleil', 'bijoux.jpg', '29.00', 'seU3qt6xUDbLo', '', 0, NULL, NULL, 8),
+(94, 'Hôtel d&#39;Haussonville', 'Hôtel d&#39;Haussonville, au coeur de la vieille ville  à deux pas de la place Stanislas.', 'hotel_haussonville_logo.jpg', '169.00', 'seA2JU6LecGh6', 'http://https://hotel-haussonville.fr/', 1, NULL, NULL, 8);
 
 -- --------------------------------------------------------
 
