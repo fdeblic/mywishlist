@@ -11,7 +11,7 @@ namespace mywishlist\view;
      *Génère le contenu HTML pour afficher la page d'accueil
      */
     function render() {
-        $content = "<h1>Bienvenue en terre sainte.</h1>\n";
+        $content = "<h1>Bienvenue en terre sainte</h1>\n";
         $content .=
 "<p>
     Vous souhaitez créer un liste de souhaits pour un anniversaire ou un mariage ?

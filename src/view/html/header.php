@@ -2,8 +2,11 @@
 <!-- HEADER -->
 <header>
   <div id='entete'>
-    <h1> <img src='img/lamp.png' alt='' height='40'> MyWishList </h1>
-    <img src='img/icon/menu.png' alt='Menu' id='show-menu-link' class='icon'>
+    <h1>
+      <img id='imgLamp' src='img/lamp.png' alt='' height='40'>
+      MyWishList 
+      <img src='img/icon/menu.png' alt='Menu' id='show-menu-link' class='icon'>
+    </h1>
   </div>
   <?php
   if (isset($_SESSION['acc_content']))

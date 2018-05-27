@@ -1,6 +1,5 @@
 
 <!-- FOOTER -->
-<hr>
 <footer>
   <p> Conditions générales d'utilisation </p>
   <p> Mentions légales </p>

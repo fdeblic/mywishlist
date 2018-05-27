@@ -16,49 +16,57 @@ use \mywishlist\controller\AccountController as AccountController;
      */
     function renderLists($publicLists, $ownLists) {
       $urlCreateList = \Slim\Slim::getInstance()->urlFor('list_createGet');
-      setlocale(LC_TIME, "fr_FR");
+      setlocale(LC_TIME, 'fr_FR.utf8');
       $content = "\n";
+      $content .= "<div id='listsContainer'>\n";
 
       if ((isset($ownLists) && count($ownLists) == 0) && (isset($publicLists) && count($publicLists) == 0))
         $content = "  <h1> Pas de listes publiques </h1>\n";
 
       if (isset($ownLists) && count($ownLists) != 0) {
-        $content .= "<h2> Listes : </h2>\n";
-        $content .= "<ul>\n";
+        $content .= "<div>\n";
+        $content .= "<h2> Vos listes </h2>\n";
+        $content .= "<ul class='lists'>\n";
         foreach ($ownLists as $list) {
           if(strtotime($list->expiration) - time() >= 0){
             $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
-            $date = ucwords(utf8_encode(strftime('%d %B %Y', strtotime($list->expiration))));
-            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"listeDateExpiration\"> Fin le : $date </span> </li>\n";
+            $date = ucwords(strftime('%d %B %Y', strtotime($list->expiration)));
+            $content .= "  <li class='list'> <a href='$url_list' class='listTitle'>$list->titre</a> <span class=\"listeDateExpiration\"> Expire le : $date </span> </li>\n";
           }
         }
         $content .= "</ul>\n";
-        $content .= "<h2> Listes terminées : </h2>\n";
-        $content .= "<ul>\n";
+        $content .= "</div>\n";
+        $content .= "<div>\n";
+        $content .= "<h2> Listes expirées </h2>\n";
+        $content .= "<ul class='lists'>\n";
         foreach ($ownLists as $list) {
           if(time() - strtotime($list->expiration) >= 0){
             $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
-            $date = ucwords(utf8_encode(strftime('%d %B %Y', strtotime($list->expiration))));
-            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"listeDateExpiration\"> Fin le : $date </span></li>\n";
+            $date = ucwords(strftime('%d %B %Y', strtotime($list->expiration)));
+            $content .= "  <li class='list'> <a href='$url_list' class='listTitle'>$list->titre</a> <span class=\"listeDateExpiration\"> Finie le : $date </span></li>\n";
           }
         }
         $content .= "</ul>\n";
+        $content .= "</div>\n";
       }
 
       if (count($publicLists) == 0) {
         $content .= "  <p> (pas de liste publique) </p>\n";
       } else {
-        $content .= "<h2> Listes publiques : </h2>\n";
-        $content .= "<ul>\n";
+        $content .= "<div>\n";
+        $content .= "  <h2> Listes publiques </h2>\n";
+        $content .= "  <ul class='lists'>\n";
         foreach ($publicLists as $list) {
           if(strtotime($list->expiration) - time() >= 0){
             $url_list = \Slim\Slim::getInstance()->urlFor('list_aff',['id'=>$list->no, 'token'=>$list->token]);
-            $date = ucwords(utf8_encode(strftime('%d %B %Y', strtotime($list->expiration))));
-            $content .= "  <li> <a href='$url_list'>$list->titre</a> <span class=\"listeDateExpiration\">Fin le : $date  </span> </li>\n";
+            $date = ucwords(strftime('%d %B %Y', strtotime($list->expiration)));
+            $content .= "    <li class='list'> <a href='$url_list' class='listTitle'>$list->titre</a> <span class=\"listeDateExpiration\"> Expire le : $date  </span> </li>\n";
           }
         }
-        $content .= "</ul>\n";
+        $content .= "  </ul>\n";
+        $content .= "</div>\n";
       }
+      $content .= "</div>\n";
       if (AccountController::isConnected()){
         $content .= "<a href='$urlCreateList' class='actionLink'> <img src='img/icon/new.png' class='icon' alt=''>Créer une liste</a>";
       }
@@ -151,7 +159,7 @@ use \mywishlist\controller\AccountController as AccountController;
 
       // Liens de partage
       $content .= "\n<!-- Sharing links -->\n";
-      $content .= "<p> Partager la liste :\n";
+      $content .= "<p> Partager la liste :<br>\n";
       //$content .= "  <img src='img/icon/share.png' alt='' class='icon'>\n";
       $content .= "  <a title='Partager sur Facebook' href='$urlFb'><img class='icon' src='img/icon/facebook.png' alt='Facebook'></a>\n";
       $content .= "  <a title='Partager sur Twitter' href='$urlTw'><img class='icon' src='img/icon/twitter.png' alt='Twitter'></a>\n";
@@ -230,7 +238,7 @@ use \mywishlist\controller\AccountController as AccountController;
      */
     public function renderCreators($creators) {
       $content  = "\n<!-- Public list creators -->\n";
-      $content .= "<h1> Créateurs de listes publiques : </h1>\n";
+      $content .= "<h1> Créateurs de listes publiques </h1>\n";
       $content .= "<ul>\n";
 
       if (count($creators) == 0) {
