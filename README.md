@@ -16,8 +16,9 @@ liste.
 
 ##Suivi du projet ##
 
-Trello : [Roadmap] (https://trello.com/b/qKE7f5CL/roadmap-wishlist)
-Google Doc : [Tableau de fonctionnalités + UML ] (https://docs.google.com/spreadsheets/d/19UPHj1gMIqu7Sq7Orh9uGofGDRxGXhC_KIhhlpRpf_Y/edit?usp=sharing)
+Trello : [roadmap](https://trello.com/b/qKE7f5CL/roadmap-wishlist)
+
+Google Doc : [tableau de fonctionnalités + UML ](https://docs.google.com/spreadsheets/d/19UPHj1gMIqu7Sq7Orh9uGofGDRxGXhC_KIhhlpRpf_Y/edit?usp=sharing)
 
 ##Installation##
 * Cloner le dépôt bitbucket :
