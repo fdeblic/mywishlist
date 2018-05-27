@@ -107,7 +107,11 @@ INSERT INTO `item` (`id`, `nom`, `descr`, `img`, `tarif`, `token`, `url`, `cagno
 (79, 'Item sans descr', '', 'grandrue.jpg', '59.00', 'seldpJxxtvI7E', 'http://www.lien-externe.com', 0, NULL, NULL, 5),
 (80, 'Item sans image', 'Description item...', NULL, '11.00', 'seldpJxxtvI7E', 'http://www.lien-externe.com', 0, NULL, NULL, 5),
 (81, 'Item sans lien', 'Description item...', 'bijoux.jpg', '29.00', 'seldpJxxtvI7E', NULL, 0, NULL, NULL, 5),
-(82, 'Item réservé, msg long', 'Description item...', 'hotel_haussonville_logo.jpg', '169.00', 'seldpJxxtvI7E', 'http://www.lien-externe.com', 0, 'Grand-mère Jeannine', 'Description item...', 5);
+(82, 'Item réservé, msg long', 'Description item...', 'hotel_haussonville_logo.jpg', '169.00', 'seldpJxxtvI7E', 'http://www.lien-externe.com', 0, 'Grand-mère Jeannine', 'Description item...', 5),
+(83, 'Appart Hotel', 'Appart’hôtel Coeur de Ville, en plein centre-ville', 'apparthotel.jpg', '56.00', 'seoIqjHcSUrQE', 'http://www.booking.com/Share-nDqTfO', 0, NULL, NULL, 7),
+(84, 'Boite de nuit', 'Discothèque, Boîte tendance avec des soirées à thème & DJ invités', 'boitedenuit.jpg', '32.00', 'semqTohMovIGY', 'http://https://www.lechatnoir.fr/', 0, NULL, NULL, 7),
+(85, 'Planètes Laser', 'Laser game : Gilet électronique et pistolet laser comme matériel, vous voilà équipé.', 'laser.jpg', '15.00', 'seRKIABvW3DSo', 'http://https://www.planeteslaser.com/', 1, NULL, NULL, 7),
+(86, 'Fort Aventure', 'Découvrez Fort Aventure à Bainville-sur-Madon, un site Accropierre unique en Lorraine ! Des Parcours Acrobatiques pour petits et grands, Jeu Mission Aventure, Crypte de Crapahute, Tyrolienne, Saut à l&#39;élastique inversé, Toboggan géant... et bien plus encore.', NULL, '25.00', 'segEOQgs6si/U', 'http://www.fort-pelissier.com/', 1, NULL, NULL, 7);
 
 -- --------------------------------------------------------
 
