@@ -19,13 +19,18 @@ namespace mywishlist\view;
     Vous vous trouvez au bon endroit !
 </p>
 <p>
-    Les listes actuelles sont disponibles dans l'onglet listes.
+    Les listes actuelles sont disponibles en cliquant sur l'onglet <i>Listes</i>.
     Vous pouvez avoir accès aux listes publiques,
     mais également aux listes privées auxquelles vous auriez été invités.
 </p>
 <p>
     Vous pouvez bien évidemment créer vos propres listes et les partager.
     Pour cela, merci de vous connecter.
+</p>
+
+<p>
+    La liste des différents créateurs de listes publiques est diponible en cliquant sur
+    l'onglet <i>Créateurs</i>.
 </p>
  <div align=\"center\"><i>La fête n'attend plus que vous !</i</div>
 "
