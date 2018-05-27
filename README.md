@@ -14,6 +14,12 @@ liste.
 * Moreau Elise
 * Spacher Loïc
 
+##Suivi du projet ##
+
+Trello : [roadmap](https://trello.com/b/qKE7f5CL/roadmap-wishlist)
+
+Google Doc : [tableau de fonctionnalités + UML ](https://docs.google.com/spreadsheets/d/19UPHj1gMIqu7Sq7Orh9uGofGDRxGXhC_KIhhlpRpf_Y/edit?usp=sharing)
+
 ##Installation##
 * Cloner le dépôt bitbucket :
 ``` git clone git@bitbucket.org:depinfoens/php-mywishlist.git

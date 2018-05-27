@@ -141,7 +141,7 @@ namespace mywishlist\controller;
 
           $user = AccountController::getCurrentUser();
           $wishlist = $item->liste;
-          if ($user == null || $wishlist->user_id != $user->id_account || $user->admin == 1){
+          if ($user == null || $wishlist->user_id != $user->id_account){
             $view->addHeadMessage("Vous ne pouvez pas modifier cet item", 'bad');
             $view->renderItem($item);
             return;
