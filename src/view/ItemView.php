@@ -56,7 +56,7 @@ use \mywishlist\controller\AccountController as AccountController;
           $login = '';
           if (AccountController::isConnected()) $login = AccountController::getLogin();
           $content .= "\n<!-- Cagnotte -->\n";
-          $content .= "<form action='$urlPot' method='POST'>\n";
+          $content .= "<form id='cagnotteForm' action='$urlPot' method='POST'>\n";
           $content .= "  <p>Participer à la cagnotte :</p>\n";
           $content .= "  <p>Pseudo : <input type='text' name='name' placeholder='Votre nom' value='$login' required></p>\n";
           $content .= "  <p>Montant restant : $max € </p>\n";
@@ -128,18 +128,19 @@ use \mywishlist\controller\AccountController as AccountController;
         }
 
 
-        $valueSubmit = isset($item->id) ? "Modifier l'item" : "Créer l'item";
+        $valueSubmit = isset($item->id) ? "Modifier l'item" : "Créer un item";
 
         $form  = "<form action='$url' method='POST' enctype='multipart/form-data'>\n";
+        $form .= "  <h1>$valueSubmit</h1>\n";
         $form .= "  <input id='itemName' name='itemName' type='text' value='$nom' placeholder=\"Nom de l'item\" pattern='.{3,50}' maxlength='50'>\n";
         $form .= "  <textarea id='itemDescr' name='itemDescr' rows='10' cols='50' placeholder='Description'>$descr</textarea>\n";
-        $form .= "  <input id='itemTarif' name='itemTarif' type='text' value='$tarif' placeholder='Tarif'>\n";
-        $form .= "  <input type='text' name='itemUrl' value='$itemUrl' placeholder='Lien'>\n";
+        $form .= "  <input id='itemTarif' name='itemTarif' type='number' value='$tarif' step='0.01' placeholder='Tarif : 5.99 €'>\n";
+        $form .= "  <input type='text' name='itemUrl' value='$itemUrl' placeholder='www.site-du-cadeau.fr (facultatif)'>\n";
         $form .= "  <p>\n";
-        $form .= "    <input id='itemPotOrReserv' name='itemPotOrReserv' type='radio' value='reserv' ".($pot?'':'checked').">Item à réserver\n";
-        $form .= "    <input id='itemPotOrReserv' name='itemPotOrReserv' type='radio' value='pot' ".($pot?'checked ':'').">Cagnotte sur l'item\n";
+        $form .= "    <input id='itemPotOrReserv' name='itemPotOrReserv' type='radio' value='reserv' ".($pot?'':'checked').">À réserver\n";
+        $form .= "    <input id='itemPotOrReserv' name='itemPotOrReserv' type='radio' value='pot' ".($pot?'checked ':'').">Cagnotte\n";
         $form .= "  </p>\n";
-        $form .= "  <input id='itemImgFile' name='itemImgFile' type='file' value='$img' placeholder='Image'>\n";
+        $form .= "  Image de l'item : <input id='itemImgFile' name='itemImgFile' type='file'>\n";
         if (isset($item->img)) {
           $form .= "  <p> Supprimer l'image <input id='itemDelete' name='itemDelete' type='checkbox'> </p>\n";
         }

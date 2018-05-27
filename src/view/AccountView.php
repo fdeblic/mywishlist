@@ -69,10 +69,10 @@
       $app = \Slim\Slim::getInstance();
       if ($connected) {
         $content  = "\n  <!-- Account -->\n";
-        $content .= "  <p id='connectionMsg'>\n";
-        $content .= "    Bonjour $user->prenom <br>\n";
-        $content .= "    <a id='disconnectLink' href='" . $app->urlFor('acc_disconnect') . "'>Déconnexion</a>\n";
-        $content .= "  </p>\n";
+        $content .= "  <div id='connectionMsg'>\n";
+        $content .= "    Bonjour <b>$user->prenom</b> !\n";
+        $content .= "    <form id='disconnectForm' method='GET' action= '" . $app->urlFor('acc_disconnect') . "'><input type='submit' id='disconnectLink' value='Déconnexion'/></form>\n";
+        $content .= "  </div>\n";
       } else {
         $content = "\n";
         $content .= "  <!-- Connection form -->\n";

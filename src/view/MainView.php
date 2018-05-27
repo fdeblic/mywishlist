@@ -11,7 +11,7 @@ namespace mywishlist\view;
      *Génère le contenu HTML pour afficher la page d'accueil
      */
     function render() {
-        $content = "<h1>Bienvenue au rendez-vous des cadeaux.</h1>\n";
+        $content = "<h1>Bienvenue au rendez-vous des cadeaux</h1>\n";
         $content .=
 "<p>
     Vous souhaitez créer une liste de souhaits pour un anniversaire ou un mariage ?
@@ -32,7 +32,7 @@ namespace mywishlist\view;
     La liste des différents créateurs de listes publiques est diponible en cliquant sur
     l'onglet <i>Créateurs</i>.
 </p>
- <div align=\"center\"><i>La fête n'attend plus que vous !</i</div>
+ <div align=\"center\"><i>La fête n'attend plus que vous !</i></div>
 "
 ;
         $content = str_replace ("\n", "\n  ", $content);

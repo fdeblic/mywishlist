@@ -7,11 +7,11 @@
       MyWishList 
       <img src='img/icon/menu.png' alt='Menu' id='show-menu-link' class='icon'>
     </h1>
+    <?php
+    if (isset($_SESSION['acc_content']))
+    echo $_SESSION['acc_content'];
+    ?>
   </div>
-  <?php
-  if (isset($_SESSION['acc_content']))
-  echo $_SESSION['acc_content'];
-  ?>
   <!-- Menus -->
   <ul id="menu-navig">
     <li><a href="./"> <img src='img/icon/home.png' alt='' class='menuIcon'> Accueil </a></li>
