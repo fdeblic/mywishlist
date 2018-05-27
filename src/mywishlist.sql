@@ -139,7 +139,11 @@ INSERT INTO `liste` (`no`, `user_id`, `titre`, `description`, `expiration`, `tok
 (3, 3, 'Liste Carl [finie, privée]', 'Pour lui préparer une fête dont il se souviendra :)', '2017-08-12', 'seldpJxxtvI7E', 0),
 (4, 3, 'Liste Carl [finie, publique]', 'Description', '2017-06-04', 'casOYHjc0ny.Y', 1),
 (5, 2, 'Liste Béatrice [en cours, publique]', 'Description', '2019-05-09', 'beUOdzea6gOyY', 1),
-(6, 1, 'Liste Admin [en cours, privée]', 'Description', '2018-08-30', 'adoEAmooxOgx.', 0);
+(6, 1, 'Liste Admin [en cours, privée]', 'Description', '2018-08-30', 'adoEAmooxOgx.', 0),
+(7, 2, 'Pour fêter le bac !', 'Pour un week-end à Nancy qui nous fera oublier les épreuves.', '2018-06-27', 'be6wcJ8GAFB6k', 1),
+(8, 3, 'Liste de mariage d\'Alice et Bob', 'Nous souhaitons passer un week-end royal à Nancy pour notre lune de miel :)', '2018-06-30', 'beIGabjE9GpWc', 1),
+(9, 3, 'C\'est l\'anniversaire de Charlie', 'Pour lui préparer une fête dont il se souviendra :)', '2017-12-12', 'beEqSjqlqNyiw', 1);
+
 
 -- --------------------------------------------------------
 
