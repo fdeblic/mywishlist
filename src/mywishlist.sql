@@ -117,9 +117,13 @@ INSERT INTO `item` (`id`, `nom`, `descr`, `img`, `tarif`, `token`, `url`, `cagno
 (89, 'Exposition', 'Visite guidée à  l&#39;exposition &#34;Regarder&#34; à la galerie Poirel', 'poirelregarder.jpg', '14.00', 'sea8FwNEn.IJE', 'http://www.poirel.nancy.fr/accueil/', 0, NULL, NULL, 8),
 (90, 'Bouquet', 'Bouquet de roses et Mots de Marion Renaud', 'rose.jpg', '16.00', 'se8uiHfAzma2E', '', 0, NULL, NULL, 8),
 (91, 'Diner Stanislas', 'Diner à la Table du Bon Roi Stanislas (Apéritif /Entrée / Plat / Vin / Dessert / Café / Digestif)', 'bonroi.jpg', '60.00', 'seKWR8wSjp3TY', 'http://tablestan.free.fr/', 1, NULL, NULL, 8),
-(92, 'Diner  Grand Rue', 'Diner au Grand’Ru(e) (Apéritif / Entrée / Plat / Vin / Dessert / Café)', 'grandrue.jpg', '59.00', 'seDp3ls1f04Xw', 'http://https://www.tripadvisor.fr/Restaurant_Review-g187162-d5964222-Reviews-LE_GRAND_RUE_ex_RESTAURANT_BAGOT-Nancy_Meurthe_et_Moselle_Grand_Est.html?m=19905', 1, NULL, NULL, 8, '2018-05-27'),
+(92, 'Diner  Grand Rue', 'Diner au Grand’Ru(e) (Apéritif / Entrée / Plat / Vin / Dessert / Café)', 'grandrue.jpg', '59.00', 'seDp3ls1f04Xw', 'http://https://www.tripadvisor.fr/Restaurant_Review-g187162-d5964222-Reviews-LE_GRAND_RUE_ex_RESTAURANT_BAGOT-Nancy_Meurthe_et_Moselle_Grand_Est.html?m=19905', 1, NULL, NULL, 8),
 (93, 'Bijoux', 'Bijoux de manteau + Sous-verre pochette de disque  + Lait après-soleil', 'bijoux.jpg', '29.00', 'seU3qt6xUDbLo', '', 0, NULL, NULL, 8),
-(94, 'Hôtel d&#39;Haussonville', 'Hôtel d&#39;Haussonville, au coeur de la vieille ville  à deux pas de la place Stanislas.', 'hotel_haussonville_logo.jpg', '169.00', 'seA2JU6LecGh6', 'http://https://hotel-haussonville.fr/', 1, NULL, NULL, 8);
+(94, 'Hôtel d&#39;Haussonville', 'Hôtel d&#39;Haussonville, au coeur de la vieille ville  à deux pas de la place Stanislas.', 'hotel_haussonville_logo.jpg', '169.00', 'seA2JU6LecGh6', 'http://https://hotel-haussonville.fr/', 1, NULL, NULL, 8),
+(95, 'Goûter', 'Goûter au FIFNL', 'gouter.jpg', '20.00', 'sec2EAG86nZ3M', '', 0, NULL, NULL, 9),
+(96, 'Projection', 'Projection de courts-métrages au FIFNL', 'film.jpg', '20.00', 'se964xsxvhYOc', 'http://https://www.fifnl.com/', 1, NULL, NULL, 9),
+(97, 'Origami', 'Baguettes magiques en Origami en buvant un thé', 'origami.jpg', '12.00', 'seH7c8rqijhMw', '', 0, NULL, NULL, 9),
+(98, 'Livres', 'Livre bricolage avec petits-enfants + Roman', 'bricolage.jpg', '24.00', 'se8zd9XliAVo2', '', 0, NULL, NULL, 9);
 
 -- --------------------------------------------------------
 
