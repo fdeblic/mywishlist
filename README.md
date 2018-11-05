@@ -1,6 +1,6 @@
-#Projet My-Wishlist
+# Projet My-Wishlist
 
-##Descriptif du projet##
+## Descriptif du projet
 
 MyWishList.app est une application en ligne pour créer, partager et gérer des listes de cadeaux.
 L'application permet à un utilisateur de créer une liste de souhaits à l'occasion d'un événement
@@ -9,28 +9,26 @@ souhaits à un ensemble de personnes concernées. Ces personnes peuvent alors co
 et s'engager à offrir 1 élément de la liste. Cet élément est alors marqué comme réservé dans cette
 liste.
 
-##Membres du groupe##
-* De Blic François
-* Moreau Elise
-* Spacher Loïc
+## Membres du groupe
+* Élise Moreau
+* Loïc Spacher
+* François de Blic
 
-##Suivi du projet ##
-
-Trello : [roadmap](https://trello.com/b/qKE7f5CL/roadmap-wishlist)
+## Suivi du projet
 
 Google Doc : [tableau de fonctionnalités + UML ](https://docs.google.com/spreadsheets/d/19UPHj1gMIqu7Sq7Orh9uGofGDRxGXhC_KIhhlpRpf_Y/edit?usp=sharing)
 
 Rendu web : (Site non sécurisé, attention) [Site MyWishList](http://fdeblic.ddns.net/wishlist/)
 
-##Installation##
-* Cloner le dépôt bitbucket :
-``` git clone git@bitbucket.org:depinfoens/php-mywishlist.git
+## Installation
+* Cloner le dépôt :
+``` git clone https://github.com/fdeblic/mywishlist/
 ```
 * Importer le fichier mywishlist.sql se trouvant dans src à votre base de données
 * Créer un dossier conf dans src
     * Créer le fichier *db.conf.ini* dans ce dossier
     * Modifier le pour qu'il corresponde aux informations de votre base de données :
-	```
+```
   driver=mysql
 	host=localhost
 	database=db_name
@@ -45,7 +43,7 @@ Rendu web : (Site non sécurisé, attention) [Site MyWishList](http://fdeblic.dd
 [.htaccess](https://drive.google.com/file/d/1FyX5qk8CnRWy90kXeUxuqFNHbE_b_SUI/view?usp=sharing)
 * Le site est prêt, vous pouvez l'utiliser
 
-##Descriptif des fonctionnalités réalisées##
+## Descriptif des fonctionnalités réalisées##
 * Gestion des comptes :
     * Créer un compte,
     * S'authentifier,
@@ -58,7 +56,7 @@ Rendu web : (Site non sécurisé, attention) [Site MyWishList](http://fdeblic.dd
     * Modifier les informations générales d'une de ses listes,
     * Rendre une liste publique,
     * Afficher les listes de souhaits publiques,
-    * **BONUS: Supprimer une liste.**
+    * BONUS: Supprimer une liste.
 * Gestion des items :
     * Ajouter un item,
     * Modifier un item,
