@@ -1,4 +1,4 @@
-# Projet My-Wishlist
+# Projet MyWishlist
 
 ## Descriptif du projet
 
@@ -18,11 +18,12 @@ liste.
 
 Google Doc : [tableau de fonctionnalités + UML ](https://docs.google.com/spreadsheets/d/19UPHj1gMIqu7Sq7Orh9uGofGDRxGXhC_KIhhlpRpf_Y/edit?usp=sharing)
 
-Rendu web : (Site non sécurisé, attention) [Site MyWishList](http://fdeblic.ddns.net/wishlist/)
+Rendu web : [Site MyWishList](http://fdeblic.ddns.net/wishlist/)
 
 ## Installation
 * Cloner le dépôt :
-``` git clone https://github.com/fdeblic/mywishlist/
+```
+  git clone https://github.com/fdeblic/mywishlist/
 ```
 * Importer le fichier mywishlist.sql se trouvant dans src à votre base de données
 * Créer un dossier conf dans src
