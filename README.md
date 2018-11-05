@@ -1,5 +1,7 @@
 # Projet MyWishlist
 
+![Screenshot](screenshot.jpg)
+
 ## Descriptif du projet
 
 MyWishList.app est une application en ligne pour créer, partager et gérer des listes de cadeaux.
